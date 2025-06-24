@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "cod_produto")
+@EqualsAndHashCode(of = "codProduto")
 public class Stock {
     @Id
-    private Long cod_produto;
+    @Column(name = "cod_produto")
+    private Long codProduto;
 
     @Column
     private String product_name;
@@ -29,4 +30,7 @@ public class Stock {
     @CreationTimestamp
     @Column
     private LocalDateTime created_at;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 }

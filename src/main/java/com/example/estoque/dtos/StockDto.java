@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class StockDto {
 
     @NotNull
-    private Long cod_produto;
+    private Long codProduto;
 
     @NotNull
     private String product_name;

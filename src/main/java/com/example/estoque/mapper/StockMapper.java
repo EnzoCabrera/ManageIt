@@ -17,7 +17,7 @@ public class StockMapper {
 
     public StockDto toDto(Stock stock) {
         StockDto dto = new StockDto();
-        dto.setCod_produto(stock.getCod_produto());
+        dto.setCodProduto(stock.getCodProduto());
         dto.setProduct_name(stock.getProduct_name());
         dto.setQuantity(stock.getQuantity());
         dto.setPrice_in_cents(stock.getPrice_in_cents());

@@ -19,9 +19,9 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    @GetMapping("see/{cod_produto}")
-    public ResponseEntity<StockDto> getProductById(@PathVariable Long cod_produto) {
-        StockDto dto = stockService.getByCodProduct(cod_produto);
+    @GetMapping("see/{codProduto}")
+    public ResponseEntity<StockDto> getProductById(@PathVariable Long codProduto) {
+        StockDto dto = stockService.getByCodProduct(codProduto);
         return ResponseEntity.ok(dto);
     }
 
@@ -33,15 +33,15 @@ public class StockController {
     }
 
 
-    @PutMapping("update/{cod_produto}")
-    public ResponseEntity<StockDto> updateProduct(@PathVariable Long cod_produto, @RequestBody StockDto dto) {
-        StockDto updated = stockService.updateProduct(cod_produto, dto);
+    @PutMapping("update/{codProduto}")
+    public ResponseEntity<StockDto> updateProduct(@PathVariable Long codProduto, @RequestBody StockDto dto) {
+        StockDto updated = stockService.updateProduct(codProduto, dto);
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("delete/{cod_produto}")
-    public ResponseEntity<StockDto> deleteProduct(@PathVariable Long cod_produto) {
-        StockDto deleted = stockService.deleteProduct(cod_produto);
+    @DeleteMapping("delete/{codProduto}")
+    public ResponseEntity<StockDto> deleteProduct(@PathVariable Long codProduto) {
+        StockDto deleted = stockService.deleteProduct(codProduto);
         return ResponseEntity.ok(deleted);
     }
 }
