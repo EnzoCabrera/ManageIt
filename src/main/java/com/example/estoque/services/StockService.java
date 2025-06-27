@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-
+import java.util.List;
 
 
 @Service
@@ -23,7 +23,15 @@ public class StockService {
     @Autowired
     private StockMapper stockMapper;
 
-    //GET logic
+    //GET all products logic
+    public List<StockResponseDto> getAllStock() {
+        return stockRepository.findByIsDeletedFalse()
+                .stream()
+                .map(stockMapper::toDto)
+                .toList();
+    }
+
+    // GET product by ID logic
     public StockResponseDto getByCodProduct(Long codProd) {
         Stock stock = stockRepository.findById(codProd)
                 .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
@@ -35,7 +43,7 @@ public class StockService {
         return stockMapper.toDto(stock);
     }
 
-    //POST logic
+    //POST product logic
     public StockResponseDto registerProduct(StockRequestDto dto) {
         Stock stock = new Stock();
         stock.setProductName(dto.getProductName());
@@ -46,7 +54,7 @@ public class StockService {
         return stockMapper.toDto(save);
     }
 
-    //PUT logic
+    //PUT product logic
     public StockResponseDto updateProduct(Long codProd, StockRequestDto stockRequestDto) {
         Stock stock = stockRepository.findById(codProd)
                 .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
@@ -59,7 +67,7 @@ public class StockService {
         return stockMapper.toDto(updatedStock);
     }
 
-    //DELETE logic
+    //DELETE product logic
     public StockResponseDto deleteProduct(Long codProd) {
         Stock stock = stockRepository.findByCodProdAndIsDeletedFalse(codProd)
                 .orElseThrow(() -> new AppException("Product not found or already disabled", HttpStatus.NOT_FOUND));
