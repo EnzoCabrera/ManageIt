@@ -12,19 +12,19 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "codProduto")
+@EqualsAndHashCode(of = "codProd")
 public class Stock {
     @Id
-    @Column(name = "cod_produto")
-    private Long codProduto;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "codprod")
+    private Long codProd;
 
-    @Column
-    private String product_name;
+    @Column(name="product_name")
+    private String productName;
 
-    @Column
-    private Integer price_in_cents;
+    @Column(name="price_in_cents")
+    private Integer PriceInCents;
 
-    @Column
     private Integer quantity;
 
     @CreationTimestamp

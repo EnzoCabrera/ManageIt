@@ -1,6 +1,7 @@
 package com.example.estoque.services;
 
-import com.example.estoque.dtos.StockDto;
+import com.example.estoque.dtos.StockRequestDto;
+import com.example.estoque.dtos.StockResponseDto;
 import com.example.estoque.entities.Stock;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.StockMapper;
@@ -23,8 +24,8 @@ public class StockService {
     private StockMapper stockMapper;
 
     //GET logic
-    public StockDto getByCodProduct(Long codProduto) {
-        Stock stock = stockRepository.findById(codProduto)
+    public StockResponseDto getByCodProduct(Long codProd) {
+        Stock stock = stockRepository.findById(codProd)
                 .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
 
         if (Boolean.TRUE.equals(stock.getIsDeleted())) {
@@ -35,36 +36,32 @@ public class StockService {
     }
 
     //POST logic
-    public StockDto registerProduct(StockDto dto) {
+    public StockResponseDto registerProduct(StockRequestDto dto) {
         Stock stock = new Stock();
-        stock.setCodProduto(dto.getCodProduto());
-        stock.setProduct_name(dto.getProduct_name());
-        stock.setPrice_in_cents(dto.getPrice_in_cents());
+        stock.setProductName(dto.getProductName());
+        stock.setPriceInCents(dto.getPriceInCents());
         stock.setQuantity(dto.getQuantity());
 
-        if (stockRepository.existsById(dto.getCodProduto())) {
-            throw new AppException("Produto já existe", HttpStatus.CONFLICT);
-        }
         Stock save = stockRepository.save(stock);
         return stockMapper.toDto(save);
     }
 
     //PUT logic
-    public StockDto updateProduct(Long codProduto, StockDto stockDto) {
-        Stock stock = stockRepository.findById(codProduto)
+    public StockResponseDto updateProduct(Long codProd, StockRequestDto stockRequestDto) {
+        Stock stock = stockRepository.findById(codProd)
                 .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
 
-        stock.setProduct_name(stockDto.getProduct_name());
-        stock.setQuantity(stockDto.getQuantity());
-        stock.setPrice_in_cents(stockDto.getPrice_in_cents());
+        stock.setProductName(stockRequestDto.getProductName());
+        stock.setQuantity(stockRequestDto.getQuantity());
+        stock.setPriceInCents(stockRequestDto.getPriceInCents());
 
         Stock updatedStock = stockRepository.save(stock);
         return stockMapper.toDto(updatedStock);
     }
 
     //DELETE logic
-    public StockDto deleteProduct(Long codProduto) {
-        Stock stock = stockRepository.findByCodProdutoAndIsDeletedFalse(codProduto)
+    public StockResponseDto deleteProduct(Long codProd) {
+        Stock stock = stockRepository.findByCodProdAndIsDeletedFalse(codProd)
                 .orElseThrow(() -> new AppException("Product not found or already disabled", HttpStatus.NOT_FOUND));
 
         stock.setIsDeleted(true);
