@@ -33,12 +33,8 @@ public class StockService {
 
     // GET product by ID logic
     public StockResponseDto getByCodProduct(Long codProd) {
-        Stock stock = stockRepository.findById(codProd)
-                .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
-
-        if (Boolean.TRUE.equals(stock.getIsDeleted())) {
-            throw new AppException("Product is disabled. If you want to see it, active it", HttpStatus.NOT_FOUND);
-        }
+        Stock stock = stockRepository.findByCodProdAndIsDeletedFalse(codProd)
+                .orElseThrow(() -> new AppException("Product not found or disabled.", HttpStatus.NOT_FOUND));
 
         return stockMapper.toDto(stock);
     }
