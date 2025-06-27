@@ -20,6 +20,8 @@ public class StockMapper {
         dto.setProductName(stock.getProductName());
         dto.setQuantity(stock.getQuantity());
         dto.setPriceInCents(stock.getPriceInCents());
+        dto.setUpdatedBy(stock.getUpdatedBy());
+        dto.setUpdatedAt(stock.getUpdatedAt().toString());
         return dto;
     }
 }

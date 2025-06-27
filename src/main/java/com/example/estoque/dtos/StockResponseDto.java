@@ -23,4 +23,10 @@ public class StockResponseDto {
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private String updatedBy;
+
+    @NotNull
+    private String updatedAt;
 }
