@@ -7,6 +7,7 @@ import com.example.estoque.entities.User;
 import com.example.estoque.entities.UserRole;
 import com.example.estoque.infra.security.TokenService;
 import com.example.estoque.repositories.UserRepository;
+import com.example.estoque.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,32 +26,17 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthService authService;
 
-    @Autowired
-    private TokenService tokenService;
-
+    // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthDto dto){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginResponseDto(token));
+    public ResponseEntity<LoginResponseDto> login(@RequestBody AuthDto dto) {
+        return ResponseEntity.ok(authService.login(dto, authenticationManager));
     }
 
+    // Register endpoint
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterDto dto){
-        if (this.userRepository.findByEmail(dto.email()) != null) return ResponseEntity.badRequest().build();
-
-        String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
-        User newUser = new User(dto.email(), encryptedPassword);
-
-        newUser.setRole(UserRole.USER);
-
-        this.userRepository.save(newUser);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> register(@RequestBody RegisterDto dto){
+        return authService.register(dto);
     }
 }
