@@ -1,0 +1,1 @@
+ALTER TABLE tgvexp ALTER COLUMN expdate type DATE using expdate::date, alter column expdate drop default;
