@@ -1,7 +1,7 @@
 package com.example.estoque.controllers;
 
-import com.example.estoque.dtos.StockRequestDto;
-import com.example.estoque.dtos.StockResponseDto;
+import com.example.estoque.dtos.stockDtos.StockRequestDto;
+import com.example.estoque.dtos.stockDtos.StockResponseDto;
 import com.example.estoque.services.StockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

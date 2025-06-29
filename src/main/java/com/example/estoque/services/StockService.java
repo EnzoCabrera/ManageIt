@@ -1,8 +1,8 @@
 package com.example.estoque.services;
 
-import com.example.estoque.dtos.StockRequestDto;
-import com.example.estoque.dtos.StockResponseDto;
-import com.example.estoque.entities.Stock;
+import com.example.estoque.dtos.stockDtos.StockRequestDto;
+import com.example.estoque.dtos.stockDtos.StockResponseDto;
+import com.example.estoque.entities.stockEntities.Stock;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.StockMapper;
 import com.example.estoque.repositories.StockRepository;

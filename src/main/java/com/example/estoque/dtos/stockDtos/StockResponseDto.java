@@ -1,4 +1,4 @@
-package com.example.estoque.dtos;
+package com.example.estoque.dtos.stockDtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,10 @@ import org.antlr.v4.runtime.misc.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StockRequestDto {
+public class StockResponseDto {
+
+    @NotNull
+    private Long codProd;
 
     @NotNull
     private String productName;
@@ -20,4 +23,10 @@ public class StockRequestDto {
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private String updatedBy;
+
+    @NotNull
+    private String updatedAt;
 }

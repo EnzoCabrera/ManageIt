@@ -1,6 +1,6 @@
 package com.example.estoque.repositories;
 
-import com.example.estoque.entities.User;
+import com.example.estoque.entities.userEntities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

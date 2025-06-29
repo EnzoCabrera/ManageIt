@@ -1,4 +1,4 @@
-package com.example.estoque.entities;
+package com.example.estoque.entities.stockEntities;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,10 +1,10 @@
 package com.example.estoque.services;
 
-import com.example.estoque.dtos.AuthDto;
-import com.example.estoque.dtos.LoginResponseDto;
-import com.example.estoque.dtos.RegisterDto;
-import com.example.estoque.entities.User;
-import com.example.estoque.entities.UserRole;
+import com.example.estoque.dtos.authDtos.AuthDto;
+import com.example.estoque.dtos.authDtos.LoginResponseDto;
+import com.example.estoque.dtos.authDtos.RegisterDto;
+import com.example.estoque.entities.userEntities.User;
+import com.example.estoque.entities.userEntities.UserRole;
 import com.example.estoque.infra.security.TokenService;
 import com.example.estoque.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

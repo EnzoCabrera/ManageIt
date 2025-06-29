@@ -1,8 +1,7 @@
 package com.example.estoque.mapper;
 
-import com.example.estoque.dtos.StockRequestDto;
-import com.example.estoque.dtos.StockResponseDto;
-import com.example.estoque.entities.Stock;
+import com.example.estoque.dtos.stockDtos.StockResponseDto;
+import com.example.estoque.entities.stockEntities.Stock;
 import com.example.estoque.repositories.StockRepository;
 import org.springframework.stereotype.Component;
 

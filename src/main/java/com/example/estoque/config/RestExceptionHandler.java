@@ -1,6 +1,6 @@
 package com.example.estoque.config;
 
-import com.example.estoque.dtos.ErrorDto;
+import com.example.estoque.dtos.errorDto.ErrorDto;
 import com.example.estoque.exceptions.AppException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package com.example.estoque.entities;
+package com.example.estoque.entities.userEntities;
 
 public enum UserRole {
     ADMIN("admin"),
