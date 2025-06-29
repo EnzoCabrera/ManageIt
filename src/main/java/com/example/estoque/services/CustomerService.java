@@ -2,7 +2,7 @@ package com.example.estoque.services;
 
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
-import com.example.estoque.entities.Customer;
+import com.example.estoque.entities.customerEntities.Customer;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.CustomerMapper;
 import com.example.estoque.repositories.CustomerRepository;

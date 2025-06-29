@@ -1,5 +1,6 @@
 package com.example.estoque.dtos.customerDtos;
 
+import com.example.estoque.entities.customerEntities.BrazilianState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class CustomerRequestDto {
     private String cuscity;
 
     @NotNull
-    private String cusstate;
+    private BrazilianState cusstate;
 
     @NotNull
     private String cuszip;

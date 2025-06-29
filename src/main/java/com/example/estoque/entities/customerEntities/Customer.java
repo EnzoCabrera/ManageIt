@@ -1,8 +1,7 @@
-package com.example.estoque.entities;
+package com.example.estoque.entities.customerEntities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +9,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name = "TGVCUS")
@@ -33,7 +31,8 @@ public class Customer {
 
     private String cuscity;
 
-    private  String cusstate;
+    @Enumerated(EnumType.STRING)
+    private  BrazilianState cusstate;
 
     private String cuszip;
 

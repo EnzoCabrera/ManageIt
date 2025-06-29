@@ -2,7 +2,6 @@ package com.example.estoque.controllers;
 
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
-import com.example.estoque.entities.Customer;
 import com.example.estoque.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.example.estoque.repositories;
 
-import com.example.estoque.entities.Customer;
+import com.example.estoque.entities.customerEntities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
