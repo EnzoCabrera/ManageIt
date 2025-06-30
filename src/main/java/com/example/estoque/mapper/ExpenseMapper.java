@@ -20,6 +20,7 @@ public class ExpenseMapper {
         dto.setExpdesc(expense.getExpdesc());
         dto.setExpCostInCents(expense.getExpCostInCents());
         dto.setExpdate(expense.getExpdate());
+        dto.setExpdatepay(expense.getExpdatepay());
         dto.setExptype(expense.getExptype());
         dto.setUpdatedBy(expense.getUpdatedBy());
         dto.setUpdatedAt(expense.getUpdatedAt().toString());

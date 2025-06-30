@@ -34,6 +34,9 @@ public class Expense {
     @Column(nullable = false)
     private LocalDate expdate;
 
+    @Column(nullable = false)
+    private LocalDate expdatepay;
+
     private ExpenseType exptype;
 
     @CreationTimestamp

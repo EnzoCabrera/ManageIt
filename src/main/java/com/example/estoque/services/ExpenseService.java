@@ -46,6 +46,7 @@ public class ExpenseService {
         expense.setExpdesc(dto.getExpdesc());
         expense.setExpCostInCents(dto.getExpCostInCents());
         expense.setExpdate(dto.getExpdate());
+        expense.setExpdatepay(dto.getExpdatepay());
         expense.setExptype(dto.getExpensetype());
 
         Expense savedExpense = expenseRepository.save(expense);
@@ -60,6 +61,7 @@ public class ExpenseService {
         expense.setExpdesc(dto.getExpdesc());
         expense.setExpCostInCents(dto.getExpCostInCents());
         expense.setExpdate(dto.getExpdate());
+        expense.setExpdatepay(dto.getExpdatepay());
         expense.setExptype(dto.getExpensetype());
 
         Expense updatedExpense = expenseRepository.save(expense);

@@ -28,6 +28,9 @@ public class ExpenseResponseDto {
     private LocalDate expdate;
 
     @NotNull
+    private LocalDate expdatepay;
+
+    @NotNull
     private ExpenseType exptype;
 
     @NotNull

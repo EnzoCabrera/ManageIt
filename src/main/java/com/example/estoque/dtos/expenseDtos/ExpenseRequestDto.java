@@ -25,5 +25,8 @@ public class ExpenseRequestDto {
     private LocalDate expdate;
 
     @NotNull
+    private LocalDate expdatepay;
+
+    @NotNull
     private ExpenseType expensetype;
 }
