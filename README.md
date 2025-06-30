@@ -46,22 +46,25 @@ Want to run everything locally in an isolated, production-like environment? Here
 
 ### 1️⃣ Prerequisites
 
-- Docker & Docker Compose installed
-- Make sure ports **5432** (PostgreSQL) and **8080** (API) are free
+    Docker & Docker Compose installed
+    Make sure ports **5432** (PostgreSQL) and **8080** (API) are free
 
 ### 2️⃣ Set Up Your Environment
 
 Create a **`.env`** file in the root of the project:
 
-# Copy this variables to .env and fill in your secrets
-  POSTGRES_USER=
-  POSTGRES_PASSWORD=
-  POSTGRES_DB=
-  JWT_SECRET=
+Copy this variables to .env and fill in your secrets:
+  
+    POSTGRES_USER=
+    POSTGRES_PASSWORD=
+    POSTGRES_DB=  
+    JWT_SECRET=
 
 ### 3️⃣ Run It All
 
-Spin up the containers with one command: docker-compose up --build
+Spin up the containers with one command: 
+
+    docker-compose up --build
 
 ### 4️⃣ Access It
 
