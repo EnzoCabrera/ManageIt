@@ -1,0 +1,1 @@
+ALTER TABLE stock RENAME COLUMN cod_produto TO CODPROD;

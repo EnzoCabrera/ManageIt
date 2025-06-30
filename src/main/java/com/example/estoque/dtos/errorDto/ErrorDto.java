@@ -1,4 +1,4 @@
-package com.example.estoque.dtos;
+package com.example.estoque.dtos.errorDto;
 
 public record ErrorDto(String message) {
 }

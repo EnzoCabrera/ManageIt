@@ -1,13 +1,13 @@
 package com.example.estoque.controllers;
 
-import com.example.estoque.dtos.StockDto;
-import com.example.estoque.entities.Stock;
-import com.example.estoque.repositories.StockRepository;
+import com.example.estoque.dtos.stockDtos.StockRequestDto;
+import com.example.estoque.dtos.stockDtos.StockResponseDto;
 import com.example.estoque.services.StockService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/stock/product")
@@ -19,29 +19,37 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    @GetMapping("see/{codProduto}")
-    public ResponseEntity<StockDto> getProductById(@PathVariable Long codProduto) {
-        StockDto dto = stockService.getByCodProduct(codProduto);
+    // GET all products
+    @GetMapping("see")
+    public ResponseEntity<List<StockResponseDto>> getAllStock(){
+        return ResponseEntity.ok(stockService.getAllStock());
+    }
+
+    // GET product by ID
+    @GetMapping("see/{codProd}")
+    public ResponseEntity<StockResponseDto> getProductById(@PathVariable Long codProd) {
+        StockResponseDto dto = stockService.getByCodProduct(codProd);
         return ResponseEntity.ok(dto);
     }
 
-
+    // POST product logic
     @PostMapping("/registry")
-    public ResponseEntity<StockDto> registerProduct(@RequestBody StockDto dto) {
-        StockDto created = stockService.registerProduct(dto);
+    public ResponseEntity<StockResponseDto> registerProduct(@RequestBody StockRequestDto dto) {
+        StockResponseDto created = stockService.registerProduct(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-
-    @PutMapping("update/{codProduto}")
-    public ResponseEntity<StockDto> updateProduct(@PathVariable Long codProduto, @RequestBody StockDto dto) {
-        StockDto updated = stockService.updateProduct(codProduto, dto);
+    // PUT product logic
+    @PutMapping("update/{codProd}")
+    public ResponseEntity<StockResponseDto> updateProduct(@PathVariable Long codProd, @RequestBody StockRequestDto dto) {
+        StockResponseDto updated = stockService.updateProduct(codProd, dto);
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("delete/{codProduto}")
-    public ResponseEntity<StockDto> deleteProduct(@PathVariable Long codProduto) {
-        StockDto deleted = stockService.deleteProduct(codProduto);
+    // DELETE product logic
+    @DeleteMapping("delete/{codProd}")
+    public ResponseEntity<StockResponseDto> deleteProduct(@PathVariable Long codProd) {
+        StockResponseDto deleted = stockService.deleteProduct(codProd);
         return ResponseEntity.ok(deleted);
     }
 }

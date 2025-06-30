@@ -1,31 +1,32 @@
-package com.example.estoque.dtos;
+package com.example.estoque.dtos.stockDtos;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class StockDto {
+public class StockResponseDto {
 
     @NotNull
-    private Long codProduto;
+    private Long codProd;
 
     @NotNull
-    private String product_name;
+    private String productName;
 
     @NotNull
-    private Integer price_in_cents;
+    private Integer PriceInCents;
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private String updatedBy;
+
+    @NotNull
+    private String updatedAt;
 }

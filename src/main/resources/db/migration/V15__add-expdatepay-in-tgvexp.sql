@@ -1,0 +1,2 @@
+ALTER TABLE tgvexp
+    ADD COLUMN expdatepay DATE NOT NULL
