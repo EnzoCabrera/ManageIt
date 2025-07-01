@@ -1,5 +1,6 @@
 package com.example.estoque.services;
 
+import com.example.estoque.controllers.ExpenseController;
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.entities.expenseEntities.Expense;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,10 @@ public class ExpenseService {
 
     //POST expense logic
     public ExpenseResponseDto registerExpense(ExpenseRequestDto dto){
+        Optional.ofNullable(dto.getExpdatepay())
+                .filter(payDate -> dto.getExpdate() != null && !payDate.isBefore(dto.getExpdate()))
+                .orElseThrow(() -> new AppException("Payment date cannot be before the expense date.", HttpStatus.BAD_REQUEST));
+
         Expense expense = new Expense();
         expense.setExpdesc(dto.getExpdesc());
         expense.setExpCostInCents(dto.getExpCostInCents());
@@ -57,6 +63,10 @@ public class ExpenseService {
     public ExpenseResponseDto updateExpense(Long codexp ,ExpenseRequestDto dto){
         Expense expense = expenseRepository.findById(codexp)
                 .orElseThrow(() -> new AppException("Expense not found or deleted.", HttpStatus.NOT_FOUND));
+
+        Optional.ofNullable(dto.getExpdatepay())
+                .filter(payDate -> dto.getExpdate() != null && !payDate.isBefore(dto.getExpdate()))
+                .orElseThrow(() -> new AppException("Payment date cannot be before the expense date.", HttpStatus.BAD_REQUEST));
 
         expense.setExpdesc(dto.getExpdesc());
         expense.setExpCostInCents(dto.getExpCostInCents());
