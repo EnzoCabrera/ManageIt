@@ -72,3 +72,85 @@ Spin up the containers with one command:
 
 - PostgreSQL is available at localhost:5432 — connect with your favorite SQL client
 
+---
+
+## 📌 API Endpoints — ManageIt
+
+Here’s a quick reference for all available API routes in **ManageIt**, so you can test everything easily in Postman or any other API client.
+
+---
+
+### 🧑‍💼 Users(TGVUSE)
+
+| Method | Endpoint              | Description                       |
+|--------|-----------------------|-----------------------------------|
+| POST   | `/api/users/register` | Register a new user               |
+| POST   | `/api/auth/login`     | Authenticate user (JWT token)     |
+
+---
+
+### 📦 Stock(TGVSTO)
+
+| Method | Endpoint                            | Description                                  |
+|--------|-------------------------------------|----------------------------------------------|
+| POST   | `/api/stock/product/registry`       | Register new stock item                      |
+| GET    | `/api/stock/see?codprod=`           | Get stock items by product code(codprod)     |
+| GET    | `/api/stock/see?productName=`       | Get stock items by product name(productName) |
+| GET    | `/api/stock/see`                    | Get all stock items                          |
+| PUT    | `/api/stock/product/update/{id}`    | Update stock item by ID                      |
+| DELETE | `/api/stock/product/delete/{id}`    | Soft delete stock item by ID                 |
+
+✅ **Example filter:**  
+
+| Method | Endpoint                            | 
+|--------|-------------------------------------|
+| GET    | `/api/stock/see?productName=Widget` |
+| GET    | `/api/stock/see?codprod=1`          |
+
+---
+
+### 💸 Expenses(TGFEXP)
+
+| Method | Endpoint                                    | Description                                  |
+|--------|---------------------------------------------|----------------------------------------------|
+| POST   | `/api/expense/register`                     | Register new expense                         |
+| GET    | `/api/expense/see?type=`                    | Get expenses by type                         |
+| GET    | `api/expense/see?startDate=&endDate=`       | Get expenses by date range                   |
+| GET    | `api/expense/see?startDatePay=&endDatePay=` | Get expenses by payment date  range          |
+| GET    | `/api/expense/see`                          | Get all expenses                             |
+| PUT    | `/api/expense/update/{id}`                  | Update expense by ID                         |
+| DELETE | `/api/expense/delete/{id}`                  | Soft delete expense by ID                    |
+
+✅ **Example filter:**  
+
+| Method | Endpoint                                                         | 
+|--------|------------------------------------------------------------------|
+| GET    | `/api/expense/see?type=SALARY`                                   |
+| GET    | `/api/expense/see?startDate=2025-06-01&endDate=2025-06-30`       |
+| GET    | `/api/expense/see?startDatePay=2025-06-01&endDatePay=2025-06-30` |
+
+---
+
+### 🧑‍🤝‍🧑 Customers(TGVCUS)
+
+| Method | Endpoint                       | Description                  |
+|--------|--------------------------------|------------------------------|
+| POST   | `/api/customers/register`      | Register new customer        |
+| GET    | `/api/customer/see?name=`      | Get  customers by name       |
+| GET    | `/api/customer/see?address=`   | Get customers by address     |
+| GET    | `/api/customer/see?city=`      | Get customers by city        |
+| GET    | `/api/customer/see?state=`     | Get customers by state       |
+| GET    | `/api/customer/see?zipCode=`   | Get customers by zip code    |
+| GET    | `/api/customer/see?phone=`     | Get customers by phone       |
+| GET    | `/api/customer/see?email=`     | Get customers by email       |
+| PUT    | `/api/customers/update/{id}`   | Update customer by ID        |
+| DELETE | `/api/customers/delete/{id}`   | Soft delete customer by ID   |
+
+---
+
+## ✅ How to use
+
+1. **Base URL:** `http://localhost:8080`
+2. Use **Bearer Token** for endpoints that require authentication.
+3. For **filters**, pass query params as shown above.
+
