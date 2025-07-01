@@ -3,11 +3,13 @@ package com.example.estoque.services;
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
 import com.example.estoque.entities.stockEntities.Stock;
+import com.example.estoque.entities.stockEntities.StockSpecification;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.StockMapper;
 import com.example.estoque.repositories.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +25,19 @@ public class StockService {
     @Autowired
     private StockMapper stockMapper;
 
-    //GET all products logic
-    public List<StockResponseDto> getAllStock() {
-        return stockRepository.findByIsDeletedFalse()
+    //GET products logic
+    public List<StockResponseDto> getFilterStock(
+            String productName,
+            Long codprod
+        ) {
+        Specification<Stock> spec = Specification.where(StockSpecification.isNotDeleted())
+                .and(StockSpecification.hasName(productName))
+                .and(StockSpecification.hasCodprod(codprod));
+
+        return stockRepository.findAll(spec)
                 .stream()
                 .map(stockMapper::toDto)
                 .toList();
-    }
-
-    // GET product by ID logic
-    public StockResponseDto getByCodProduct(Long codProd) {
-        Stock stock = stockRepository.findByCodProdAndIsDeletedFalse(codProd)
-                .orElseThrow(() -> new AppException("Product not found or disabled.", HttpStatus.NOT_FOUND));
-
-        return stockMapper.toDto(stock);
     }
 
     //POST product logic
