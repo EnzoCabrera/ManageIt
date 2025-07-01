@@ -37,6 +37,7 @@ public class Expense {
     @Column(nullable = false)
     private LocalDate expdatepay;
 
+    @Enumerated(EnumType.STRING)
     private ExpenseType exptype;
 
     @CreationTimestamp
