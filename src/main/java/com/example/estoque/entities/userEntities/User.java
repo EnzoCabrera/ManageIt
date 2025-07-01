@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Table(name="users")
-@Entity(name="users")
+@Table(name="TGVUSE")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor

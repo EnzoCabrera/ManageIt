@@ -11,8 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Table(name="stock")
-@Entity(name="stock")
+@Table(name="TGVSTO")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
