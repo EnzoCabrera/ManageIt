@@ -3,11 +3,13 @@ package com.example.estoque.services;
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
 import com.example.estoque.entities.customerEntities.Customer;
+import com.example.estoque.entities.customerEntities.CustomerSpecification;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.CustomerMapper;
 import com.example.estoque.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +25,29 @@ public class CustomerService {
     private CustomerMapper customerMapper;
 
 
-    //GET all customers logic
-    public List<CustomerResponseDto> getAllCustomers() {
-        return customerRepository.findByIsDeletedFalse()
+    //GET customers logic
+    public List<CustomerResponseDto> getFilterCustomers(
+            String name,
+            String address,
+            String city,
+            String state,
+            String zipCode,
+            String phone,
+            String email
+        ) {
+        Specification<Customer> spec = Specification.where(CustomerSpecification.isNotDeleted())
+                .and(CustomerSpecification.hasName(name))
+                .and(CustomerSpecification.hasAddress(address))
+                .and(CustomerSpecification.hasCity(city))
+                .and(CustomerSpecification.hasState(state))
+                .and(CustomerSpecification.hasZipCode(zipCode))
+                .and(CustomerSpecification.hasPhone(phone))
+                .and(CustomerSpecification.hasEmail(email));
+
+        return customerRepository.findAll(spec)
                 .stream()
                 .map(customerMapper::toDto)
                 .toList();
-    }
-
-    //GET customer by ID logic
-    public CustomerResponseDto getByCodcus(Long codcus) {
-        Customer customer = customerRepository.findBycodcusAndIsDeletedFalse(codcus)
-                .orElseThrow(() -> new AppException("Customer not found or disabled.", HttpStatus.NOT_FOUND));
-
-        return customerMapper.toDto(customer);
     }
 
     //POST customer logic

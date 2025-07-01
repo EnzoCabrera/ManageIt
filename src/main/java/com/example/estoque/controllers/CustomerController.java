@@ -19,17 +19,19 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    //GET all customers
+    //GET customers
     @GetMapping("/see")
-    public ResponseEntity<List<CustomerResponseDto>> getAllCustomers(){
-        return ResponseEntity.ok(customerService.getAllCustomers());
-    }
-
-    //GET customer by ID
-    @GetMapping("/see/{codcus}")
-    public ResponseEntity<CustomerResponseDto> getCustomerById(@PathVariable Long codcus){
-        CustomerResponseDto dto = customerService.getByCodcus(codcus);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<List<CustomerResponseDto>> getCustomers(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String zipCode,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String email
+    ) {
+        List<CustomerResponseDto> customers = customerService.getFilterCustomers(name, address, city, state, zipCode, phone, email);
+        return ResponseEntity.ok(customers);
     }
 
     //POST all customers
