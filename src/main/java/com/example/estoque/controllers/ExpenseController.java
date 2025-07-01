@@ -4,10 +4,12 @@ import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.repositories.ExpenseRepository;
 import com.example.estoque.services.ExpenseService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,10 +30,14 @@ public class ExpenseController {
         @RequestParam(required = false) String type,
         @RequestParam(required = false) Integer month,
         @RequestParam(required = false) Integer year,
-        @RequestParam(required = false) Integer payMonth
-    ) {
+        @RequestParam(required = false) Integer payMonth,
+        @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDatePay,
+        @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDatePay
 
-        List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth);
+    ) {
+        List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay);
         return ResponseEntity.ok(expenses);
     }
 

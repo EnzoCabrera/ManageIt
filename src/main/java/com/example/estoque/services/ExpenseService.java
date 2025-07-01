@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,12 +30,21 @@ public class ExpenseService {
 
 
     //GET expenses logic
-    public List<ExpenseResponseDto> getFilterExpenses(String type, Integer month, Integer year, Integer payMonth) {
+    public List<ExpenseResponseDto> getFilterExpenses(
+            String type,
+            Integer month,
+            Integer year,
+            Integer payMonth,
+            LocalDate startDate,
+            LocalDate endDate,
+            LocalDate startDatePay,
+            LocalDate endDatePay
+    ) {
+
         Specification<Expense> spec = Specification.where(ExpenseSpecification.isNotDeleted())
                 .and(ExpenseSpecification.hasType(type))
-                .and(ExpenseSpecification.hasMonth(month))
-                .and(ExpenseSpecification.hasYear(year))
-                .and(ExpenseSpecification.hasPayMonth(payMonth));
+                .and(ExpenseSpecification.isBetweenExpdate(startDate, endDate))
+                .and(ExpenseSpecification.isBetweenExpdatepay(startDatePay, endDatePay));
 
         return expenseRepository.findAll(spec)
                 .stream()
