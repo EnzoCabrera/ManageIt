@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,17 +22,17 @@ public class ExpenseController {
         this.expenseService = expenseService;
     }
 
-    //GET all expenses
+    //GET expenses
     @GetMapping("/see")
-    public ResponseEntity<List<ExpenseResponseDto>> getAllExpenses(){
-        return ResponseEntity.ok(expenseService.getAllExpenses());
-    }
+    public ResponseEntity<List<ExpenseResponseDto>> getExpenses(
+        @RequestParam(required = false) String type,
+        @RequestParam(required = false) Integer month,
+        @RequestParam(required = false) Integer year,
+        @RequestParam(required = false) Integer payMonth
+    ) {
 
-    //GET expenses by month
-    @GetMapping("/see/month")
-    public ResponseEntity<List<ExpenseResponseDto>> getExpenseByMonth(@RequestParam int month, @RequestParam int year){
-        List<ExpenseResponseDto> dto = expenseService.getExpenseByMonth(month, year);
-        return ResponseEntity.ok(dto);
+        List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth);
+        return ResponseEntity.ok(expenses);
     }
 
     //POST expense

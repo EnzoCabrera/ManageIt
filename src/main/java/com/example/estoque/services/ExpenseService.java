@@ -4,11 +4,13 @@ import com.example.estoque.controllers.ExpenseController;
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.entities.expenseEntities.Expense;
+import com.example.estoque.entities.expenseEntities.ExpenseSpecification;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.ExpenseMapper;
 import com.example.estoque.repositories.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +28,16 @@ public class ExpenseService {
     private ExpenseMapper expenseMapper;
 
 
-    //GET all expenses logic
-    public List<ExpenseResponseDto> getAllExpenses(){
-        return expenseRepository.findByIsDeletedFalse()
-                .stream()
-                .map(expenseMapper::toDto)
-                .toList();
-    }
+    //GET expenses logic
+    public List<ExpenseResponseDto> getFilterExpenses(String type, Integer month, Integer year, Integer payMonth) {
+        Specification<Expense> spec = Specification.where(ExpenseSpecification.isNotDeleted())
+                .and(ExpenseSpecification.hasType(type))
+                .and(ExpenseSpecification.hasMonth(month))
+                .and(ExpenseSpecification.hasYear(year))
+                .and(ExpenseSpecification.hasPayMonth(payMonth));
 
-    //GET expense by date
-    public List<ExpenseResponseDto> getExpenseByMonth(int month, int year) {
-        List<Expense> expense = expenseRepository.findByMonthAndYear(month, year);
-        return expense.stream()
+        return expenseRepository.findAll(spec)
+                .stream()
                 .map(expenseMapper::toDto)
                 .toList();
     }
