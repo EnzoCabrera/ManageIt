@@ -4,6 +4,7 @@ import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseSpecification;
+import com.example.estoque.entities.expenseEntities.ExpenseStatus;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.ExpenseMapper;
 import com.example.estoque.repositories.ExpenseRepository;
@@ -58,6 +59,11 @@ public class ExpenseService {
                 .filter(payDate -> dto.getExpdate() != null && !payDate.isBefore(dto.getExpdate()))
                 .orElseThrow(() -> new AppException("Payment date cannot be before the expense date.", HttpStatus.BAD_REQUEST));
 
+        if (dto.getExpsts() == ExpenseStatus.PENDING &&
+            dto.getExpdatepay().isBefore(LocalDate.now())){
+            throw new AppException("Cannot create an expense with status PENDING when payment date is in the past. Use OVERDUE, PAID or CANCELLED instead.", HttpStatus.BAD_REQUEST);
+        }
+
         Expense expense = new Expense();
         expense.setExpdesc(dto.getExpdesc());
         expense.setExpCostInCents(dto.getExpCostInCents());
@@ -78,6 +84,11 @@ public class ExpenseService {
         Optional.ofNullable(dto.getExpdatepay())
                 .filter(payDate -> dto.getExpdate() != null && !payDate.isBefore(dto.getExpdate()))
                 .orElseThrow(() -> new AppException("Payment date cannot be before the expense date.", HttpStatus.BAD_REQUEST));
+
+        if (dto.getExpsts() == ExpenseStatus.PENDING &&
+                dto.getExpdatepay().isBefore(LocalDate.now())){
+            throw new AppException("Cannot create an expense with status PENDING when payment date is in the past. Use OVERDUE, PAID or CANCELLED instead.", HttpStatus.BAD_REQUEST);
+        }
 
         expense.setExpdesc(dto.getExpdesc());
         expense.setExpCostInCents(dto.getExpCostInCents());
