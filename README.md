@@ -117,6 +117,7 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 | GET    | `/api/expense/see?type=`                    | Get expenses by type                         |
 | GET    | `api/expense/see?startDate=&endDate=`       | Get expenses by date range                   |
 | GET    | `api/expense/see?startDatePay=&endDatePay=` | Get expenses by payment date  range          |
+| GET    | `/api/expense/see?expSts=`                  | Get expenses by status                       |
 | GET    | `/api/expense/see`                          | Get all expenses                             |
 | PUT    | `/api/expense/update/{id}`                  | Update expense by ID                         |
 | DELETE | `/api/expense/delete/{id}`                  | Soft delete expense by ID                    |
