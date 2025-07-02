@@ -29,7 +29,7 @@ public class ExpenseRequestDto {
     private LocalDate expdatepay;
 
     @NotNull
-    private ExpenseType expensetype;
+    private ExpenseType exptype;
 
     @NotNull
     private ExpenseStatus expsts;

@@ -1,6 +1,5 @@
-package com.example.estoque.services;
+package com.example.estoque.services.ExpensesService;
 
-import com.example.estoque.controllers.ExpenseController;
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.entities.expenseEntities.Expense;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +63,7 @@ public class ExpenseService {
         expense.setExpCostInCents(dto.getExpCostInCents());
         expense.setExpdate(dto.getExpdate());
         expense.setExpdatepay(dto.getExpdatepay());
-        expense.setExptype(dto.getExpensetype());
+        expense.setExptype(dto.getExptype());
         expense.setExpsts(dto.getExpsts());
 
         Expense savedExpense = expenseRepository.save(expense);
@@ -85,7 +83,7 @@ public class ExpenseService {
         expense.setExpCostInCents(dto.getExpCostInCents());
         expense.setExpdate(dto.getExpdate());
         expense.setExpdatepay(dto.getExpdatepay());
-        expense.setExptype(dto.getExpensetype());
+        expense.setExptype(dto.getExptype());
         expense.setExpsts(dto.getExpsts());
 
         Expense updatedExpense = expenseRepository.save(expense);
