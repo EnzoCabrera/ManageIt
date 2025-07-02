@@ -2,17 +2,13 @@ package com.example.estoque.controllers;
 
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
-import com.example.estoque.repositories.ExpenseRepository;
-import com.example.estoque.services.ExpenseService;
-import jdk.jfr.Frequency;
+import com.example.estoque.services.ExpensesService.ExpenseService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
