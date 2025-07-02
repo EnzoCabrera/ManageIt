@@ -50,4 +50,11 @@ public class ExpenseSpecification {
             return predicate;
         };
     }
+
+    //Filter for expense status
+    public static Specification<Expense> hasExpSts(String expSts) {
+        return (root, query, cb) ->
+                expSts == null ? null : cb.equal(root.get("expsts"), expSts);
+
+    }
 }

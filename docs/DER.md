@@ -65,19 +65,20 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 
 ## 📑 TGVEXP (Expenses)
 
-| Column           | Type      | Description                       | Possible Values        | Notes                                                                                        |
-|------------------|-----------|-----------------------------------|------------------------|----------------------------------------------------------------------------------------------|
-| CODEXP           | BIGINT    | Unique expense ID                 | Auto-increment         | Primary Key                                                                                  |
-| EXPDESC          | VARCHAR   | Expense description               | —                      |                                                                                              |
-| EXPCOST_IN_CENTS | INT       | Expense cost in cents             | —                      | Integer for precision                                                                        |
-| EXPDATE          | DATE      | Date the expense occurred         | YYYY-MM-DD             |                                                                                              |
-| EXPDATEPAY       | DATE      | Payment date                      | YYYY-MM-DD             | Must be >= EXPDATE                                                                           |
-| EXPTYPE          | VARCHAR   | Expense type                      | e.g., SALARY, SUPPLIES | Enum in backend(src/main/java/com/example/estoque/entities/expenseEntities/ExpenseType.java) |
-| CREATED_AT       | TIMESTAMP | When expense was added            | auto                   |                                                                                              |
-| UPDATED_AT       | TIMESTAMP | Last update timestamp             | auto                   |                                                                                              |
-| CREATED_BY       | VARCHAR   | User who created the expense      | (TGVUSE.EMAIL)         |                                                                                              |
-| UPDATED_BY       | VARCHAR   | Last user who updated the expense | (TGVUSE.EMAIL)         |                                                                                              |
-| IS_DELETED       | BOOLEAN   | Soft delete flag                  | true / false           | Default: false                                                                               |
+| Column           | Type      | Description                       | Possible Values        | Notes                                                                                           |
+|------------------|-----------|-----------------------------------|------------------------|-------------------------------------------------------------------------------------------------|
+| CODEXP           | BIGINT    | Unique expense ID                 | Auto-increment         | Primary Key                                                                                     |
+| EXPDESC          | VARCHAR   | Expense description               | —                      |                                                                                                 |
+| EXPCOST_IN_CENTS | INT       | Expense cost in cents             | —                      | Integer for precision                                                                           |
+| EXPDATE          | DATE      | Date the expense occurred         | YYYY-MM-DD             |                                                                                                 |
+| EXPDATEPAY       | DATE      | Payment date                      | YYYY-MM-DD             | Must be >= EXPDATE                                                                              |
+| EXPTYPE          | VARCHAR   | Expense type                      | e.g., SALARY, SUPPLIES | Enum in backend(src/main/java/com/example/estoque/entities/expenseEntities/ExpenseType.java)    |
+| EXPSTS           | VARCHAR   | Expense status                    | e.g., PENDING, PAID    | Enum in backend(src/main/java/com/example/estoque/entities/expenseEntities/ExpenseStatus.java)  |
+| CREATED_AT       | TIMESTAMP | When expense was added            | auto                   |                                                                                                 |
+| UPDATED_AT       | TIMESTAMP | Last update timestamp             | auto                   |                                                                                                 |
+| CREATED_BY       | VARCHAR   | User who created the expense      | (TGVUSE.EMAIL)         |                                                                                                 |
+| UPDATED_BY       | VARCHAR   | Last user who updated the expense | (TGVUSE.EMAIL)         |                                                                                                 |
+| IS_DELETED       | BOOLEAN   | Soft delete flag                  | true / false           | Default: false                                                                                  |
 
 ---
 
@@ -85,7 +86,7 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 
 - Dates follow ISO format: `YYYY-MM-DD`
 - Soft delete: Records with `IS_DELETED = true` should be excluded in most queries.
-- `ROLE` and `EXPTYPE` values are enums in the backend — see the respective `Enum` classes.
+- `ROLE`, `EXPTYPE` and `EXPSTS` values are enums in the backend — see the respective `Enum` classes.
 - Keep this doc updated **every time** you create new migrations!
 
 
@@ -151,6 +152,20 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | OTHER       | Any other expense not listed above  |
 
 - Source: src/main/java/com/example/estoque/entities/expenseEntities/ExpenseType.java
+
+
+### ExpenseStatus Enum
+
+| Value          | Meaning                                       |
+|----------------|-----------------------------------------------|
+| PENDING        | Not paid yet                                  |
+| PAID           | It has already been paid off                  |
+| CANCELLED      | It was cancelled before being paid            |
+| OVERDUE        | Payment deadline has passed                   |
+| PARTIALLY_PAID | Part has already been paid, but not the total |
+
+
+- Source: src/main/java/com/example/estoque/entities/expenseEntities/ExpenseStatus.java
 
 
 

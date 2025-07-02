@@ -4,6 +4,7 @@ import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.repositories.ExpenseRepository;
 import com.example.estoque.services.ExpenseService;
+import jdk.jfr.Frequency;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,11 @@ public class ExpenseController {
         @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
         @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
         @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDatePay,
-        @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDatePay
+        @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDatePay,
+        @RequestParam(required = false) String expSts
 
     ) {
-        List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay);
+        List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay, expSts);
         return ResponseEntity.ok(expenses);
     }
 

@@ -38,13 +38,15 @@ public class ExpenseService {
             LocalDate startDate,
             LocalDate endDate,
             LocalDate startDatePay,
-            LocalDate endDatePay
+            LocalDate endDatePay,
+            String expSts
     ) {
 
         Specification<Expense> spec = Specification.where(ExpenseSpecification.isNotDeleted())
                 .and(ExpenseSpecification.hasType(type))
                 .and(ExpenseSpecification.isBetweenExpdate(startDate, endDate))
-                .and(ExpenseSpecification.isBetweenExpdatepay(startDatePay, endDatePay));
+                .and(ExpenseSpecification.isBetweenExpdatepay(startDatePay, endDatePay))
+                .and(ExpenseSpecification.hasExpSts(expSts));
 
         return expenseRepository.findAll(spec)
                 .stream()
@@ -64,6 +66,7 @@ public class ExpenseService {
         expense.setExpdate(dto.getExpdate());
         expense.setExpdatepay(dto.getExpdatepay());
         expense.setExptype(dto.getExpensetype());
+        expense.setExpsts(dto.getExpsts());
 
         Expense savedExpense = expenseRepository.save(expense);
         return expenseMapper.toDto(savedExpense);
@@ -83,6 +86,7 @@ public class ExpenseService {
         expense.setExpdate(dto.getExpdate());
         expense.setExpdatepay(dto.getExpdatepay());
         expense.setExptype(dto.getExpensetype());
+        expense.setExpsts(dto.getExpsts());
 
         Expense updatedExpense = expenseRepository.save(expense);
         return expenseMapper.toDto(updatedExpense);
