@@ -40,6 +40,17 @@ Right now, **ManageIT** lets you:
 
 ---
 
+## 📧 Email Notifications
+
+ManageIt automatically sends email alerts to the user when:
+
+- An expense is **one day away** from its payment date (`expdatepay`) and its status is still `PENDING`.
+- An expense has become `OVERDUE`.
+
+This helps users avoid any penalties or disruptions.
+  
+---
+
 ## ⚙️ Getting Started with Docker
 
 Want to run everything locally in an isolated, production-like environment? Here’s how!
