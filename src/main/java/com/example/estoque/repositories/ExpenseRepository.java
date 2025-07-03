@@ -16,6 +16,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
     // Custom query to confirm that the product is not deleted
     Optional<Expense> findBycodexpAndIsDeletedFalse(Long codexp);
 
+    // Custom query to find expenses that already overdue
     List<Expense> findByExpstsAndExpdatepayBefore(ExpenseStatus expsts, LocalDate date);
+
+    // Custom query to find expenses that overdue tomorrow
+    List<Expense> findByExpstsAndExpdatepay(ExpenseStatus expsts, LocalDate date);
 
 }
