@@ -22,4 +22,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
     // Custom query to find expenses that overdue tomorrow
     List<Expense> findByExpstsAndExpdatepay(ExpenseStatus expsts, LocalDate date);
 
+    // Custom query to find overdue expenses
+    List<Expense> findByExpstsAndIsDeletedFalse(ExpenseStatus expsts);
+
 }

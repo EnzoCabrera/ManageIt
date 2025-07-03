@@ -22,6 +22,7 @@ public class ExpenseNotificationService {
         this.emailService = emailService;
     }
 
+    //Email notification for expenses that are about to become overdue
     @Scheduled(cron = "0 0 7 * * *")
     public void notifyUpcomingOverdueExpenses() {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -41,5 +42,26 @@ public class ExpenseNotificationService {
                     emailService.sendSimpleMessage(userEmail, subject, body);
 
                 });
+    }
+
+    //Email notification for overdue expenses
+    @Scheduled(cron = "0 0 */6 * * *")
+    public void notifyOverdueExpenses() {
+        List<Expense> overdueExpenses = expenseRepository.findByExpstsAndIsDeletedFalse(ExpenseStatus.OVERDUE);
+
+        overdueExpenses.forEach(expense -> {
+            String userEmail = expense.getCreatedBy();
+            String subject = "Upcoming Overdue Expense";
+            String body = String.format(
+                    "Hi!\n\nThis is a reminder that your expense \"%s\" (due date: %s) is OVERDUE.\n" +
+                            "Please pay this expense as soon as possible to avoid further penalties or disruptions.\n\n" +
+                            "Thanks for using ManageIt!",
+                    expense.getExpdesc(),
+                    expense.getExpdatepay()
+            );
+
+            emailService.sendSimpleMessage(userEmail, subject, body);
+
+        });
     }
 }
