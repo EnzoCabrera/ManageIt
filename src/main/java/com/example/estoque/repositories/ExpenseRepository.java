@@ -17,10 +17,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
     Optional<Expense> findBycodexpAndIsDeletedFalse(Long codexp);
 
     // Custom query to find expenses that already overdue
-    List<Expense> findByExpstsAndExpdatepayBefore(ExpenseStatus expsts, LocalDate date);
+    List<Expense> findByExpstsAndExpdatepayBeforeAndIsDeletedFalse(ExpenseStatus expsts, LocalDate date);
 
     // Custom query to find expenses that overdue tomorrow
-    List<Expense> findByExpstsAndExpdatepay(ExpenseStatus expsts, LocalDate date);
+    List<Expense> findByExpstsAndExpdatepayAndIsDeletedFalse(ExpenseStatus expsts, LocalDate date);
 
     // Custom query to find overdue expenses
     List<Expense> findByExpstsAndIsDeletedFalse(ExpenseStatus expsts);

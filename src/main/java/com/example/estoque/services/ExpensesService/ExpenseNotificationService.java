@@ -23,10 +23,10 @@ public class ExpenseNotificationService {
     }
 
     //Email notification for expenses that are about to become overdue
-    @Scheduled(cron = "0 0 7 * * *")
+    @Scheduled(cron = "0 0 */6 * * *")
     public void notifyUpcomingOverdueExpenses() {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
-        List<Expense> expenses = expenseRepository.findByExpstsAndExpdatepay(ExpenseStatus.PENDING, tomorrow);
+        List<Expense> expenses = expenseRepository.findByExpstsAndExpdatepayAndIsDeletedFalse(ExpenseStatus.PENDING, tomorrow);
 
         expenses.forEach(expense -> {
                     String userEmail = expense.getCreatedBy();

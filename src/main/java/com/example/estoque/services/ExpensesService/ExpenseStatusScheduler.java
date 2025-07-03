@@ -21,7 +21,7 @@ public class ExpenseStatusScheduler {
     @Transactional
     public void updateOverdueExpenses() {
         LocalDate today = LocalDate.now();
-        List<Expense> overdueExpenses = expenseRepository.findByExpstsAndExpdatepayBefore(ExpenseStatus.PENDING, today);
+        List<Expense> overdueExpenses = expenseRepository.findByExpstsAndExpdatepayBeforeAndIsDeletedFalse(ExpenseStatus.PENDING, today);
 
         overdueExpenses.forEach(expense -> expense.setExpsts(ExpenseStatus.OVERDUE));
 
