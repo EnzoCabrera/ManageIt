@@ -68,6 +68,11 @@ public class ExpenseService {
         return expenseRepository.getTop5ExpenseSummary();
     }
 
+    //GET current month expenses bu status logic
+    public List<ExpSummaryByStsDto> getExpSummaryBySts() {
+        return expenseRepository.getExpSummaryBySts();
+    }
+
     //POST expense logic
     public ExpenseResponseDto registerExpense(ExpenseRequestDto dto){
         Optional.ofNullable(dto.getExpdatepay())

@@ -1,5 +1,6 @@
 package com.example.estoque.repositories;
 
+import com.example.estoque.dtos.expenseDtos.ExpSummaryByStsDto;
 import com.example.estoque.dtos.expenseDtos.ExpTypeSummaryDto;
 import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
 import com.example.estoque.dtos.expenseDtos.Top5ExpSummaryDto;
@@ -8,7 +9,6 @@ import com.example.estoque.entities.expenseEntities.ExpenseStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -75,6 +75,19 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
             LIMIT 5
 """, nativeQuery = true)
     List<Top5ExpSummaryDto> getTop5ExpenseSummary();
+
+    //Custom query to get current month expenses by status
+    @Query(value = """
+    SELECT e.expsts AS expsts,
+           COUNT(*) AS totalCount,
+           SUM(expcost_in_cents) AS totalInCents
+    FROM TGVEXP e 
+    WHERE e.is_deleted = false
+        AND EXTRACT(MONTH FROM e.expdate) = EXTRACT(MONTH FROM CURRENT_DATE)
+        AND EXTRACT(YEAR FROM e.expdate) = EXTRACT(YEAR FROM CURRENT_DATE)
+    GROUP BY expsts
+""", nativeQuery = true)
+    List<ExpSummaryByStsDto> getExpSummaryBySts();
 
 
 }

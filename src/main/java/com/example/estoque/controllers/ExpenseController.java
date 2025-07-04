@@ -56,6 +56,12 @@ public class ExpenseController {
         return ResponseEntity.ok(expenseService.getTop5ExpenseSummary());
     }
 
+    //GET current month expenses by status
+    @GetMapping("/see/status-summary")
+    public ResponseEntity<List<ExpSummaryByStsDto>> getExpStatusSummary() {
+        return ResponseEntity.ok(expenseService.getExpSummaryBySts());
+    }
+
     //POST expense
     @PostMapping("/register")
     public ResponseEntity<ExpenseResponseDto> registerExpense(@RequestBody ExpenseRequestDto dto){
