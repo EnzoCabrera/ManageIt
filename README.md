@@ -120,7 +120,7 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 
 ---
 
-### 💸 Expenses(TGFEXP)
+### 💸 Expenses(TGVEXP)
 
 | Method | Endpoint                                    | Description                                  |
 |--------|---------------------------------------------|----------------------------------------------|
@@ -129,6 +129,11 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 | GET    | `api/expense/see?startDate=&endDate=`       | Get expenses by date range                   |
 | GET    | `api/expense/see?startDatePay=&endDatePay=` | Get expenses by payment date  range          |
 | GET    | `/api/expense/see?expSts=`                  | Get expenses by status                       |
+| GET    | `/api/expense/see/monthly-summary`          | Get current month expenses                   |
+| GET    | `/api/expense/see/type-summary`             | Get current month expenses by type           |
+| GET    | `/api/expense/see/top5-summary`             | Get current month top 5 expenses             |
+| GET    | `/api/expense/see/status-summary`           | Get current month expenses by status         |
+| GET    | `/api/expense/see/unpaid-summary`           | Get current month expenses unpaid            |
 | GET    | `/api/expense/see`                          | Get all expenses                             |
 | PUT    | `/api/expense/update/{id}`                  | Update expense by ID                         |
 | DELETE | `/api/expense/delete/{id}`                  | Soft delete expense by ID                    |
