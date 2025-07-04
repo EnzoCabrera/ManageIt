@@ -62,6 +62,12 @@ public class ExpenseController {
         return ResponseEntity.ok(expenseService.getExpSummaryBySts());
     }
 
+    //GET current month expenses unpaid
+    @GetMapping("/see/unpaid-summary")
+    public ResponseEntity<List<FutureExpenseSummaryDto>> getNotPaidExpenseSummary() {
+        return ResponseEntity.ok(expenseService.getFutureExpensesGrouped());
+    }
+
     //POST expense
     @PostMapping("/register")
     public ResponseEntity<ExpenseResponseDto> registerExpense(@RequestBody ExpenseRequestDto dto){

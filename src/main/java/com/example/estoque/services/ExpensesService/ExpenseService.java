@@ -63,14 +63,19 @@ public class ExpenseService {
         return expenseRepository.getExpTypeSummary();
     }
 
-    //GET current month tip 5 expenses logic
+    //GET current month top 5 expenses logic
     public List<Top5ExpSummaryDto> getTop5ExpenseSummary() {
         return expenseRepository.getTop5ExpenseSummary();
     }
 
-    //GET current month expenses bu status logic
+    //GET current month expenses by status logic
     public List<ExpSummaryByStsDto> getExpSummaryBySts() {
         return expenseRepository.getExpSummaryBySts();
+    }
+
+    //GET current month expenses unpaid logic
+    public List<FutureExpenseSummaryDto> getFutureExpensesGrouped() {
+        return expenseRepository.getFutureExpensesGrouped();
     }
 
     //POST expense logic

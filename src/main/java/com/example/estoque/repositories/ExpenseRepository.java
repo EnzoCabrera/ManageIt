@@ -1,9 +1,6 @@
 package com.example.estoque.repositories;
 
-import com.example.estoque.dtos.expenseDtos.ExpSummaryByStsDto;
-import com.example.estoque.dtos.expenseDtos.ExpTypeSummaryDto;
-import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
-import com.example.estoque.dtos.expenseDtos.Top5ExpSummaryDto;
+import com.example.estoque.dtos.expenseDtos.*;
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -89,5 +86,18 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
 """, nativeQuery = true)
     List<ExpSummaryByStsDto> getExpSummaryBySts();
 
-
+    //Custom query to get all expenses unpaid
+    @Query(value = """
+        SELECT exptype AS exptype,
+               COUNT(*) AS Count,
+               SUM(expcost_in_cents) AS totalInCents
+        FROM TGVEXP e
+        WHERE 
+            expdatepay > CURRENT_DATE 
+            AND e.expsts IN ('PENDING', 'OVERDUE')
+            AND is_deleted = false
+        GROUP BY exptype
+        ORDER BY exptype
+    """, nativeQuery = true)
+    List<FutureExpenseSummaryDto> getFutureExpensesGrouped();
 }
