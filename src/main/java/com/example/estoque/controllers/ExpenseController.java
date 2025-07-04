@@ -1,9 +1,6 @@
 package com.example.estoque.controllers;
 
-import com.example.estoque.dtos.expenseDtos.ExpTypeSummaryDto;
-import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
-import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
-import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
+import com.example.estoque.dtos.expenseDtos.*;
 import com.example.estoque.services.ExpensesService.ExpenseService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -51,6 +48,12 @@ public class ExpenseController {
     @GetMapping("see/type-summary")
     public ResponseEntity<List<ExpTypeSummaryDto>> getExpTypeSummary() {
         return ResponseEntity.ok(expenseService.getExpTypeSummary());
+    }
+
+    //GET current month top 5 expenses
+    @GetMapping("/see/top5-summary")
+    public ResponseEntity<List<Top5ExpSummaryDto>> getTop5ExpenseSummary() {
+        return ResponseEntity.ok(expenseService.getTop5ExpenseSummary());
     }
 
     //POST expense
