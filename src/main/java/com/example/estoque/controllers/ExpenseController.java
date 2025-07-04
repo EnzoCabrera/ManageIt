@@ -2,6 +2,7 @@ package com.example.estoque.controllers;
 
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
+import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
 import com.example.estoque.services.ExpensesService.ExpenseService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,12 @@ public class ExpenseController {
     ) {
         List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay, expSts);
         return ResponseEntity.ok(expenses);
+    }
+
+    //GET current month expenses
+    @GetMapping("/see/monthly-summary")
+    public ResponseEntity<List<MonthlyExpSummaryDto>> getMonthlyExpenseSummary() {
+        return ResponseEntity.ok(expenseService.getMonthlyExpenseSummary());
     }
 
     //POST expense

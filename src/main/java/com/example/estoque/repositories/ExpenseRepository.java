@@ -1,5 +1,6 @@
 package com.example.estoque.repositories;
 
+import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +25,24 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
 
     // Custom query to find overdue expenses
     List<Expense> findByExpstsAndIsDeletedFalse(ExpenseStatus expsts);
+
+    //Custom query to get current month expenses
+    @Query(value = """
+            SELECT
+                EXTRACT(YEAR FROM e.expdate) AS year,
+                EXTRACT(MONTH FROM e.expdate) AS month,
+                SUM(e.expcost_in_cents) AS totalInCents
+            FROM
+                TGVEXP e
+            WHERE
+                e.is_deleted = false
+                AND EXTRACT(YEAR FROM e.expdate) = EXTRACT(YEAR FROM CURRENT_DATE)
+                AND EXTRACT(MONTH FROM e.expdate) = EXTRACT(MONTH FROM CURRENT_DATE)  
+            GROUP BY
+                year, month
+            ORDER BY
+                year, month 
+       """, nativeQuery = true)
+        List<MonthlyExpSummaryDto> findMonthlyExpenseSummary();
 
 }

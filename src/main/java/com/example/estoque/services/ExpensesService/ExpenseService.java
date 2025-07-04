@@ -2,6 +2,7 @@ package com.example.estoque.services.ExpensesService;
 
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
+import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseSpecification;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,6 +53,11 @@ public class ExpenseService {
                 .stream()
                 .map(expenseMapper::toDto)
                 .toList();
+    }
+
+    //GET current month expenses logic
+    public List<MonthlyExpSummaryDto> getMonthlyExpenseSummary() {
+        return expenseRepository.findMonthlyExpenseSummary();
     }
 
     //POST expense logic
