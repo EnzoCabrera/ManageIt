@@ -1,5 +1,6 @@
 package com.example.estoque.controllers;
 
+import com.example.estoque.dtos.expenseDtos.ExpTypeSummaryDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
@@ -44,6 +45,12 @@ public class ExpenseController {
     @GetMapping("/see/monthly-summary")
     public ResponseEntity<List<MonthlyExpSummaryDto>> getMonthlyExpenseSummary() {
         return ResponseEntity.ok(expenseService.getMonthlyExpenseSummary());
+    }
+
+    //GET current month expenses by type
+    @GetMapping("see/type-summary")
+    public ResponseEntity<List<ExpTypeSummaryDto>> getExpTypeSummary() {
+        return ResponseEntity.ok(expenseService.getExpTypeSummary());
     }
 
     //POST expense

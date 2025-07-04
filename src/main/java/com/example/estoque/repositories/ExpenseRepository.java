@@ -1,5 +1,6 @@
 package com.example.estoque.repositories;
 
+import com.example.estoque.dtos.expenseDtos.ExpTypeSummaryDto;
 import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
@@ -44,5 +45,17 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
                 year, month 
        """, nativeQuery = true)
         List<MonthlyExpSummaryDto> findMonthlyExpenseSummary();
+
+
+    //Custom query to get current month expenses by type
+        @Query(value = """
+        SELECT e.exptype AS exptype, SUM(e.expcost_in_cents) AS totalInCents
+        FROM TGVEXP e
+        WHERE e.is_deleted = false
+          AND EXTRACT(MONTH FROM e.expdate) = EXTRACT(MONTH FROM CURRENT_DATE)
+          AND EXTRACT(YEAR FROM e.expdate) = EXTRACT(YEAR FROM CURRENT_DATE)
+        GROUP BY e.exptype
+    """, nativeQuery = true)
+    List<ExpTypeSummaryDto> getExpTypeSummary();
 
 }

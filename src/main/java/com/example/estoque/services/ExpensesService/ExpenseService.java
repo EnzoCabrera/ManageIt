@@ -1,5 +1,6 @@
 package com.example.estoque.services.ExpensesService;
 
+import com.example.estoque.dtos.expenseDtos.ExpTypeSummaryDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseRequestDto;
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.dtos.expenseDtos.MonthlyExpSummaryDto;
@@ -58,6 +59,11 @@ public class ExpenseService {
     //GET current month expenses logic
     public List<MonthlyExpSummaryDto> getMonthlyExpenseSummary() {
         return expenseRepository.findMonthlyExpenseSummary();
+    }
+
+    //GET current month expenses by type logic
+    public List<ExpTypeSummaryDto> getExpTypeSummary() {
+        return expenseRepository.getExpTypeSummary();
     }
 
     //POST expense logic
