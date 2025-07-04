@@ -2,7 +2,7 @@ package com.example.estoque.services.ExpensesService;
 
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
-import com.example.estoque.repositories.ExpenseRepository;
+import com.example.estoque.repositories.ExpenseRepositories.ExpenseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

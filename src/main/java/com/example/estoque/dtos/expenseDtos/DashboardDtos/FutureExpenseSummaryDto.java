@@ -1,6 +1,4 @@
-package com.example.estoque.dtos.expenseDtos;
-
-import java.time.LocalDate;
+package com.example.estoque.dtos.expenseDtos.DashboardDtos;
 
 public interface FutureExpenseSummaryDto {
     Long getTotalInCents();

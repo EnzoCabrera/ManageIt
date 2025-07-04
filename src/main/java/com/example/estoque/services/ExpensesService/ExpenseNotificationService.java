@@ -2,7 +2,7 @@ package com.example.estoque.services.ExpensesService;
 
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
-import com.example.estoque.repositories.ExpenseRepository;
+import com.example.estoque.repositories.ExpenseRepositories.ExpenseRepository;
 import com.example.estoque.services.EmailService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

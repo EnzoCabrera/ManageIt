@@ -1,6 +1,8 @@
-package com.example.estoque.controllers;
+package com.example.estoque.controllers.ExpenseControllers;
 
 import com.example.estoque.dtos.expenseDtos.*;
+import com.example.estoque.dtos.expenseDtos.DashboardDtos.*;
+import com.example.estoque.services.ExpensesService.ExpenseDashboardService;
 import com.example.estoque.services.ExpensesService.ExpenseService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,7 +18,7 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-    public ExpenseController(ExpenseService expenseService){
+    public ExpenseController(ExpenseService expenseService, ExpenseDashboardService expenseDashboardService) {
         this.expenseService = expenseService;
     }
 
@@ -36,36 +38,6 @@ public class ExpenseController {
     ) {
         List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay, expSts);
         return ResponseEntity.ok(expenses);
-    }
-
-    //GET current month expenses
-    @GetMapping("/see/monthly-summary")
-    public ResponseEntity<List<MonthlyExpSummaryDto>> getMonthlyExpenseSummary() {
-        return ResponseEntity.ok(expenseService.getMonthlyExpenseSummary());
-    }
-
-    //GET current month expenses by type
-    @GetMapping("see/type-summary")
-    public ResponseEntity<List<ExpTypeSummaryDto>> getExpTypeSummary() {
-        return ResponseEntity.ok(expenseService.getExpTypeSummary());
-    }
-
-    //GET current month top 5 expenses
-    @GetMapping("/see/top5-summary")
-    public ResponseEntity<List<Top5ExpSummaryDto>> getTop5ExpenseSummary() {
-        return ResponseEntity.ok(expenseService.getTop5ExpenseSummary());
-    }
-
-    //GET current month expenses by status
-    @GetMapping("/see/status-summary")
-    public ResponseEntity<List<ExpSummaryByStsDto>> getExpStatusSummary() {
-        return ResponseEntity.ok(expenseService.getExpSummaryBySts());
-    }
-
-    //GET current month expenses unpaid
-    @GetMapping("/see/unpaid-summary")
-    public ResponseEntity<List<FutureExpenseSummaryDto>> getNotPaidExpenseSummary() {
-        return ResponseEntity.ok(expenseService.getFutureExpensesGrouped());
     }
 
     //POST expense

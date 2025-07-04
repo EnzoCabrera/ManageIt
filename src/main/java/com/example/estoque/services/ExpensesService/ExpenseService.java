@@ -6,13 +6,12 @@ import com.example.estoque.entities.expenseEntities.ExpenseSpecification;
 import com.example.estoque.entities.expenseEntities.ExpenseStatus;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.ExpenseMapper;
-import com.example.estoque.repositories.ExpenseRepository;
+import com.example.estoque.repositories.ExpenseRepositories.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,31 +50,6 @@ public class ExpenseService {
                 .stream()
                 .map(expenseMapper::toDto)
                 .toList();
-    }
-
-    //GET current month expenses logic
-    public List<MonthlyExpSummaryDto> getMonthlyExpenseSummary() {
-        return expenseRepository.findMonthlyExpenseSummary();
-    }
-
-    //GET current month expenses by type logic
-    public List<ExpTypeSummaryDto> getExpTypeSummary() {
-        return expenseRepository.getExpTypeSummary();
-    }
-
-    //GET current month top 5 expenses logic
-    public List<Top5ExpSummaryDto> getTop5ExpenseSummary() {
-        return expenseRepository.getTop5ExpenseSummary();
-    }
-
-    //GET current month expenses by status logic
-    public List<ExpSummaryByStsDto> getExpSummaryBySts() {
-        return expenseRepository.getExpSummaryBySts();
-    }
-
-    //GET current month expenses unpaid logic
-    public List<FutureExpenseSummaryDto> getFutureExpensesGrouped() {
-        return expenseRepository.getFutureExpensesGrouped();
     }
 
     //POST expense logic

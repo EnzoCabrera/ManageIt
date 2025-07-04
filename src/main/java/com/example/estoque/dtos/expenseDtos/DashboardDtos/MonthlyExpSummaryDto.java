@@ -1,4 +1,4 @@
-package com.example.estoque.dtos.expenseDtos;
+package com.example.estoque.dtos.expenseDtos.DashboardDtos;
 
 public interface MonthlyExpSummaryDto {
     Integer getYear();

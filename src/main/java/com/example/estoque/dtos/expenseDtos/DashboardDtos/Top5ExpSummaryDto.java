@@ -1,4 +1,4 @@
-package com.example.estoque.dtos.expenseDtos;
+package com.example.estoque.dtos.expenseDtos.DashboardDtos;
 
 import java.time.LocalDate;
 

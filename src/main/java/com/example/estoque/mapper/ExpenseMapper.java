@@ -2,7 +2,7 @@ package com.example.estoque.mapper;
 
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.entities.expenseEntities.Expense;
-import com.example.estoque.repositories.ExpenseRepository;
+import com.example.estoque.repositories.ExpenseRepositories.ExpenseRepository;
 import org.springframework.stereotype.Component;
 
 @Component
