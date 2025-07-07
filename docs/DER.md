@@ -29,16 +29,17 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 
 ## 📑 TGVSTO (Stock)
 
-| Column         | Type      | Description                        | Possible Values | Notes                  |
-|----------------|-----------|------------------------------------|-----------------|------------------------|
-| CODPROD        | BIGINT    | Unique product ID                  | Auto-increment  | Primary Key            |
-| PRODUCT_NAME   | VARCHAR   | Product name                       | —               | Not null               |
-| QUANTITY       | INT       | Current stock quantity             | —               |                        |
-| CREATED_AT     | TIMESTAMP | When record was created            | auto            |                        |
-| UPDATED_AT     | TIMESTAMP | Last update timestamp              | auto            |                        |
-| CREATED_BY     | VARCHAR   | User who created the record        | (TGVUSE.EMAIL)  |                        |
-| UPDATED_BY     | VARCHAR   | Last user who updated the record   | (TGVUSE.EMAIL)  |                        |
-| IS_DELETED     | BOOLEAN   | Soft delete flag                   | true / false    | Default: false         |
+| Column          | Type      | Description                        | Possible Values | Notes          |
+|-----------------|-----------|------------------------------------|-----------------|----------------|
+| CODPROD         | BIGINT    | Unique product ID                  | Auto-increment  | Primary Key    |
+| PRODUCT_NAME    | VARCHAR   | Product name                       | —               | Not null       |
+| QUANTITY        | INT       | Current stock quantity             | —               |                |
+| UNPRIC_IN_CENTS | INT       | Current unit price of each product | —               | Default: 0     |
+| CREATED_AT      | TIMESTAMP | When record was created            | auto            |                |
+| UPDATED_AT      | TIMESTAMP | Last update timestamp              | auto            |                |
+| CREATED_BY      | VARCHAR   | User who created the record        | (TGVUSE.EMAIL)  |                |
+| UPDATED_BY      | VARCHAR   | Last user who updated the record   | (TGVUSE.EMAIL)  |                |
+| IS_DELETED      | BOOLEAN   | Soft delete flag                   | true / false    | Default: false |
 
 ---
 
@@ -78,6 +79,44 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | CREATED_BY       | VARCHAR   | User who created the expense      | (TGVUSE.EMAIL)         |                                                                                                 |
 | UPDATED_BY       | VARCHAR   | Last user who updated the expense | (TGVUSE.EMAIL)         |                                                                                                 |
 | IS_DELETED       | BOOLEAN   | Soft delete flag                  | true / false           | Default: false                                                                                  |
+
+---
+
+## 📑 TGVORD (Orders)
+| Column           | Type      | Description                     | Possible Values     | Notes                                                                                           |
+|------------------|-----------|---------------------------------|---------------------|-------------------------------------------------------------------------------------------------|
+| CODORD           | BIGINT    | Unique order ID                 | Auto-increment      | Primary Key                                                                                     |
+| ORDCOST_IN_CENTS | INT       | Order cost in cents             | —                   | Integer for precision                                                                           |
+| CODCUS           | BIGINT    | Order customer code             | —                   |                                                                                                 |
+| ORDSTS           | VARCHAR   | Order status                    | e.g., PENDING, PAID | Enum in backend(src/main/java/com/example/estoque/entities/orderEntities/OrderStatus.java)      |
+| ORDPAYTYPE       | VARCHAR   | Order Payment type              | e.g., PIX, DEBIT    | Enum in backend(src/main/java/com/example/estoque/entities/orderEntities/OrderPaymentType.java) |
+| ORDPAYDUE        | DATE      | Order payment date              | YYYY-MM-DD          |                                                                                                 |
+| ORDNOTE          | VARCHAR   | Order note                      | -                   |                                                                                                 |
+| CREATED_AT       | TIMESTAMP | When order was added            | auto                |                                                                                                 |
+| UPDATED_AT       | TIMESTAMP | Last update timestamp           | auto                |                                                                                                 |
+| CREATED_BY       | VARCHAR   | User who created the order      | (TGVUSE.EMAIL)      |                                                                                                 |
+| UPDATED_BY       | VARCHAR   | Last user who updated the order | (TGVUSE.EMAIL)      |                                                                                                 |
+| IS_DELETED       | BOOLEAN   | Soft delete flag                | true / false        | Default: false                                                                                  |
+
+
+---
+
+## 📑 TGVITE (Items in Orders)
+| Column          | Type      | Description                                          | Possible Values | Notes                                |
+|-----------------|-----------|------------------------------------------------------|-----------------|--------------------------------------|
+| CODITE          | BIGINT    | Unique order ID                                      | Auto-increment  | Primary Key                          |
+| CODORD          | BIGINT    | Order ID                                             | —               | Foreign Key → TGVORD (CODORD)        |
+| CODPROD         | BIGINT    | Product ID                                           | —               | Foreign Key → TGVSTO (CODPROD)       |
+| QUANTITY        | INT       | Quantity of the product in the order                 | —               |                                      |
+| PRICEINCENTS    | INT       | Unit price at the time of order (cents)              | —               | Snapshot of unit price at order time |
+| DISCOUNTPERCENT | REAL      | Discount percentage for this item                    | —               | Example: 10.0 for 10%                |
+| TOTALINCENTS    | INT       | Final item total (with discount applied)             | —               | (unit price × quantity) - discount   |
+| CREATED_AT      | TIMESTAMP | When item was added                                  | auto            |                                      |
+| UPDATED_AT      | TIMESTAMP | Last update timestamp                                | auto            |                                      |
+| CREATED_BY      | VARCHAR   | User who created the order that have this items      | (TGVUSE.EMAIL)  |                                      |
+| UPDATED_BY      | VARCHAR   | Last user who updated the order that have this items | (TGVUSE.EMAIL)  |                                      |
+| IS_DELETED      | BOOLEAN   | Soft delete flag                                     | true / false    | Default: false                       |
+
 
 ---
 
@@ -163,11 +202,30 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | OVERDUE        | Payment deadline has passed                   |
 | PARTIALLY_PAID | Part has already been paid, but not the total |
 
-
 - Source: src/main/java/com/example/estoque/entities/expenseEntities/ExpenseStatus.java
 
 
+### OrderStatus Enum
+
+| Value     | Meaning                                      |
+|-----------|----------------------------------------------|
+| PENDING   | Order has been created but not yet processed |
+| PAID      | Order has been paid                          |
+| OVERDUE   | Payment deadline has passed                  |
+| CANCELLED | Order has been cancelled                     |
+
+- Source: src/main/java/com/example/estoque/entities/orderEntities/OrderStatus.java
 
 
+### OrderPaymentType Enum
+
+| Value  | Meaning                 |
+|--------|-------------------------|
+| PIX    | Payment via PIX         |
+| DEBIT  | Payment via debit card  |
+| CREDIT | Payment via credit card |
+| BOLETO | Payment in BOLETO       |
+
+- Source: src/main/java/com/example/estoque/entities/orderEntities/OrderPaymentType.java
 
 
