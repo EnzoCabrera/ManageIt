@@ -22,6 +22,9 @@ public class StockResponseDto {
     private Integer PriceInCents;
 
     @NotNull
+    private Integer unpricInCents;
+
+    @NotNull
     private Integer quantity;
 
     @NotNull

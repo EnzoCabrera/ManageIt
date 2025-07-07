@@ -34,6 +34,9 @@ public class Stock {
 
     private Integer quantity;
 
+    @Column(name = "unpric_in_cents")
+    private Integer unpricInCents;
+
     @CreationTimestamp
     @CreatedDate
     @Column(updatable = false)

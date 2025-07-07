@@ -20,4 +20,7 @@ public class StockRequestDto {
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private Integer unpricInCents;
 }
