@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,8 +32,8 @@ public class Order {
     @Column(name = "ordcost_in_cents", nullable = false)
     private Integer ordcostInCents;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "codcus")
     private Customer codcus;
 
     @Enumerated(EnumType.STRING)
@@ -48,7 +49,7 @@ public class Order {
     private String ordnote;
 
     @OneToMany(mappedBy = "codord", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;

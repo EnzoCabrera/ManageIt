@@ -18,8 +18,5 @@ public class ItemRequestDto {
     @NotNull
     private Integer quantity;
 
-    @NotNull
-    private Integer priceInCents;
-
     private Float discountPercent;
 }

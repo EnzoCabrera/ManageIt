@@ -13,9 +13,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 public class ItemResponseDto {
 
     @NotNull
-    private Long codite;
-
-    @NotNull
     private Long codord;
 
     @NotNull
@@ -28,5 +25,8 @@ public class ItemResponseDto {
     private Integer priceInCents;
 
     private Float discountPercent;
+
+    @NotNull
+    private Integer totalInCents;
 
 }

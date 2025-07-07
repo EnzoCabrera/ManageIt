@@ -28,11 +28,11 @@ public class Item {
     private Long codite;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "codord")
     private Order codord;
 
     @ManyToOne
-    @JoinColumn (nullable = false)
+    @JoinColumn (nullable = false, name = "codprod")
     private Stock codprod;
 
     @Column(nullable = false)

@@ -1,6 +1,7 @@
 package com.example.estoque.dtos.orderDtos;
 
 import com.example.estoque.dtos.itemDtos.ItemRequestDto;
+import com.example.estoque.dtos.itemDtos.ItemResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class OrderResponseDto {
 
     private String ordnote;
 
-    private List<ItemRequestDto> items;
+    private List<ItemResponseDto> items;
 
 
 }
