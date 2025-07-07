@@ -34,7 +34,6 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | CODPROD        | BIGINT    | Unique product ID                  | Auto-increment  | Primary Key            |
 | PRODUCT_NAME   | VARCHAR   | Product name                       | —               | Not null               |
 | QUANTITY       | INT       | Current stock quantity             | —               |                        |
-| PRICE_IN_CENTS | INT       | Product price (in cents)           | —               | Integer for precision  |
 | CREATED_AT     | TIMESTAMP | When record was created            | auto            |                        |
 | UPDATED_AT     | TIMESTAMP | Last update timestamp              | auto            |                        |
 | CREATED_BY     | VARCHAR   | User who created the record        | (TGVUSE.EMAIL)  |                        |

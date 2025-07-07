@@ -19,9 +19,6 @@ public class StockResponseDto {
     private String productName;
 
     @NotNull
-    private Integer PriceInCents;
-
-    @NotNull
     private Integer unpricInCents;
 
     @NotNull

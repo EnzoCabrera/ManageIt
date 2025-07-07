@@ -16,9 +16,6 @@ public class StockRequestDto {
     private String productName;
 
     @NotNull
-    private Integer PriceInCents;
-
-    @NotNull
     private Integer quantity;
 
     @NotNull

@@ -44,7 +44,6 @@ public class StockService {
     public StockResponseDto registerProduct(StockRequestDto dto) {
         Stock stock = new Stock();
         stock.setProductName(dto.getProductName());
-        stock.setPriceInCents(dto.getPriceInCents());
         stock.setQuantity(dto.getQuantity());
         stock.setUnpricInCents(dto.getUnpricInCents());
 
@@ -59,7 +58,6 @@ public class StockService {
 
         stock.setProductName(stockRequestDto.getProductName());
         stock.setQuantity(stockRequestDto.getQuantity());
-        stock.setPriceInCents(stockRequestDto.getPriceInCents());
         stock.setUnpricInCents(stockRequestDto.getUnpricInCents());
 
         Stock updatedStock = stockRepository.save(stock);

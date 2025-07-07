@@ -29,9 +29,6 @@ public class Stock {
     @Column(name="product_name")
     private String productName;
 
-    @Column(name="price_in_cents")
-    private Integer PriceInCents;
-
     private Integer quantity;
 
     @Column(name = "unpric_in_cents")
