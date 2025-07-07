@@ -34,6 +34,11 @@ Right now, **ManageIT** lets you:
 - Log company expenses with description, cost, type, issue date, and payment date  
 - Filter expenses by month and year to stay organized
 
+✅ Manage Orders
+- Create orders linked to customers with payment type, due date, and notes
+- Add multiple items per order with automatic stock validation and discount support
+- Update or soft-delete orders, with items and stock adjusted automatically
+
 ✅ **Secure Auth**  
 - Register and login users with encrypted passwords (BCrypt)  
 - Generate and validate JWT tokens for secure access
@@ -127,7 +132,7 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 | POST   | `/api/expense/register`                     | Register new expense                         |
 | GET    | `/api/expense/see?type=`                    | Get expenses by type                         |
 | GET    | `api/expense/see?startDate=&endDate=`       | Get expenses by date range                   |
-| GET    | `api/expense/see?startDatePay=&endDatePay=` | Get expenses by payment date  range          |
+| GET    | `api/expense/see?startDatePay=&endDatePay=` | Get expenses by payment date range           |
 | GET    | `/api/expense/see?expSts=`                  | Get expenses by status                       |
 | GET    | `/api/expense/see/monthly-summary`          | Get current month expenses                   |
 | GET    | `/api/expense/see/type-summary`             | Get current month expenses by type           |
@@ -160,8 +165,39 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 | GET    | `/api/customer/see?zipCode=`   | Get customers by zip code    |
 | GET    | `/api/customer/see?phone=`     | Get customers by phone       |
 | GET    | `/api/customer/see?email=`     | Get customers by email       |
+| GET    | `/api/customer/see`            | Get all customers            |
 | PUT    | `/api/customers/update/{id}`   | Update customer by ID        |
 | DELETE | `/api/customers/delete/{id}`   | Soft delete customer by ID   |
+
+✅ **Example filter:**  
+
+| Method | Endpoint                                   | 
+|--------|--------------------------------------------|
+| GET    | `/api/customers/see?phone=34999999999`     |
+| GET    | `/api/customers/see?email=teste@gmail.com` |
+
+---
+
+### 🧾 Orders(TGVORD)
+
+| Method | Endpoint                             | Description                  |
+|--------|--------------------------------------|------------------------------|
+| POST   | `/api/customers/register`            | Register new order           |
+| GET    | `/api/order/see?codord=`             | Get  orders by code          |
+| GET    | `/api/order/see?codcus=`             | Get orders by customers code |
+| GET    | `/api/order/see?startDate=&endDate=` | Get order by date range      |
+| GET    | `/api/order/see?ordsts=`             | Get order by status          |
+| GET    | `/api/order/see?ordpaytype=`         | Get order by payment type    |
+| GET    | `/api/order/see`                     | Get all orders               |
+| PUT    | `/api/order/update/{id}`             | Update orders by ID          |
+| DELETE | `/api/order/delete/{id}`             | Soft delete orders by ID     |
+
+✅ **Example filter:**  
+
+| Method | Endpoint                                                 | 
+|--------|----------------------------------------------------------|
+| GET    | `/api/order/see?startDate=2025-07-01&endDate=2025-07-31` |
+| GET    | `/api/order/see?ordpaytype=CREDIT`                       | 
 
 ---
 
