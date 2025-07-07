@@ -92,6 +92,19 @@ public class OrderService {
                 throw new AppException("Product should have a unit price", HttpStatus.BAD_REQUEST);
             }
 
+            int availableQtd = stock.getQuantity();
+            int requestedQtd = itemDto.getQuantity();
+
+            if (requestedQtd > availableQtd) {
+                throw new AppException(String.format(
+                        "Insufficient stock for product ID: %d. Available: %d, Requested: %d",
+                        stock.getCodProd(), availableQtd, requestedQtd
+                ), HttpStatus.BAD_REQUEST);
+            }
+
+            stock.setQuantity(availableQtd - requestedQtd);
+            stockRepository.save(stock);
+
             int unitPrice = stock.getUnpricInCents();
             int quantity = itemDto.getQuantity();
             double discountPercent = itemDto.getDiscountPercent() != null ? itemDto.getDiscountPercent() : 0.0;
@@ -135,6 +148,14 @@ public class OrderService {
         Customer customer = customerRepository.findById(dto.getCodcus())
                 .orElseThrow(() -> new AppException("Customer not found", HttpStatus.NOT_FOUND));
 
+        if (order.getItems() != null) {
+            for (Item oldItem : order.getItems()) {
+                Stock stock = oldItem.getCodprod();
+                stock.setQuantity(stock.getQuantity() + oldItem.getQuantity());
+                stockRepository.save(stock);
+            }
+        }
+
         order.getItems().clear();
 
         List<Item> updatedItems = new ArrayList<>();
@@ -144,11 +165,25 @@ public class OrderService {
             Stock stock = stockRepository.findById(itemDto.getCodprod())
                     .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
 
+            int availableQtd = stock.getQuantity();
+            int requestedQtd = itemDto.getQuantity();
+
+            if (requestedQtd > availableQtd) {
+                throw new AppException(String.format(
+                        "Insufficient stock for product ID: %d. Available: %d, Requested: %d",
+                        stock.getCodProd(), availableQtd, requestedQtd
+                ), HttpStatus.BAD_REQUEST);
+            }
+
+            stock.setQuantity(availableQtd - requestedQtd);
+            stockRepository.save(stock);
+
             int unitPrice = stock.getUnpricInCents();
             int quantity = itemDto.getQuantity();
             double discountPercent = itemDto.getDiscountPercent() != null ? itemDto.getDiscountPercent() : 0.0;
 
             int itemCost = (int) Math.round(unitPrice * quantity * (1 - (discountPercent / 100.0)));
+
 
             Item item = new Item();
             item.setCodord(order);
