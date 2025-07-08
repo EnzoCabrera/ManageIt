@@ -184,6 +184,8 @@ public class OrderService {
         Customer customer = customerRepository.findById(dto.getCodcus())
                 .orElseThrow(() -> new AppException("Customer not found", HttpStatus.NOT_FOUND));
 
+        order.setCodcus(customer);
+
         if (order.getItems() != null) {
             for (Item oldItem : order.getItems()) {
                 Stock stock = oldItem.getCodprod();
