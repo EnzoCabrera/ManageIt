@@ -1,4 +1,4 @@
-package com.example.estoque.services;
+package com.example.estoque.services.OrderServices;
 
 import com.example.estoque.dtos.itemDtos.ItemRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

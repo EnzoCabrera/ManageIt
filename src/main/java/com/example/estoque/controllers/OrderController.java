@@ -2,7 +2,7 @@ package com.example.estoque.controllers;
 
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;
-import com.example.estoque.services.OrderService;
+import com.example.estoque.services.OrderServices.OrderService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
