@@ -19,6 +19,8 @@ public class StockMapper {
         dto.setProductName(stock.getProductName());
         dto.setQuantity(stock.getQuantity());
         dto.setUnpricInCents(stock.getUnpricInCents());
+        dto.setUntype(stock.getUntype());
+        dto.setUnqtt(stock.getUnqtt());
         dto.setUpdatedBy(stock.getUpdatedBy());
         dto.setUpdatedAt(stock.getUpdatedAt().toString());
         return dto;
