@@ -5,6 +5,7 @@ import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;
 import com.example.estoque.entities.ItemEntities.Item;
 import com.example.estoque.entities.OrderEntities.Order;
+import com.example.estoque.entities.OrderEntities.OrderPaymentType;
 import com.example.estoque.entities.OrderEntities.OrderSpecification;
 import com.example.estoque.entities.OrderEntities.OrderStatus;
 import com.example.estoque.entities.customerEntities.Customer;
@@ -15,6 +16,7 @@ import com.example.estoque.repositories.CustomerRepository;
 import com.example.estoque.repositories.ItemRepository;
 import com.example.estoque.repositories.OrderRepositories.OrderRepository;
 import com.example.estoque.repositories.StockRepository;
+import com.example.estoque.services.AuditLogService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository OrderRespository;
+
+    @Autowired
+    private AuditLogService auditLogService;
 
     //GET orders logic
     public List<OrderResponseDto> getFilterOrders(
@@ -140,6 +145,17 @@ public class OrderService {
         order.setItems(items);
         Order savedOrder = orderRepository.save(order);
 
+        // Log the creation of the order
+        auditLogService.log(
+                "Order",
+                savedOrder.getCodord(),
+                "CREATE",
+                null,
+                null,
+                null,
+                savedOrder.getCreatedBy()
+        );
+
         for (Item item : items) {
             itemRepository.save(item);
         }
@@ -152,6 +168,13 @@ public class OrderService {
     public OrderResponseDto updateOrder(Long codord, OrderRequestDto dto) {
         Order order = OrderRespository.findById(codord)
                 .orElseThrow(() -> new AppException("Order not found or deleted.", HttpStatus.NOT_FOUND));
+
+        // Capture old values for logging
+        OrderStatus oldStatus = order.getOrdsts();
+        OrderPaymentType oldPayType = order.getOrdpaytype();
+        LocalDate oldPayDue = order.getOrdpaydue();
+        Integer oldTotalCost = order.getOrdcostInCents();
+        Long oldCustomer = order.getCodcus().getCodcus();
 
         order.setOrdsts(dto.getOrdsts());
         order.setOrdpaytype(dto.getOrdpaytype());
@@ -230,6 +253,53 @@ public class OrderService {
         order.setOrdcostInCents(totalCost);
         Order savedOrder = orderRepository.save(order);
 
+        String actor = savedOrder.getUpdatedBy();
+
+        // Log the update of the order
+
+        //STATUS
+        if(!oldStatus.equals(savedOrder.getOrdsts())) {
+            auditLogService.log("Order", savedOrder.getCodord(), "UPDATE",
+                    "ordsts", oldStatus != null ? oldStatus.name() : null,
+                    savedOrder.getOrdsts().name(), actor);
+        }
+
+        //PAYMENT TYPE
+        if (!oldPayType.equals(savedOrder.getOrdpaytype())) {
+            auditLogService.log("Order", savedOrder.getCodord(), "UPDATE",
+                    "ordpaytype",
+                    oldPayType != null ? oldPayType.name() : null,
+                    savedOrder.getOrdpaytype().name(),
+                    actor);
+        }
+
+        // Payment due
+        if (!oldPayDue.equals(savedOrder.getOrdpaydue())) {
+            auditLogService.log("Order", savedOrder.getCodord(), "UPDATE",
+                    "ordpaydue",
+                    oldPayDue != null ? oldPayDue.toString() : null,
+                    savedOrder.getOrdpaydue().toString(),
+                    actor);
+        }
+
+        // Total cost
+        if (!oldTotalCost.equals(savedOrder.getOrdcostInCents())) {
+            auditLogService.log("Order", savedOrder.getCodord(), "UPDATE",
+                    "ordcost_in_cents",
+                    oldTotalCost.toString(),
+                    savedOrder.getOrdcostInCents().toString(),
+                    actor);
+        }
+
+        // Customer
+        if (!oldCustomer.equals(savedOrder.getCodcus().getCodcus())) {
+            auditLogService.log("Order", savedOrder.getCodord(), "UPDATE",
+                    "codcus",
+                    oldCustomer.toString(),
+                    savedOrder.getCodcus().getCodcus().toString(),
+                    actor);
+        }
+
         for (Item item : updatedItems) {
             itemRepository.save(item);
         }
@@ -250,6 +320,19 @@ public class OrderService {
         }
 
         Order updatedOrder = OrderRespository.save(order);
+
+        // Log the exclusion of the order
+        auditLogService.log(
+                "Order",
+                updatedOrder.getCodord(),
+                "DELETE",
+                null,
+                null,
+                null,
+                updatedOrder.getUpdatedBy()
+        );
+
+
         return orderMapper.toDto(updatedOrder);
     }
 }
