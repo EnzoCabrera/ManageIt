@@ -1,5 +1,6 @@
 package com.example.estoque.controllers.OrderControllers;
 
+import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyNumberOfOrders;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
 import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
 import com.example.estoque.services.OrderServices.OrderDashboardService;
@@ -24,5 +25,11 @@ public class OrderDashboardController {
     @GetMapping("/see/daily-summary")
     public ResponseEntity<List<DailyOrderSummaryDto>> getDailyOrderSummary() {
         return ResponseEntity.ok(orderDashboardService.getDailyOrderSummary());
+    }
+
+    //GET current day total orders
+    @GetMapping("/see/daily-total")
+    public ResponseEntity<List<DailyNumberOfOrders>> getDailyNumberOfOrders() {
+        return ResponseEntity.ok(orderDashboardService.getDailyNumberOfOrders());
     }
 }
