@@ -17,4 +17,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     // Custom query to find orders that already overdue
     List<Order> findByOrdstsAndOrdpaydueBeforeAndIsDeletedFalse(OrderStatus ordsts, LocalDate date);
 
+    //Custom query to find orders that overdue tomorrow
+    List<Order> findByOrdstsAndOrdpaydueAndIsDeletedFalse(OrderStatus ordsts, LocalDate date);
 }
