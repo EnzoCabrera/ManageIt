@@ -3,6 +3,7 @@ package com.example.estoque.controllers.OrderControllers;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyNumberOfOrders;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderAvgDto;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
+import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrdersDto;
 import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
 import com.example.estoque.services.OrderServices.OrderDashboardService;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,11 @@ public class OrderDashboardController {
     @GetMapping("/see/daily-avg")
     public ResponseEntity<List<DailyOrderAvgDto>> getDailyOrderAvg() {
         return ResponseEntity.ok(orderDashboardService.getDailyOrderAvg());
+    }
+
+    //GET current day orders
+    @GetMapping("/see/daily-orders")
+    public ResponseEntity<List<DailyOrdersDto>> getDailyOrders() {
+        return ResponseEntity.ok(orderDashboardService.getDailyOrders());
     }
 }
