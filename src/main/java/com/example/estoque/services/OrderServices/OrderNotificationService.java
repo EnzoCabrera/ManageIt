@@ -25,10 +25,10 @@ public class OrderNotificationService {
     @Scheduled(cron = "0 0 */6 * * *")
     public void notifyUpcomingOverdueOrders() {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
-        List<Order> orders = orderRepository.findByOrdstsAndOrdpaydueAndIsDeletedFalse(OrderStatus.PENDING, tomorrow);
+        List<Order> orders = orderRepository.findByOrdstsAndOrdpaydueAndIsDeletedFalseFetchCustomer(OrderStatus.PENDING, tomorrow);
 
         orders.forEach(order -> {
-            String userEmail = order.getCreatedBy();
+            String customerEmail = order.getCodcus().getCusemail();
             String subject = "Upcoming Overdue Order";
             String body = String.format(
                     "Hi!\n\n" +
@@ -38,18 +38,18 @@ public class OrderNotificationService {
                     order.getOrdpaydue()
             );
 
-            emailService.sendSimpleMessage(userEmail, subject, body);
+            emailService.sendSimpleMessage(customerEmail, subject, body);
 
         });
     }
 
     //Email notification for overdue orders
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 */6 * * *")
     public void notifyOverdueOrders() {
-        List<Order> overdueOrders = orderRepository.findByOrdstsAndIsDeletedFalse(OrderStatus.OVERDUE);
+        List<Order> overdueOrders = orderRepository.findByOrdstsAndIsDeletedFalseFetchCustomer(OrderStatus.OVERDUE);
 
         overdueOrders.forEach(order -> {
-            String userEmail = order.getCreatedBy();
+            String customerEmail = order.getCodcus().getCusemail();
             String subject = "Upcoming Overdue Order";
             String body = String.format(
                     "Hi!\n\n" +
@@ -59,7 +59,7 @@ public class OrderNotificationService {
                     order.getOrdpaydue()
             );
 
-            emailService.sendSimpleMessage(userEmail, subject, body);
+            emailService.sendSimpleMessage(customerEmail, subject, body);
 
         });
     }

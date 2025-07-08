@@ -4,6 +4,8 @@ import com.example.estoque.entities.OrderEntities.Order;
 import com.example.estoque.entities.OrderEntities.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,8 +20,22 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     List<Order> findByOrdstsAndOrdpaydueBeforeAndIsDeletedFalse(OrderStatus ordsts, LocalDate date);
 
     //Custom query to find orders that overdue tomorrow
-    List<Order> findByOrdstsAndOrdpaydueAndIsDeletedFalse(OrderStatus ordsts, LocalDate date);
+    @Query("""
+    SELECT o 
+    FROM Order o 
+    JOIN FETCH o.codcus 
+    WHERE o.ordsts = :status 
+      AND o.ordpaydue = :payDueDate 
+      AND o.isDeleted = false
+""")
+    List<Order> findByOrdstsAndOrdpaydueAndIsDeletedFalseFetchCustomer(@Param("status") OrderStatus ordsts, @Param("payDueDate") LocalDate date);
 
     // Custom query to find overdue orders
-    List<Order> findByOrdstsAndIsDeletedFalse(OrderStatus ordsts);
+    @Query("""
+    SELECT o FROM Order o
+    JOIN FETCH o.codcus
+    WHERE o.ordsts = :status
+    AND o.isDeleted = false
+""")
+    List<Order> findByOrdstsAndIsDeletedFalseFetchCustomer(@Param("status") OrderStatus ordsts);
 }
