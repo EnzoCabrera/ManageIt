@@ -1,4 +1,4 @@
-package com.example.estoque.repositories;
+package com.example.estoque.repositories.OrderRepositories;
 
 import com.example.estoque.entities.OrderEntities.Order;
 import com.example.estoque.entities.OrderEntities.OrderStatus;

@@ -12,7 +12,7 @@ import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.OrderMapper;
 import com.example.estoque.repositories.CustomerRepository;
 import com.example.estoque.repositories.ItemRepository;
-import com.example.estoque.repositories.OrderRepository;
+import com.example.estoque.repositories.OrderRepositories.OrderRepository;
 import com.example.estoque.repositories.StockRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

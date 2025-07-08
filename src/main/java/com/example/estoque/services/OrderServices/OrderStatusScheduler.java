@@ -2,7 +2,7 @@ package com.example.estoque.services.OrderServices;
 
 import com.example.estoque.entities.OrderEntities.Order;
 import com.example.estoque.entities.OrderEntities.OrderStatus;
-import com.example.estoque.repositories.OrderRepository;
+import com.example.estoque.repositories.OrderRepositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

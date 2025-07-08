@@ -1,4 +1,4 @@
-package com.example.estoque.controllers;
+package com.example.estoque.controllers.OrderControllers;
 
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;

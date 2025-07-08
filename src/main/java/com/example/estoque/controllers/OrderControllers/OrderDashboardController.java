@@ -1,0 +1,28 @@
+package com.example.estoque.controllers.OrderControllers;
+
+import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
+import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
+import com.example.estoque.services.OrderServices.OrderDashboardService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/order")
+public class OrderDashboardController {
+
+    private final OrderDashboardService orderDashboardService;
+
+    public OrderDashboardController(OrderDashboardService orderDashboardService) {
+        this.orderDashboardService = orderDashboardService;
+    }
+
+    //GET current day orders
+    @GetMapping("/see/daily-summary")
+    public ResponseEntity<List<DailyOrderSummaryDto>> getDailyOrderSummary() {
+        return ResponseEntity.ok(orderDashboardService.getDailyOrderSummary());
+    }
+}

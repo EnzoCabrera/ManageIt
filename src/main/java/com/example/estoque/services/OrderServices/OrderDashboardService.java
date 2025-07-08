@@ -1,0 +1,20 @@
+package com.example.estoque.services.OrderServices;
+
+import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
+import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class OrderDashboardService {
+
+    private final OrderDashboardRepository orderDashboardRepository;
+
+    //GET current day orders total cost logic
+    public List<DailyOrderSummaryDto> getDailyOrderSummary() {
+        return orderDashboardRepository.getDailyOrderSummary();
+    }
+}
