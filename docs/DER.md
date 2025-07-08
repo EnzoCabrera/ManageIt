@@ -29,17 +29,19 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 
 ## 📑 TGVSTO (Stock)
 
-| Column          | Type      | Description                        | Possible Values | Notes          |
-|-----------------|-----------|------------------------------------|-----------------|----------------|
-| CODPROD         | BIGINT    | Unique product ID                  | Auto-increment  | Primary Key    |
-| PRODUCT_NAME    | VARCHAR   | Product name                       | —               | Not null       |
-| QUANTITY        | INT       | Current stock quantity             | —               |                |
-| UNPRIC_IN_CENTS | INT       | Current unit price of each product | —               | Default: 0     |
-| CREATED_AT      | TIMESTAMP | When record was created            | auto            |                |
-| UPDATED_AT      | TIMESTAMP | Last update timestamp              | auto            |                |
-| CREATED_BY      | VARCHAR   | User who created the record        | (TGVUSE.EMAIL)  |                |
-| UPDATED_BY      | VARCHAR   | Last user who updated the record   | (TGVUSE.EMAIL)  |                |
-| IS_DELETED      | BOOLEAN   | Soft delete flag                   | true / false    | Default: false |
+| Column          | Type      | Description                                 | Possible Values | Notes          |
+|-----------------|-----------|---------------------------------------------|-----------------|----------------|
+| CODPROD         | BIGINT    | Unique product ID                           | Auto-increment  | Primary Key    |
+| PRODUCT_NAME    | VARCHAR   | Product name                                | —               | Not null       |
+| QUANTITY        | INT       | Current stock quantity                      | —               |                |
+| UNPRIC_IN_CENTS | INT       | Current unit price of each product          | —               | Default: 0     |
+| UNTYPE          | VARCHAR   | Product unit type                           | e.g., UNIT, BOX | Default: UNIT  |
+| UNQTT           | INT       | Product default quantity based on unit type | —               | Default: 1     |
+| CREATED_AT      | TIMESTAMP | When record was created                     | auto            |                |
+| UPDATED_AT      | TIMESTAMP | Last update timestamp                       | auto            |                |
+| CREATED_BY      | VARCHAR   | User who created the record                 | (TGVUSE.EMAIL)  |                |
+| UPDATED_BY      | VARCHAR   | Last user who updated the record            | (TGVUSE.EMAIL)  |                |
+| IS_DELETED      | BOOLEAN   | Soft delete flag                            | true / false    | Default: false |
 
 ---
 
@@ -139,6 +141,19 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | 1     | ADMIN            |
 
 - Source: src/main/java/com/example/estoque/entities/userEntities/UserRole.java
+
+---
+
+### StockUnitType Enum
+| Value   | Meaning |
+|---------|---------|
+| UNIT    | Unit    |
+| BOX     | Box     |
+| PACKAGE | Package |
+
+- Source: src/main/java/com/example/estoque/entities/stockEntities/StockUnitType.java
+
+---
 
 ### BrazilianState Enum
 | Value | Meaning             |

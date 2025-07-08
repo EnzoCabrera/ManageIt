@@ -111,15 +111,23 @@ public class OrderService {
             stockRepository.save(stock);
 
             int unitPrice = stock.getUnpricInCents();
-            int quantity = itemDto.getQuantity();
+            int unitQuantity = stock.getUnqtt();
+            String unitType = stock.getUntype().name();
+
+            int finalUnicPrice;
+            if (unitType.equals("UNIT")) {
+                finalUnicPrice = unitPrice;
+            }
+            finalUnicPrice = unitPrice * unitQuantity;
+
             double discountPercent = itemDto.getDiscountPercent() != null ? itemDto.getDiscountPercent() : 0.0;
 
-            int itemCost = (int) Math.round(unitPrice * quantity * (1 - (discountPercent / 100.0)));
+            int itemCost = (int) Math.round(finalUnicPrice * requestedQtd * (1 - (discountPercent / 100.0)));
 
             Item item = new Item();
             item.setCodord(order);
             item.setCodprod(stock);
-            item.setQuantity(quantity);
+            item.setQuantity(requestedQtd);
             item.setPriceInCents(unitPrice);
             item.setDiscountPercent((float) discountPercent);
             item.setTotalInCents(itemCost);
@@ -170,6 +178,15 @@ public class OrderService {
             Stock stock = stockRepository.findById(itemDto.getCodprod())
                     .orElseThrow(() -> new AppException("Product not found", HttpStatus.NOT_FOUND));
 
+            if (stock.getUnpricInCents() <= 0.0) {
+                throw new AppException("Product should have a unit price", HttpStatus.BAD_REQUEST);
+            }
+
+            if (dto.getOrdsts() == OrderStatus.PENDING &&
+                    dto.getOrdpaydue().isBefore(LocalDate.now())) {
+                throw new AppException("Cannot create a pending order with a payment due date in the past. Use OVERDUE, PAID or CANCELLED instead.", HttpStatus.BAD_REQUEST);
+            }
+
             int availableQtd = stock.getQuantity();
             int requestedQtd = itemDto.getQuantity();
 
@@ -184,16 +201,24 @@ public class OrderService {
             stockRepository.save(stock);
 
             int unitPrice = stock.getUnpricInCents();
-            int quantity = itemDto.getQuantity();
+            int unitQuantity = stock.getUnqtt();
+            String unitType = stock.getUntype().name();
+
+            int finalUnicPrice;
+            if (unitType.equals("UNIT")) {
+                finalUnicPrice = unitPrice;
+            }
+            finalUnicPrice = unitPrice * unitQuantity;
+
             double discountPercent = itemDto.getDiscountPercent() != null ? itemDto.getDiscountPercent() : 0.0;
 
-            int itemCost = (int) Math.round(unitPrice * quantity * (1 - (discountPercent / 100.0)));
+            int itemCost = (int) Math.round(finalUnicPrice * requestedQtd * (1 - (discountPercent / 100.0)));
 
 
             Item item = new Item();
             item.setCodord(order);
             item.setCodprod(stock);
-            item.setQuantity(quantity);
+            item.setQuantity(requestedQtd);
             item.setPriceInCents(unitPrice);
             item.setDiscountPercent((float) discountPercent);
             item.setTotalInCents(itemCost);

@@ -34,6 +34,12 @@ public class Stock {
     @Column(name = "unpric_in_cents")
     private Integer unpricInCents;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "untype", nullable = false)
+    private StockUnitType untype;
+
+    private Integer unqtt;
+
     @CreationTimestamp
     @CreatedDate
     @Column(updatable = false)
