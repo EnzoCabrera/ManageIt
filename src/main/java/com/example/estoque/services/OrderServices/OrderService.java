@@ -6,6 +6,7 @@ import com.example.estoque.dtos.orderDtos.OrderResponseDto;
 import com.example.estoque.entities.ItemEntities.Item;
 import com.example.estoque.entities.OrderEntities.Order;
 import com.example.estoque.entities.OrderEntities.OrderSpecification;
+import com.example.estoque.entities.OrderEntities.OrderStatus;
 import com.example.estoque.entities.customerEntities.Customer;
 import com.example.estoque.entities.stockEntities.Stock;
 import com.example.estoque.exceptions.AppException;
@@ -89,6 +90,11 @@ public class OrderService {
 
             if (stock.getUnpricInCents() <= 0.0) {
                 throw new AppException("Product should have a unit price", HttpStatus.BAD_REQUEST);
+            }
+
+            if (dto.getOrdsts() == OrderStatus.PENDING &&
+                dto.getOrdpaydue().isBefore(LocalDate.now())) {
+                throw new AppException("Cannot create a pending order with a payment due date in the past. Use OVERDUE, PAID or CANCELLED instead.", HttpStatus.BAD_REQUEST);
             }
 
             int availableQtd = stock.getQuantity();
