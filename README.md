@@ -188,6 +188,10 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 | GET    | `/api/order/see?startDate=&endDate=` | Get order by date range      |
 | GET    | `/api/order/see?ordsts=`             | Get order by status          |
 | GET    | `/api/order/see?ordpaytype=`         | Get order by payment type    |
+| GET    | `/api/order/see/daily-summary`       | Get daily total cost orders  |
+| GET    | `/api/order/see/daily-orders`        | Get all current day orders   |
+| GET    | `/api/order/see/daily-total`         | Get daily number of orders   |
+| GET    | `/api/order/see/daily-avg`           | Get daily average cost orders|
 | GET    | `/api/order/see`                     | Get all orders               |
 | PUT    | `/api/order/update/{id}`             | Update orders by ID          |
 | DELETE | `/api/order/delete/{id}`             | Soft delete orders by ID     |
