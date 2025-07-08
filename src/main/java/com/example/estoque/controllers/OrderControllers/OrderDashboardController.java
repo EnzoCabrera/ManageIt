@@ -1,6 +1,7 @@
 package com.example.estoque.controllers.OrderControllers;
 
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyNumberOfOrders;
+import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderAvgDto;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
 import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
 import com.example.estoque.services.OrderServices.OrderDashboardService;
@@ -31,5 +32,11 @@ public class OrderDashboardController {
     @GetMapping("/see/daily-total")
     public ResponseEntity<List<DailyNumberOfOrders>> getDailyNumberOfOrders() {
         return ResponseEntity.ok(orderDashboardService.getDailyNumberOfOrders());
+    }
+
+    //GET current day orders average cost
+    @GetMapping("/see/daily-avg")
+    public ResponseEntity<List<DailyOrderAvgDto>> getDailyOrderAvg() {
+        return ResponseEntity.ok(orderDashboardService.getDailyOrderAvg());
     }
 }

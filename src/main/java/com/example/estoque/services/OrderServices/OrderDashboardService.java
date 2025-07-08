@@ -1,6 +1,7 @@
 package com.example.estoque.services.OrderServices;
 
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyNumberOfOrders;
+import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderAvgDto;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
 import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class OrderDashboardService {
     //GET current day total orders logic
     public List<DailyNumberOfOrders> getDailyNumberOfOrders() {
         return orderDashboardRepository.getDailyNumberOfOrders();
+    }
+
+    //GET current day orders average cost logic
+    public List<DailyOrderAvgDto> getDailyOrderAvg() {
+        return orderDashboardRepository.getDailyOrderAverage();
     }
 }
