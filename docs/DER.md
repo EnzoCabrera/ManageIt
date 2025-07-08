@@ -122,6 +122,19 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 
 ---
 
+## 📑 TGVLOG (Logs)
+| Column     | Type      | Description                                 | Possible Values | Notes       |
+|------------|-----------|---------------------------------------------|-----------------|-------------|
+| CODLOG     | BIGINT    | Unique log ID                               | Auto-increment  | Primary Key |
+| ENTITY     | VARCHAR   | Entity that was created, changed or deleted | —               |             |
+| ENTITY_ID  | BIGINT    | Entity ID                                   | —               |             |
+| ACTION     | VARCHAR   | Which action was made: CREATED, UPDATED...  | —               |             |
+| FIELD      | VARCHAR   | Which field suffered the action             | —               |             |
+| OLD_VALUE  | VARCHAR   | Value before the action                     | —               |             |
+| NEW_VALUE  | VARCHAR   | Value after the action                      | —               |             |
+| CHANGED_BY | VARCHAR   | Who made the action                         | (TGVUSE.EMAIL)  |             |
+| CREATED_BY | TIMESTAMP | When the action was made                    | auto            |             |
+
 ## 📢 Notes
 
 - Dates follow ISO format: `YYYY-MM-DD`
