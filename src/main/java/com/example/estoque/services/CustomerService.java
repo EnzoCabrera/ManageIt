@@ -2,6 +2,7 @@ package com.example.estoque.services;
 
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
+import com.example.estoque.entities.customerEntities.BrazilianState;
 import com.example.estoque.entities.customerEntities.Customer;
 import com.example.estoque.entities.customerEntities.CustomerSpecification;
 import com.example.estoque.exceptions.AppException;
@@ -20,6 +21,8 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+
+    private final AuditLogService auditLogService;
 
     @Autowired
     private CustomerMapper customerMapper;
@@ -62,6 +65,18 @@ public class CustomerService {
         customer.setCusemail(dto.getCusemail());
 
         Customer savedCustomer = customerRepository.save(customer);
+
+        // Log the creation of the customer
+        auditLogService.log(
+                "Customer",
+                savedCustomer.getCodcus(),
+                "CREATE",
+                null,
+                null,
+                null,
+                savedCustomer.getCreatedBy()
+        );
+
         return customerMapper.toDto(savedCustomer);
     }
 
@@ -69,6 +84,16 @@ public class CustomerService {
     public CustomerResponseDto updateCustomer(Long codcus ,CustomerRequestDto dto) {
         Customer customer = customerRepository.findById(codcus)
                 .orElseThrow(() -> new AppException("Customer not found or disabled.", HttpStatus.NOT_FOUND));
+
+        // Capture old values for audit logging
+        String oldCusname = customer.getCusname();
+        String oldCusaddr = customer.getCusaddr();
+        String oldCuscity = customer.getCuscity();
+        BrazilianState oldCusstate = customer.getCusstate();
+        String oldCuszip = customer.getCuszip();
+        String oldCusphone = customer.getCusphone();
+        String oldCusemail = customer.getCusemail();
+
 
         customer.setCusname(dto.getCusname());
         customer.setCusaddr(dto.getCusaddr());
@@ -79,6 +104,53 @@ public class CustomerService {
         customer.setCusemail(dto.getCusemail());
 
         Customer updatedCustomer = customerRepository.save(customer);
+
+        String actor = updatedCustomer.getUpdatedBy();
+
+        // Log the update of the customer
+
+        // Customer Name
+        if (!oldCusname.equals(updatedCustomer.getCusname())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cusname", oldCusname, updatedCustomer.getCusname(), actor);
+        }
+
+        // Address
+        if (!oldCusaddr.equals(updatedCustomer.getCusaddr())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cusaddr", oldCusaddr, updatedCustomer.getCusaddr(), actor);
+        }
+
+        // City
+        if (!oldCuscity.equals(updatedCustomer.getCuscity())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cuscity", oldCuscity, updatedCustomer.getCuscity(), actor);
+        }
+
+        // State
+        if (!oldCusstate.equals(updatedCustomer.getCusstate())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cusstate", oldCusstate.name(), updatedCustomer.getCusstate().name(), actor);
+        }
+
+        // Zip Code
+        if (!oldCuszip.equals(updatedCustomer.getCuszip())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cuszip", oldCuszip, updatedCustomer.getCuszip(), actor);
+        }
+
+        // Phone
+        if (!oldCusphone.equals(updatedCustomer.getCusphone())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cusphone", oldCusphone, updatedCustomer.getCusphone(), actor);
+        }
+
+        // Email
+        if (!oldCusemail.equals(updatedCustomer.getCusemail())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "cusemail", oldCusemail, updatedCustomer.getCusemail(), actor);
+        }
+
         return customerMapper.toDto(updatedCustomer);
     }
 
@@ -89,6 +161,18 @@ public class CustomerService {
 
         customer.setIsDeleted(true);
         Customer deletedCustomer = customerRepository.save(customer);
+
+        // Log the deletion of the customer
+        auditLogService.log(
+                "Customer",
+                deletedCustomer.getCodcus(),
+                "DELETE",
+                null,
+                null,
+                null,
+                deletedCustomer.getUpdatedBy()
+        );
+
         return customerMapper.toDto(deletedCustomer);
     }
 
