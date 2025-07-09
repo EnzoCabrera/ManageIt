@@ -76,13 +76,15 @@ Copy this variables to .env and fill in your secrets:
     POSTGRES_DB=  
     JWT_SECRET=
 
-### 3️⃣ Run It All
+### 3️⃣ Run maven to get /target
 
-Spin up the containers with one command: 
+    ./mvnw clean package -DskipTests
+
+### 4️⃣ build the containers with one command: 
 
     docker-compose up --build
 
-### 4️⃣ Access It
+### 5️⃣ Access It
 
 - The API is live at: http://localhost:8080
 
