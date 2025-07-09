@@ -207,6 +207,20 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 
 ---
 
+### 🔍 Logs(TGVLOG)
+
+| Method | Endpoint                             | Description                  |
+|--------|--------------------------------------|------------------------------|
+| GET    | `/api/log?entity=`                    | Get logs by entity           |
+
+✅ **Example filter:**  
+
+| Method | Endpoint                                                 | 
+|--------|----------------------------------------------------------|
+| GET    | `/api/log?entity=STOCK`                                  |
+
+---
+
 ## ✅ How to use
 
 1. **Base URL:** `http://localhost:8080`
