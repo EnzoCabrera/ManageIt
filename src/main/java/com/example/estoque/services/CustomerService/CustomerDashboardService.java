@@ -1,9 +1,12 @@
 package com.example.estoque.services.CustomerService;
 
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.ActiveCustomersDto;
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
 import com.example.estoque.repositories.CustomerRepositories.CustomerDashboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +17,10 @@ public class CustomerDashboardService {
     //GET active customers logic
     public Integer getActiveCustomers() {
         return customerDashboardRepository.findAllActiveCus();
+    }
+
+    //GET new customers per month logic
+    public List<NewCusPerMonthDto> getNewCustomersPerMonth() {
+        return customerDashboardRepository.findNewCusPerMonth();
     }
 }
