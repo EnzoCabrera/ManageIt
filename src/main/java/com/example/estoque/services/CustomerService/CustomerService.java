@@ -1,4 +1,4 @@
-package com.example.estoque.services;
+package com.example.estoque.services.CustomerService;
 
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
@@ -7,7 +7,8 @@ import com.example.estoque.entities.customerEntities.Customer;
 import com.example.estoque.entities.customerEntities.CustomerSpecification;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.CustomerMapper;
-import com.example.estoque.repositories.CustomerRepository;
+import com.example.estoque.repositories.CustomerRepositories.CustomerRepository;
+import com.example.estoque.services.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;

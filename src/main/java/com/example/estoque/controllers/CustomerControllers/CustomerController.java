@@ -1,8 +1,8 @@
-package com.example.estoque.controllers;
+package com.example.estoque.controllers.CustomerControllers;
 
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
-import com.example.estoque.services.CustomerService;
+import com.example.estoque.services.CustomerService.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
