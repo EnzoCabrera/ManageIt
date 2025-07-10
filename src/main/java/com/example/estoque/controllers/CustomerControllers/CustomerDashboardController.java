@@ -1,6 +1,7 @@
 package com.example.estoque.controllers.CustomerControllers;
 
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
 import com.example.estoque.services.CustomerService.CustomerDashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,11 @@ public class CustomerDashboardController {
     @GetMapping("/see/new-customers-per-month")
     public ResponseEntity<List<NewCusPerMonthDto>> getNewCustomersPerMonth() {
         return ResponseEntity.ok(customerDashboardService.getNewCustomersPerMonth());
+    }
+
+    //GET top 5 customers with most orders
+    @GetMapping("/see/top5-customers-with-most-orders")
+    public ResponseEntity<List<Top5CusMoreOrdDto>> getTop5CusWithMostOrds() {
+        return ResponseEntity.ok(customerDashboardService.getTop5CusWithMostOrds());
     }
 }

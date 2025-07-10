@@ -2,6 +2,7 @@ package com.example.estoque.services.CustomerService;
 
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.ActiveCustomersDto;
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
 import com.example.estoque.repositories.CustomerRepositories.CustomerDashboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,10 @@ public class CustomerDashboardService {
     //GET new customers per month logic
     public List<NewCusPerMonthDto> getNewCustomersPerMonth() {
         return customerDashboardRepository.findNewCusPerMonth();
+    }
+
+    //GET top 5 customers with most orders logic
+    public List<Top5CusMoreOrdDto> getTop5CusWithMostOrds() {
+        return customerDashboardRepository.findTop5CusMoreOrd();
     }
 }
