@@ -76,8 +76,8 @@ public class OrderService {
     @Transactional
     public OrderResponseDto registerOrder(OrderRequestDto dto) {
 
-        Customer customer = customerRepository.findById(dto.getCodcus())
-                .orElseThrow(() -> new AppException("Customer not found", HttpStatus.BAD_REQUEST));
+        Customer customer = customerRepository.findBycodcusAndIsDeletedFalse(dto.getCodcus())
+                .orElseThrow(() -> new AppException("Customer not found or disabled", HttpStatus.BAD_REQUEST));
 
         Order order = new Order();
         order.setOrdsts(dto.getOrdsts());
@@ -181,8 +181,8 @@ public class OrderService {
         order.setOrdpaydue(dto.getOrdpaydue());
         order.setOrdnote(dto.getOrdnote());
 
-        Customer customer = customerRepository.findById(dto.getCodcus())
-                .orElseThrow(() -> new AppException("Customer not found", HttpStatus.NOT_FOUND));
+        Customer customer = customerRepository.findBycodcusAndIsDeletedFalse(dto.getCodcus())
+                .orElseThrow(() -> new AppException("Customer not found or disabled", HttpStatus.BAD_REQUEST));
 
         order.setCodcus(customer);
 
