@@ -1,6 +1,7 @@
 package com.example.estoque.controllers.CustomerControllers;
 
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusHighestAmountSpent;
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
 import com.example.estoque.services.CustomerService.CustomerDashboardService;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,11 @@ public class CustomerDashboardController {
     @GetMapping("/see/top5-customers-with-most-orders")
     public ResponseEntity<List<Top5CusMoreOrdDto>> getTop5CusWithMostOrds() {
         return ResponseEntity.ok(customerDashboardService.getTop5CusWithMostOrds());
+    }
+
+    //GET top 5 customers with highest amount spent
+    @GetMapping("/see/top5-customers-highest-amount-spent")
+    public ResponseEntity<List<Top5CusHighestAmountSpent>> getTop5CusHighestAmountSpent() {
+        return ResponseEntity.ok(customerDashboardService.getTop5CusHighestAmountSpent());
     }
 }
