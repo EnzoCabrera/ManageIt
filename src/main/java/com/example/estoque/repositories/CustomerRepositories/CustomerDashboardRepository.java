@@ -1,9 +1,6 @@
 package com.example.estoque.repositories.CustomerRepositories;
 
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.ActiveCustomersDto;
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusHighestAmountSpent;
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.*;
 import com.example.estoque.entities.customerEntities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -84,4 +81,25 @@ public interface CustomerDashboardRepository extends JpaRepository<Customer, Int
     LIMIT 5
 """, nativeQuery = true)
     List<Top5CusHighestAmountSpent> findTop5CusHighestAmountSpent();
+
+    //Custom query to get all inactive customers
+    @Query(value = """
+    SELECT 
+        c.codcus AS CodCus,
+        c.cusname AS CusName,
+        c.cusemail AS CusEmail,
+        MAX(o.created_at) AS LastOrderDate
+    FROM 
+        TGVCUS c LEFT JOIN TGVORD o ON c.codcus = o.codcus AND o.is_deleted = false
+    WHERE 
+        c.is_deleted = false
+    GROUP BY 
+        c.codcus, c.cusname, c.cusemail
+    HAVING 
+        MAX(o.created_at) IS NULL 
+        OR MAX(o.created_at) < CURRENT_DATE - INTERVAL '2 months'
+    ORDER BY
+        LastOrderDate NULLS FIRST
+""", nativeQuery = true)
+    List<InactiveCustomerDto> findInactiveCustomers();
 }

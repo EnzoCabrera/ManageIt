@@ -1,5 +1,6 @@
 package com.example.estoque.controllers.CustomerControllers;
 
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.InactiveCustomerDto;
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusHighestAmountSpent;
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
@@ -41,5 +42,11 @@ public class CustomerDashboardController {
     @GetMapping("/see/top5-customers-highest-amount-spent")
     public ResponseEntity<List<Top5CusHighestAmountSpent>> getTop5CusHighestAmountSpent() {
         return ResponseEntity.ok(customerDashboardService.getTop5CusHighestAmountSpent());
+    }
+
+    //GET inactive customers
+    @GetMapping("/see/inactive-customers")
+    public ResponseEntity<List<InactiveCustomerDto>> getInactiveCustomers() {
+        return ResponseEntity.ok(customerDashboardService.getInactiveCustomers());
     }
 }

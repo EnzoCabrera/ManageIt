@@ -1,9 +1,6 @@
 package com.example.estoque.services.CustomerService;
 
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.ActiveCustomersDto;
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMonthDto;
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusHighestAmountSpent;
-import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
+import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.*;
 import com.example.estoque.repositories.CustomerRepositories.CustomerDashboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +31,10 @@ public class CustomerDashboardService {
     //GET top 5 customers with highest amount spent logic
     public List<Top5CusHighestAmountSpent> getTop5CusHighestAmountSpent() {
         return customerDashboardRepository.findTop5CusHighestAmountSpent();
+    }
+
+    //GET inactive customers logic
+    public List<InactiveCustomerDto> getInactiveCustomers() {
+        return customerDashboardRepository.findInactiveCustomers();
     }
 }
