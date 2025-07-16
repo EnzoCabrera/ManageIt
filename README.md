@@ -157,19 +157,24 @@ Here’s a quick reference for all available API routes in **ManageIt**, so you 
 
 ### 🧑‍🤝‍🧑 Customers(TGVCUS)
 
-| Method | Endpoint                       | Description                  |
-|--------|--------------------------------|------------------------------|
-| POST   | `/api/customers/register`      | Register new customer        |
-| GET    | `/api/customer/see?name=`      | Get  customers by name       |
-| GET    | `/api/customer/see?address=`   | Get customers by address     |
-| GET    | `/api/customer/see?city=`      | Get customers by city        |
-| GET    | `/api/customer/see?state=`     | Get customers by state       |
-| GET    | `/api/customer/see?zipCode=`   | Get customers by zip code    |
-| GET    | `/api/customer/see?phone=`     | Get customers by phone       |
-| GET    | `/api/customer/see?email=`     | Get customers by email       |
-| GET    | `/api/customer/see`            | Get all customers            |
-| PUT    | `/api/customers/update/{id}`   | Update customer by ID        |
-| DELETE | `/api/customers/delete/{id}`   | Soft delete customer by ID   |
+| Method | Endpoint                                                 | Description                                            |
+|--------|----------------------------------------------------------|--------------------------------------------------------|
+| POST   | `/api/customers/register`                                | Register new customer                                  |
+| GET    | `/api/customer/see?name=`                                | Get  customers by name                                 |
+| GET    | `/api/customer/see?address=`                             | Get customers by address                               |
+| GET    | `/api/customer/see?city=`                                | Get customers by city                                  |
+| GET    | `/api/customer/see?state=`                               | Get customers by state                                 |
+| GET    | `/api/customer/see?zipCode=`                             | Get customers by zip code                              |
+| GET    | `/api/customer/see?phone=`                               | Get customers by phone                                 |
+| GET    | `/api/customer/see?email=`                               | Get customers by email                                 |
+| GET    | `/api/customer/see/active-customers`                     | Get all active customers                               |
+| GET    | `/api/customer/see/new-customers-per-month`              | Get all new customers customers per month              |
+| GET    | `/api/customer/see/top5-customers-with-most-orders`      | Get top 5 customers with most orders                   |
+| GET    | `/api/customer/see/top5-customers-highest-amount-spent`  | Get top 5 customers with the highest amount spent      |
+| GET    | `/api/customer/see/inactive-customers`                   | Get all customers with no orders in the last 2 months  |
+| GET    | `/api/customer/see`                                      | Get all customers                                      |
+| PUT    | `/api/customers/update/{id}`                             | Update customer by ID                                  |
+| DELETE | `/api/customers/delete/{id}`                             | Soft delete customer by ID                             |
 
 ✅ **Example filter:**  
 
