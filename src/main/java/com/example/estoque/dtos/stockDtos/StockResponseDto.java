@@ -32,6 +32,9 @@ public class StockResponseDto {
     private Integer unqtt;
 
     @NotNull
+    private Integer minimumQtd;
+
+    @NotNull
     private String updatedBy;
 
     @NotNull

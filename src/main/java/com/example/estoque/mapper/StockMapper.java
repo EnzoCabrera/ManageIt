@@ -21,6 +21,7 @@ public class StockMapper {
         dto.setUnpricInCents(stock.getUnpricInCents());
         dto.setUntype(stock.getUntype());
         dto.setUnqtt(stock.getUnqtt());
+        dto.setMinimumQtd(stock.getMinimumQtd());
         dto.setUpdatedBy(stock.getUpdatedBy());
         dto.setUpdatedAt(stock.getUpdatedAt().toString());
         return dto;

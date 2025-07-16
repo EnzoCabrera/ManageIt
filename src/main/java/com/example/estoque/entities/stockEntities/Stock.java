@@ -40,6 +40,9 @@ public class Stock {
 
     private Integer unqtt;
 
+    @Column(name = "mininum_qtd")
+    private Integer minimumQtd;
+
     @CreationTimestamp
     @CreatedDate
     @Column(updatable = false)

@@ -1,0 +1,1 @@
+ALTER TABLE tgvsto add column mininum_qtd INT DEFAULT 0;

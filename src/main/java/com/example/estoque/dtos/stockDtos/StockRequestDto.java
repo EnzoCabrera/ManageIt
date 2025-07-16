@@ -27,4 +27,7 @@ public class StockRequestDto {
 
     @NotNull
     private Integer unqtt;
+
+    @NotNull
+    private Integer minimumQtd;
 }
