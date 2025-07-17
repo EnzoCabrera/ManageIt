@@ -2,7 +2,7 @@ package com.example.estoque.controllers;
 
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
-import com.example.estoque.services.StockService;
+import com.example.estoque.services.StockServices.StockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
