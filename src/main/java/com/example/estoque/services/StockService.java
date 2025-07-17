@@ -27,6 +27,8 @@ public class StockService {
 
     @Autowired
     private AuditLogService auditLogService;
+    @Autowired
+    private EmailService emailService;
 
     //GET products logic
     public List<StockResponseDto> getFilterStock(
@@ -54,6 +56,8 @@ public class StockService {
         stock.setMinimumQtd(dto.getMinimumQtd());
 
         Stock save = stockRepository.save(stock);
+
+
 
         // Log the creation of the stock item
         auditLogService.log(

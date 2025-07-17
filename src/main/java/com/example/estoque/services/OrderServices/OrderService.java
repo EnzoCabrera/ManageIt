@@ -49,6 +49,9 @@ public class OrderService {
     @Autowired
     private AuditLogService auditLogService;
 
+    @Autowired
+    private OrderNotificationService orderNotificationService;
+
     //GET orders logic
     public List<OrderResponseDto> getFilterOrders(
           Long codord,
@@ -114,6 +117,11 @@ public class OrderService {
 
             stock.setQuantity(availableQtd - requestedQtd);
             stockRepository.save(stock);
+
+            // Notify if stock is below minimum quantity
+            if (stock.getQuantity() < stock.getMinimumQtd()) {
+                orderNotificationService.notifyLowStock(stock);
+            }
 
             int unitPrice = stock.getUnpricInCents();
             int unitQuantity = stock.getUnqtt();
@@ -224,6 +232,11 @@ public class OrderService {
 
             stock.setQuantity(availableQtd - requestedQtd);
             stockRepository.save(stock);
+
+            // Notify if stock is below minimum quantity
+            if (stock.getQuantity() < stock.getMinimumQtd()) {
+                orderNotificationService.notifyLowStock(stock);
+            }
 
             int unitPrice = stock.getUnpricInCents();
             int unitQuantity = stock.getUnqtt();
