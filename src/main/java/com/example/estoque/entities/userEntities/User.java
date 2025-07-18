@@ -31,6 +31,7 @@ public class User implements UserDetails{
     private String password;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @CreationTimestamp
@@ -38,16 +39,16 @@ public class User implements UserDetails{
     private LocalDateTime created_at;
 
 
-    public User(String email, String password) {
+    public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override
