@@ -2,7 +2,7 @@ package com.example.estoque.controllers;
 
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
-import com.example.estoque.services.StockService;
+import com.example.estoque.services.StockServices.StockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +21,12 @@ public class StockController {
 
     // GET all products
     @GetMapping("see")
-    public ResponseEntity<List<StockResponseDto>> getAllStock(){
-        return ResponseEntity.ok(stockService.getAllStock());
-    }
-
-    // GET product by ID
-    @GetMapping("see/{codProd}")
-    public ResponseEntity<StockResponseDto> getProductById(@PathVariable Long codProd) {
-        StockResponseDto dto = stockService.getByCodProduct(codProd);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<List<StockResponseDto>> getStocks(
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) Long codprod
+    ) {
+        List<StockResponseDto> stocks = stockService.getFilterStock(productName, codprod);
+        return ResponseEntity.ok(stocks);
     }
 
     // POST product logic

@@ -1,0 +1,1 @@
+ALTER TABLE tgvsto ADD COLUMN unpric_in_cents INT NOT NULL DEFAULT 0;

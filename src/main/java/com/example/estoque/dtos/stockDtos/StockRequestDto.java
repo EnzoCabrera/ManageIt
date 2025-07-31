@@ -1,5 +1,6 @@
 package com.example.estoque.dtos.stockDtos;
 
+import com.example.estoque.entities.stockEntities.StockUnitType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,17 @@ public class StockRequestDto {
     private String productName;
 
     @NotNull
-    private Integer PriceInCents;
+    private Integer quantity;
 
     @NotNull
-    private Integer quantity;
+    private Integer unpricInCents;
+
+    @NotNull
+    private StockUnitType untype;
+
+    @NotNull
+    private Integer unqtt;
+
+    @NotNull
+    private Integer minimumQtd;
 }

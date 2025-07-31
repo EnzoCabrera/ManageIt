@@ -2,7 +2,10 @@ package com.example.estoque.entities.userEntities;
 
 public enum UserRole {
     ADMIN("admin"),
-    USER("user");
+    MANAGER("manager"),
+    OPERATOR("operator"),
+    AUDITOR("auditor"),
+    VIEWER("viewer");
 
     private String role;
 

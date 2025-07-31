@@ -2,7 +2,7 @@ package com.example.estoque.mapper;
 
 import com.example.estoque.dtos.expenseDtos.ExpenseResponseDto;
 import com.example.estoque.entities.expenseEntities.Expense;
-import com.example.estoque.repositories.ExpenseRepository;
+import com.example.estoque.repositories.ExpenseRepositories.ExpenseRepository;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,6 +22,7 @@ public class ExpenseMapper {
         dto.setExpdate(expense.getExpdate());
         dto.setExpdatepay(expense.getExpdatepay());
         dto.setExptype(expense.getExptype());
+        dto.setExpsts(expense.getExpsts());
         dto.setUpdatedBy(expense.getUpdatedBy());
         dto.setUpdatedAt(expense.getUpdatedAt().toString());
         return dto;

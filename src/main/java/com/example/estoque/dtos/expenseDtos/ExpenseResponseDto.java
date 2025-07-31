@@ -1,5 +1,6 @@
 package com.example.estoque.dtos.expenseDtos;
 
+import com.example.estoque.entities.expenseEntities.ExpenseStatus;
 import com.example.estoque.entities.expenseEntities.ExpenseType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,9 @@ public class ExpenseResponseDto {
 
     @NotNull
     private ExpenseType exptype;
+
+    @NotNull
+    private ExpenseStatus expsts;
 
     @NotNull
     private String updatedBy;

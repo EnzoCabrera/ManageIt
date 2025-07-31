@@ -1,5 +1,6 @@
 package com.example.estoque.dtos.stockDtos;
 
+import com.example.estoque.entities.stockEntities.StockUnitType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,19 @@ public class StockResponseDto {
     private String productName;
 
     @NotNull
-    private Integer PriceInCents;
+    private Integer unpricInCents;
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private StockUnitType untype;
+
+    @NotNull
+    private Integer unqtt;
+
+    @NotNull
+    private Integer minimumQtd;
 
     @NotNull
     private String updatedBy;

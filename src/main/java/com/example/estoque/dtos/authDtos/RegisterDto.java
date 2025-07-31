@@ -1,4 +1,6 @@
 package com.example.estoque.dtos.authDtos;
 
-public record RegisterDto(String email, String password) {
+import com.example.estoque.entities.userEntities.UserRole;
+
+public record RegisterDto(String email, String password, UserRole role) {
 }

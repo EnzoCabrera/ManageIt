@@ -11,8 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Table(name="stock")
-@Entity(name="stock")
+@Table(name="TGVSTO")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,10 +29,19 @@ public class Stock {
     @Column(name="product_name")
     private String productName;
 
-    @Column(name="price_in_cents")
-    private Integer PriceInCents;
-
     private Integer quantity;
+
+    @Column(name = "unpric_in_cents")
+    private Integer unpricInCents;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "untype", nullable = false)
+    private StockUnitType untype;
+
+    private Integer unqtt;
+
+    @Column(name = "mininum_qtd")
+    private Integer minimumQtd;
 
     @CreationTimestamp
     @CreatedDate

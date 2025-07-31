@@ -1,0 +1,1 @@
+Alter table tgvsto add column untype varchar(20) not null default 'UNIT', add column unqtt INTEGER not null default 1;

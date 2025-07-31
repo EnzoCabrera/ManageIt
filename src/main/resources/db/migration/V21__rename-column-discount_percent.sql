@@ -1,0 +1,1 @@
+alter table TGVITE rename column discount_precent to discount_percent;

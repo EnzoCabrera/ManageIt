@@ -1,0 +1,1 @@
+Alter table TGVSTO drop column price_in_cents
