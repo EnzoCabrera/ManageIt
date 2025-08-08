@@ -59,6 +59,8 @@ public class SecurityConfigurations {
 
                         .requestMatchers("/api/log/**").hasAnyRole("ADMIN", "AUDITOR")
 
+                        .requestMatchers(HttpMethod.GET, "/api/auth/**").hasAnyRole("ADMIN", "MANAGER")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
