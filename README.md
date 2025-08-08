@@ -84,15 +84,25 @@ The system is designed to be modular, scalable, and easily integrated into dashb
    ```bash
    git clone https://github.com/EnzoCabrera/ManageIt.git
    cd ManageIt
+   
+2. Copy these varables to .env and fill in your secrets:
+   ```bash
+   POSTGRES_DB=
+   POSTGRES_USER=
+   POSTGRES_PASSWORD=
+   SPRING_MAIL_PORT=
+   SPRING_MAIL_USERNAME=
+   SPRING_MAIL_PASSWORD=
+   SPRING_MAIL_PROTOCOL=
 
-2. Start the application using Docker:
+
+3. Start the application using Docker:
    ```bash
    docker-compose up -d
 
-3. Run the application:
+4. Run the application:
    ```bash
    ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 
-4. Download the Insomnia API Requests Collection
+5. Download the Insomnia API Requests Collection
    [Click here to download](docs/Insomnia-requests.yaml)
-
