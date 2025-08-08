@@ -629,7 +629,7 @@ collection:
             meta:
               id: req_18e367da2f8147a686fcd2fb1cb96e93
               created: 1750875804239
-              modified: 1752834700220
+              modified: 1754691290782
               isPrivate: false
               description: ""
               sortKey: -1751128710998
@@ -651,6 +651,58 @@ collection:
               token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzUyMDgwMjA3fQ.UyYzAUqq3gPuP8RmeErqdriGJmJSm3e1R3U4VEH92Ko
               prefix: Bearer
               disabled: true
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/api/auth/see?email=enzo2005cabrera@gmail.com
+            name: GetUserByEmail
+            meta:
+              id: req_2690ccda552c4f62a751d9b1046008ef
+              created: 1754690951961
+              modified: 1754693296250
+              isPrivate: false
+              description: ""
+              sortKey: -1751128711098
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_6d0eb13df75449459516f75936af636f
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJuYWRhMkBnbWFpbC5jb20iLCJleHAiOjE3NTQ3Nzc2OTF9.Qr5LrxJzNIOSBN5qjFBJdhMAHxs7-KAwcBJy3YsyqnE
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/api/auth/see?role=VIEWER
+            name: GetUserByRole
+            meta:
+              id: req_4c077a9c546b4014af6ac1d4cc7f3d3e
+              created: 1754691580321
+              modified: 1754693215320
+              isPrivate: false
+              description: ""
+              sortKey: -1751128711048
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_6d0eb13df75449459516f75936af636f
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJuYWRhMkBnbWFpbC5jb20iLCJleHAiOjE3NTQ3Nzc2OTF9.Qr5LrxJzNIOSBN5qjFBJdhMAHxs7-KAwcBJy3YsyqnE
+              prefix: Bearer
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -1471,80 +1523,6 @@ collection:
       modified: 1754517181345
       sortKey: -1754517181345
       description: ""
-  - name: StockProject
-    meta:
-      id: fld_95ef5d035e074601935cbe50bece6a64
-      created: 1754643203911
-      modified: 1754643203911
-      sortKey: -1751128582491
-      description: ""
-    children:
-      - name: Products
-        meta:
-          id: fld_e6535cd0edc44e979c2e30d6bf0628ff
-          created: 1754643203912
-          modified: 1754643203912
-          sortKey: -1751128599133
-          description: ""
-      - name: Customers
-        meta:
-          id: fld_c2c79740e0704cb08c7dcb709e264abe
-          created: 1754643203922
-          modified: 1754643203922
-          sortKey: -1751128683917
-          description: ""
-        children:
-          - name: CustomerDashboard
-            meta:
-              id: fld_ac7dfe7c5e7d466380722e1a54dddc37
-              created: 1754643203923
-              modified: 1754643203923
-              sortKey: -1752578305410
-              description: ""
-      - name: Auth
-        meta:
-          id: fld_b6cc2ce6928d4b7fa2d64a7392b23aca
-          created: 1754643203954
-          modified: 1754643203954
-          sortKey: -1751128707786
-          description: ""
-      - name: Expenses
-        meta:
-          id: fld_519d1433bd794f80bac0ce6c418ffb94
-          created: 1754643203960
-          modified: 1754643203960
-          sortKey: -1751191391399
-          description: ""
-        children:
-          - name: DashboardEndpoints
-            meta:
-              id: fld_d2645d04c50141e3bcfadb5e225dada1
-              created: 1754643203961
-              modified: 1754643203961
-              sortKey: -1751667200766
-              description: ""
-      - name: Orders
-        meta:
-          id: fld_f8d7e630f3c44e488e75e49e98bbe298
-          created: 1754643203982
-          modified: 1754643203982
-          sortKey: -1751909295824
-          description: ""
-        children:
-          - name: OrderDashboard
-            meta:
-              id: fld_63d871b9b57e4d048e90e9444641f048
-              created: 1754643203983
-              modified: 1754643203983
-              sortKey: -1751977453835
-              description: ""
-      - name: Logs
-        meta:
-          id: fld_051c52b65619441385d505205a3222d2
-          created: 1754643204001
-          modified: 1754643204001
-          sortKey: -1752011315372
-          description: ""
 cookieJar:
   name: Default Jar
   meta:
