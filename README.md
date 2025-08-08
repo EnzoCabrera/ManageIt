@@ -1,71 +1,108 @@
-# 📦 ManageIT
+# 📦 ManageIt - Inventory and Order Management System
 
-**ManageIT** is a modern, containerized management system built to help businesses **organize their inventory, manage clients, and control expenses** — all in one place and with secure access.
-
----
-
-## 🚀 Tech Stack
-
-This project is powered by:
-- **Java 21** — Main programming language
-- **Spring Boot 3.x** — For building the RESTful API
-- **Spring Security** — For authentication and JWT-based authorization
-- **Spring Data JPA** — Data persistence with Hibernate
-- **Flyway** — Database version control with SQL migrations
-- **PostgreSQL 15** — Relational database
-- **Docker & Docker Compose** — For containerizing the app and the database
-- **IntelliJ IDEA** - Recommended IDE
+**ManageIt** is a complete application for managing inventory, orders, and customers, developed in **Java + Spring Boot**, focused on precise control, detailed auditing, and role-based security.  
+The system is designed to be modular, scalable, and easily integrated into dashboards and reports.
 
 ---
 
-## 📚 What You Can Do with ManageIT
+## 🚀 Main Features
 
-Right now, **ManageIT** lets you:
+- **User Management**
+  - User registration and authentication with JWT
+  - Role-based access control (**ADMIN, MANAGER, OPERATOR, AUDITOR, VIEWER**)
+  - Endpoint access restrictions by role
 
-✅ **Manage Inventory**  
-- Register products with price, quantity, and active/inactive status  
-- Full CRUD operations for stock management
+- **Inventory Management**
+  - Create, update, and delete products
+  - Minimum quantity tracking
+  - Automatic email notifications when stock is below the minimum
+  - Pre-built queries for dashboards
 
-✅ **Manage Clients**  
-- Register clients with complete contact and address info  
-- Create, update, or soft-delete client records
+- **Order Management**
+  - Create, edit, and cancel orders
+  - Automatic stock updates when orders are placed
+  - Reports and KPI queries (e.g., top customers, highest spenders)
 
-✅ **Track Expenses**  
-- Log company expenses with description, cost, type, issue date, and payment date  
-- Filter expenses by month and year to stay organized
+- **Customer Management**
+  - Register and manage customers
+  - Queries for performance and sales indicators
 
-✅ **Secure Auth**  
-- Register and login users with encrypted passwords (BCrypt)  
-- Generate and validate JWT tokens for secure access
+- **Full Audit Logging**
+  - Logs all changes in the system (`TGVLOG`)
+  - Stores **entity**, **entity ID**, **action**, **field changed**, **old value**, **new value**, **responsible user**
+  - Filter logs by entity
 
 ---
 
-## ⚙️ Getting Started with Docker
+## 🛠 Tech Stack
 
-Want to run everything locally in an isolated, production-like environment? Here’s how!
+- **Backend:** Java 21, Spring Boot 3.x
+- **Security:** Spring Security + JWT
+- **Database:** PostgreSQL (Docker)
+- **ORM:** Spring Data JPA / Hibernate
+- **Documentation:** Springdoc OpenAPI (Swagger)
+- **Others:** Lombok, Jakarta Validation, Email Service
 
-### 1️⃣ Prerequisites
+---
 
-- Docker & Docker Compose installed
-- Make sure ports **5432** (PostgreSQL) and **8080** (API) are free
+## 🔒 Role-Based Access Control
 
-### 2️⃣ Set Up Your Environment
+| Role       | Main Permissions |
+|------------|------------------|
+| **ADMIN**  | Full access to all endpoints |
+| **MANAGER**| Manage users, inventory, and orders |
+| **OPERATOR** | Create and manage orders and inventory |
+| **AUDITOR** | View logs and audit data |
+| **VIEWER**  | Read-only access to data and reports |
 
-Create a **`.env`** file in the root of the project:
+---
 
-# Copy this variables to .env and fill in your secrets
-  POSTGRES_USER=
-  POSTGRES_PASSWORD=
-  POSTGRES_DB=
-  JWT_SECRET=
+## 📊 Implemented Queries & Reports
 
-### 3️⃣ Run It All
+- Top 5 customers with the highest daily spending
+- Products below the minimum stock level
+- Order statistics by period and status
+- Full change history by entity
 
-Spin up the containers with one command: docker-compose up --build
+---
 
-### 4️⃣ Access It
+## 📧 Automatic Notifications
 
-- The API is live at: http://localhost:8080
+- Sends email alerts to responsible users when a product is below its defined minimum quantity.
 
-- PostgreSQL is available at localhost:5432 — connect with your favorite SQL client
+---
 
+## ⚙️ How to Run Locally
+
+### Prerequisites
+- **Java 21+**
+- **Maven 3.9+**
+- **Docker** and **Docker Compose**
+
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/EnzoCabrera/ManageIt.git
+   cd ManageIt
+   
+2. Copy these varables to .env and fill in your secrets:
+   ```bash
+   POSTGRES_DB=
+   POSTGRES_USER=
+   POSTGRES_PASSWORD=
+   SPRING_MAIL_PORT=
+   SPRING_MAIL_USERNAME=
+   SPRING_MAIL_PASSWORD=
+   SPRING_MAIL_PROTOCOL=
+
+
+3. Start the application using Docker:
+   ```bash
+   docker-compose up -d
+
+4. Run the application:
+   ```bash
+   ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+
+5. Download the Insomnia API Requests Collection
+   [Click here to download](docs/Insomnia-requests.yaml)
