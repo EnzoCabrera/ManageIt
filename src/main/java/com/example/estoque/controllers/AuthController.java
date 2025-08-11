@@ -1,9 +1,6 @@
 package com.example.estoque.controllers;
 
-import com.example.estoque.dtos.authDtos.AuthDto;
-import com.example.estoque.dtos.authDtos.LoginResponseDto;
-import com.example.estoque.dtos.authDtos.RegisterDto;
-import com.example.estoque.dtos.authDtos.UserResponseDto;
+import com.example.estoque.dtos.authDtos.*;
 import com.example.estoque.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +39,12 @@ public class AuthController {
     ) {
         List<UserResponseDto> users = authService.getFilterUsers(email, role);
         return ResponseEntity.ok(users);
+    }
+
+    // Put user endpoint
+    @PutMapping("/update/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody UserRequestDto dto) {
+        UserResponseDto updated = authService.updateUser(id, dto);
+        return ResponseEntity.ok(updated);
     }
 }
