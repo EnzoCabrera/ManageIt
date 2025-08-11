@@ -47,4 +47,11 @@ public class AuthController {
         UserResponseDto updated = authService.updateUser(id, dto);
         return ResponseEntity.ok(updated);
     }
+
+    // Delete user endpoint
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<UserResponseDto> deleteUser(@PathVariable Long id) {
+        UserResponseDto deleted = authService.deleteUser(id);
+        return ResponseEntity.ok(deleted);
+    }
 }

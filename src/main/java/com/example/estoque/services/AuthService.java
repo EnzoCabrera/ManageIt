@@ -104,6 +104,7 @@ public class AuthService implements UserDetailsService {
                     (UserSpecification.hasEmail(email))
                 .and(UserSpecification.hasRole(roleEnum));
 
+
         return userRepository.findAll(spec)
                 .stream()
                 .map(userMapper::toDto)
@@ -144,5 +145,27 @@ public class AuthService implements UserDetailsService {
         }
 
         return userMapper.toDto(updateUser);
+    }
+
+    //DELETE user logic
+    public UserResponseDto deleteUser(Long id) {
+        User user = userRepository.findByidAndIsDeletedFalse(id)
+                .orElseThrow(() -> new AppException("User not found or already deleted.", HttpStatus.NOT_FOUND));
+
+        user.setIsDeleted(true);
+        User deleteUser = userRepository.save(user);
+
+        //Log the deletion event
+        auditLogService.log(
+                "User",
+                deleteUser.getId(),
+                "DELETE",
+                "null",
+                null,
+                "null",
+                deleteUser.getUpdatedBy()
+        );
+
+        return userMapper.toDto(deleteUser);
     }
 }
