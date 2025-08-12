@@ -4,6 +4,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecification {
 
+    //Filter for non-deleted users
+    public static Specification<User> isNotDeleted() {
+        return (root, query, cb) -> cb.isFalse(root.get("isDeleted"));
+    }
+
     //Filter for user email
     public static Specification<User> hasEmail(String email) {
         return (root, query, cb) ->

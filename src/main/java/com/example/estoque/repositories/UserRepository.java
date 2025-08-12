@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     // Custom query to confirm that the user is not deleted
     Optional<User> findByidAndIsDeletedFalse(Long id);
+
+    // Custom query to confirm that the user is not deleted by email
+    Optional<User> findByEmailAndIsDeletedFalse(String email);
 }
