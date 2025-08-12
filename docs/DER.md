@@ -17,13 +17,17 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 
 ## 📑 TGVUSE (Users)
 
-| Column      | Type      | Description               | Possible Values           | Notes                                                                                    |
-|-------------|-----------|---------------------------|---------------------------|------------------------------------------------------------------------------------------|
-| ID          | BIGINT    | Unique user ID            | Auto-increment            | Primary Key                                                                              |
-| EMAIL       | VARCHAR   | User's email address      | —                         | Unique, not null                                                                         |
-| PASSWORD    | VARCHAR   | Encrypted user password   | —                         | Bcrypt hashed                                                                            |
-| ROLE        | VARCHAR   | User role                 | 0 = USER, 1 = ADMIN       | Uses backend enum(src/main/java/com/example/estoque/entities/userEntities/UserRole.java) |
-| CREATED_AT  | TIMESTAMP | When user was created     | auto                      |                                                                                          |
+| Column     | Type      | Description                      | Possible Values      | Notes                                                                                    |
+|------------|-----------|----------------------------------|----------------------|------------------------------------------------------------------------------------------|
+| ID         | BIGINT    | Unique user ID                   | Auto-increment       | Primary Key                                                                              |
+| EMAIL      | VARCHAR   | User's email address             | —                    | Unique, not null                                                                         |
+| PASSWORD   | VARCHAR   | Encrypted user password          | —                    | Bcrypt hashed                                                                            |
+| ROLE       | VARCHAR   | User role                        | 0 = USER, 1 = ADMIN  | Uses backend enum(src/main/java/com/example/estoque/entities/userEntities/UserRole.java) |
+| CREATED_AT | TIMESTAMP | When user was created            | auto                 |                                                                                          |
+| IS_DELETED | BOOLEAN   | Soft delete flag                 | true / false         | Default: false                                                                           |
+| CREATED_BY | VARCHAR   | User who created the record      | (TGVUSE.EMAIL)       |                                                                                          |
+| UPDATED_BY | VARCHAR   | Last user who updated the record | (TGVUSE.EMAIL)       |                                                                                          |
+| UPDATED_AT | TIMESTAMP | When user was created            | auto                 |                                                                                          |
 
 ---
 
