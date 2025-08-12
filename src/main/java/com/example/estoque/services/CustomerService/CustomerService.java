@@ -48,6 +48,12 @@ public class CustomerService {
                 .and(CustomerSpecification.hasPhone(phone))
                 .and(CustomerSpecification.hasEmail(email));
 
+        List<Customer> customers = customerRepository.findAll(spec);
+
+        if (customers.isEmpty()) {
+            throw new AppException("No customers found with the provided filters.", HttpStatus.NOT_FOUND);
+        }
+
         return customerRepository.findAll(spec)
                 .stream()
                 .map(customerMapper::toDto)

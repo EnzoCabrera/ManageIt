@@ -102,13 +102,21 @@ public class AuthService implements UserDetailsService {
 
         Specification<User> spec = Specification.where
                     (UserSpecification.hasEmail(email))
-                .and(UserSpecification.hasRole(roleEnum));
+                .and(UserSpecification.hasRole(roleEnum))
+                .and(UserSpecification.isNotDeleted());
 
 
-        return userRepository.findAll(spec)
-                .stream()
-                .map(userMapper::toDto)
-                .toList();
+
+
+        List<User> users = userRepository.findAll(spec);
+
+        if (users.isEmpty()) {
+            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
+        }
+
+        return users.stream()
+                    .map(userMapper::toDto)
+                    .toList();
     }
 
     //PUT user logic

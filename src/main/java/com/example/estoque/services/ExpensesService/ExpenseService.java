@@ -50,6 +50,12 @@ public class ExpenseService {
                 .and(ExpenseSpecification.isBetweenExpdatepay(startDatePay, endDatePay))
                 .and(ExpenseSpecification.hasExpSts(expSts));
 
+        List<Expense> expenses = expenseRepository.findAll(spec);
+
+        if (expenses.isEmpty()) {
+            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
+        }
+
         return expenseRepository.findAll(spec)
                 .stream()
                 .map(expenseMapper::toDto)

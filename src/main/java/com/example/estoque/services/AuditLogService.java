@@ -1,8 +1,10 @@
 package com.example.estoque.services;
 
 import com.example.estoque.entities.LogEntities.AuditLog;
+import com.example.estoque.exceptions.AppException;
 import com.example.estoque.repositories.AuditLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,10 @@ public class AuditLogService {
     private final AuditLogRepository auditLogRepository;
 
     public List<AuditLog> getLogsByEntity(String entity) {
+
+        if (entity == null || entity.isEmpty()) {
+            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
+        }
         return auditLogRepository.findByEntity(entity.toUpperCase());
     }
 
