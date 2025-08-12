@@ -69,6 +69,12 @@ public class OrderService {
                 .and(OrderSpecification.hasOrderSts(ordsts))
                 .and(OrderSpecification.hasOrderPayType(ordpaytype));
 
+        List<Order> orders = orderRepository.findAll(spec);
+
+        if (orders.isEmpty()) {
+            throw new AppException("No orders found matching the given filters.", HttpStatus.NOT_FOUND);
+        }
+
         return orderRepository.findAll(spec)
                 .stream()
                 .map(orderMapper::toDto)
