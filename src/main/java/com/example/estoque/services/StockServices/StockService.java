@@ -41,6 +41,12 @@ public class StockService {
                 .and(StockSpecification.hasName(productName))
                 .and(StockSpecification.hasCodprod(codprod));
 
+        List<Stock> stock = stockRepository.findAll(spec);
+
+        if (stock.isEmpty()) {
+            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
+        }
+
         return stockRepository.findAll(spec)
                 .stream()
                 .map(stockMapper::toDto)
