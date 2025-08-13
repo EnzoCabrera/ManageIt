@@ -40,7 +40,6 @@ The system is designed to be modular, scalable, and easily integrated into dashb
 - **Security:** Spring Security + JWT
 - **Database:** PostgreSQL (Docker)
 - **ORM:** Spring Data JPA / Hibernate
-- **Documentation:** Springdoc OpenAPI (Swagger)
 - **Others:** Lombok, Jakarta Validation, Email Service
 
 ---
@@ -85,7 +84,7 @@ The system is designed to be modular, scalable, and easily integrated into dashb
    git clone https://github.com/EnzoCabrera/ManageIt.git
    cd ManageIt
    
-2. Copy these varables to .env and fill in your secrets:
+2. Copy these variables to .env and fill in your secrets:
    ```bash
    POSTGRES_DB=
    POSTGRES_USER=
@@ -95,14 +94,17 @@ The system is designed to be modular, scalable, and easily integrated into dashb
    SPRING_MAIL_PASSWORD=
    SPRING_MAIL_PROTOCOL=
 
-
-3. Start the application using Docker:
+3. Rebuild the JAR locally:
    ```bash
-   docker-compose up -d
+   ./mvnw clean package -DskipTests
 
-4. Run the application:
+4. Build Docker container:
    ```bash
-   ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+   docker compose build --no-cache
 
-5. Download the Insomnia API Requests Collection
+5. Start container:
+   ```bash
+   docker compose up
+
+6. Download the Insomnia API Requests Collection
    [Click here to download](docs/Insomnia-requests.yaml)
