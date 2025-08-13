@@ -12,6 +12,10 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | TGVSTO | Stock Items |
 | TGVCUS | Customers   |
 | TGVEXP | Expenses    |
+| TGVORD | Orders      |
+| TGVITE | Items       |
+| TGVLOG | Logs        |
+
 
 ---
 
