@@ -1,4 +1,4 @@
-package com.example.estoque.services;
+package com.example.estoque.services.UserServices;
 
 import com.example.estoque.dtos.authDtos.*;
 import com.example.estoque.entities.userEntities.User;
@@ -8,6 +8,7 @@ import com.example.estoque.exceptions.AppException;
 import com.example.estoque.infra.security.TokenService;
 import com.example.estoque.mapper.UserMapper;
 import com.example.estoque.repositories.UserRepository;
+import com.example.estoque.services.AuditLogService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -92,32 +91,7 @@ public class AuthService implements UserDetailsService {
         return ResponseEntity.ok().build();
     }
 
-    //GET user logic
-    @Transactional(readOnly = true)
-    public Page<UserResponseDto> getUsers(String email, String role, Pageable pageable) {
-        UserRole roleEnum = null;
-        if (role != null && !role.isBlank()) {
-            try {
-                roleEnum = UserRole.valueOf(role.toUpperCase());
-            }   catch (IllegalArgumentException ex) {
-                return List.of();
-            }
-        }
 
-        Specification<User> spec = Specification.where
-                    (UserSpecification.hasEmail(email))
-                .and(UserSpecification.hasRole(roleEnum))
-                .and(UserSpecification.isNotDeleted());
-
-
-        Page<User> page = userRepository.findAll(spec, sanitize(pageable));
-
-        if (page.isEmpty()) {
-            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
-        }
-
-        return page.map(userMapper::toDto);
-    }
 
     //PUT user logic
     public UserResponseDto updateUser(Long id, UserRequestDto dto){
