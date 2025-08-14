@@ -8,8 +8,11 @@ import com.example.estoque.exceptions.AppException;
 import com.example.estoque.infra.security.TokenService;
 import com.example.estoque.mapper.UserMapper;
 import com.example.estoque.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +93,8 @@ public class AuthService implements UserDetailsService {
     }
 
     //GET user logic
-    public List<UserResponseDto> getFilterUsers(String email, String role) {
+    @Transactional(readOnly = true)
+    public Page<UserResponseDto> getUsers(String email, String role, Pageable pageable) {
         UserRole roleEnum = null;
         if (role != null && !role.isBlank()) {
             try {
@@ -106,17 +110,13 @@ public class AuthService implements UserDetailsService {
                 .and(UserSpecification.isNotDeleted());
 
 
+        Page<User> page = userRepository.findAll(spec, sanitize(pageable));
 
-
-        List<User> users = userRepository.findAll(spec);
-
-        if (users.isEmpty()) {
+        if (page.isEmpty()) {
             throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
         }
 
-        return users.stream()
-                    .map(userMapper::toDto)
-                    .toList();
+        return page.map(userMapper::toDto);
     }
 
     //PUT user logic
