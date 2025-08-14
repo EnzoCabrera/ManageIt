@@ -40,8 +40,8 @@ public class User implements UserDetails{
     private UserRole role;
 
     @CreationTimestamp
-    @Column
-    private LocalDateTime created_at;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
