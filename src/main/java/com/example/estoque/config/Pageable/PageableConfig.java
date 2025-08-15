@@ -1,4 +1,4 @@
-package com.example.estoque.config;
+package com.example.estoque.config.Pageable;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
