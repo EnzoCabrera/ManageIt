@@ -45,8 +45,8 @@ public class Stock {
 
     @CreationTimestamp
     @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime created_at;
+    @Column(name = "created_at" ,updatable = false)
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
