@@ -32,26 +32,7 @@ public class StockService {
     @Autowired
     private EmailService emailService;
 
-    //GET products logic
-    public List<StockResponseDto> getFilterStock(
-            String productName,
-            Long codprod
-        ) {
-        Specification<Stock> spec = Specification.where(StockSpecification.isNotDeleted())
-                .and(StockSpecification.hasName(productName))
-                .and(StockSpecification.hasCodprod(codprod));
 
-        List<Stock> stock = stockRepository.findAll(spec);
-
-        if (stock.isEmpty()) {
-            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
-        }
-
-        return stockRepository.findAll(spec)
-                .stream()
-                .map(stockMapper::toDto)
-                .toList();
-    }
 
     //POST product logic
     public StockResponseDto registerProduct(StockRequestDto dto) {
