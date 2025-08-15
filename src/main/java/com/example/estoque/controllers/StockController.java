@@ -1,13 +1,22 @@
 package com.example.estoque.controllers;
 
+import com.example.estoque.config.Pageable.AllowedSort;
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
+import com.example.estoque.services.StockServices.StockQueryService;
 import com.example.estoque.services.StockServices.StockService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/stock/product")
@@ -15,18 +24,23 @@ public class StockController {
 
     private final StockService stockService;
 
+    @Autowired
+    private  StockQueryService stockQueryService;
+
     public  StockController(StockService stockService) {
         this.stockService = stockService;
     }
 
     // GET all products
-    @GetMapping("see")
-    public ResponseEntity<List<StockResponseDto>> getStocks(
+    @GetMapping("/see")
+    public ResponseEntity<PageResponseDto<StockResponseDto>> getStocks(
             @RequestParam(required = false) String productName,
-            @RequestParam(required = false) Long codprod
+            @RequestParam(required = false) Long codprod,
+            @AllowedSort(value = {"codprod", "productName", "createdAt", "updatedAt"},
+                        defaultProp = "createdAt", defaultDir = "DESC")
+            @PageableDefault(size = 20) Pageable pageable
     ) {
-        List<StockResponseDto> stocks = stockService.getFilterStock(productName, codprod);
-        return ResponseEntity.ok(stocks);
+        return ResponseEntity.ok(stockQueryService.getStockSlim(productName, codprod, pageable));
     }
 
     // POST product logic
