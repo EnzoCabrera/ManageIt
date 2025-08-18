@@ -1,5 +1,6 @@
 package com.example.estoque.services.CustomerService;
 
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
 import com.example.estoque.entities.customerEntities.BrazilianState;
@@ -11,6 +12,8 @@ import com.example.estoque.repositories.CustomerRepositories.CustomerRepository;
 import com.example.estoque.services.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,14 +33,15 @@ public class CustomerService {
 
 
     //GET customers logic
-    public List<CustomerResponseDto> getFilterCustomers(
+    public PageResponseDto<CustomerResponseDto> getCustomersSlim(
             String name,
             String address,
             String city,
             String state,
             String zipCode,
             String phone,
-            String email
+            String email,
+            Pageable pageable
         ) {
         Specification<Customer> spec = Specification.where(CustomerSpecification.isNotDeleted())
                 .and(CustomerSpecification.hasName(name))
@@ -48,16 +52,22 @@ public class CustomerService {
                 .and(CustomerSpecification.hasPhone(phone))
                 .and(CustomerSpecification.hasEmail(email));
 
-        List<Customer> customers = customerRepository.findAll(spec);
+        Page<Customer> page = customerRepository.findAll(spec, pageable);
 
-        if (customers.isEmpty()) {
+        List<CustomerResponseDto> content = page.map(customerMapper::toDto).getContent();
+
+        if (page.isEmpty()) {
             throw new AppException("No customers found with the provided filters.", HttpStatus.NOT_FOUND);
         }
-
-        return customerRepository.findAll(spec)
-                .stream()
-                .map(customerMapper::toDto)
-                .toList();
+        return new PageResponseDto<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     //POST customer logic
