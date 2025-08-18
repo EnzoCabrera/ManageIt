@@ -1,8 +1,12 @@
 package com.example.estoque.controllers.OrderControllers;
 
+import com.example.estoque.config.Pageable.AllowedSort;
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;
 import com.example.estoque.services.OrderServices.OrderService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +27,18 @@ public class OrderController {
 
     //GET orders
     @GetMapping("/see")
-    public ResponseEntity<List<OrderResponseDto>> getOrders(
+    public ResponseEntity<PageResponseDto<OrderResponseDto>> getOrders(
             @RequestParam(required = false) Long codord,
             @RequestParam(required = false) Long codcus,
             @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) String ordsts,
-            @RequestParam(required = false) String ordpaytype
+            @RequestParam(required = false) String ordpaytype,
+            @AllowedSort(value = {"codord", "codcus", "startDate", "endDate", "ordsts", "ordpaytype", "createdAt", "updatedAt"},
+                         defaultProp = "createdAt", defaultDir = "DESC")
+            @PageableDefault(size = 20) Pageable pageable
     ) {
-
-        List<OrderResponseDto> orders = orderService.getFilterOrders(codord, codcus, startDate, endDate, ordsts, ordpaytype);
-        return ResponseEntity.ok(orders);
+        return ResponseEntity.ok(orderService.getOrderSlim(codord, codcus, startDate, endDate, ordsts, ordpaytype, pageable));
     }
 
     //POST order
