@@ -1,5 +1,6 @@
 package com.example.estoque.services.OrderServices;
 
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.itemDtos.ItemRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;
@@ -20,6 +21,8 @@ import com.example.estoque.services.AuditLogService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -53,13 +56,14 @@ public class OrderService {
     private OrderNotificationService orderNotificationService;
 
     //GET orders logic
-    public List<OrderResponseDto> getFilterOrders(
+    public PageResponseDto<OrderResponseDto> getOrderSlim(
           Long codord,
           Long codcus,
           LocalDate startDate,
           LocalDate endDate,
           String ordsts,
-          String ordpaytype
+          String ordpaytype,
+          Pageable pageable
     ) {
 
         Specification<Order> spec = Specification.where(OrderSpecification.isNotDeleted())
@@ -69,16 +73,23 @@ public class OrderService {
                 .and(OrderSpecification.hasOrderSts(ordsts))
                 .and(OrderSpecification.hasOrderPayType(ordpaytype));
 
-        List<Order> orders = orderRepository.findAll(spec);
+        Page<Order> page = orderRepository.findAll(spec, pageable);
 
-        if (orders.isEmpty()) {
+        List<OrderResponseDto> content = page.map(orderMapper::toDto).getContent();
+
+        if (page.isEmpty()) {
             throw new AppException("No orders found matching the given filters.", HttpStatus.NOT_FOUND);
         }
 
-        return orderRepository.findAll(spec)
-                .stream()
-                .map(orderMapper::toDto)
-                .toList();
+        return new PageResponseDto<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     //POST order logic
