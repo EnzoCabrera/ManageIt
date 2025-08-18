@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface AuditLogRepository extends JpaRepository<AuditLog, Long>{
+public interface AuditLogRepository extends JpaRepository<AuditLog, Long>, JpaSpecificationExecutor<AuditLog>{
 
     //Query to get logs by entity
     List<AuditLog> findByEntity(String entity);
