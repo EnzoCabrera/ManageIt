@@ -4,18 +4,13 @@ import com.example.estoque.config.Pageable.AllowedSort;
 import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
-import com.example.estoque.services.StockServices.StockQueryService;
 import com.example.estoque.services.StockServices.StockService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -23,9 +18,6 @@ import java.util.List;
 public class StockController {
 
     private final StockService stockService;
-
-    @Autowired
-    private  StockQueryService stockQueryService;
 
     public  StockController(StockService stockService) {
         this.stockService = stockService;
@@ -40,7 +32,7 @@ public class StockController {
                         defaultProp = "createdAt", defaultDir = "DESC")
             @PageableDefault(size = 20) Pageable pageable
     ) {
-        return ResponseEntity.ok(stockQueryService.getStockSlim(productName, codprod, pageable));
+        return ResponseEntity.ok(stockService.getStockSlim(productName, codprod, pageable));
     }
 
     // POST product logic

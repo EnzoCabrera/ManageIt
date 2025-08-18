@@ -3,7 +3,6 @@ package com.example.estoque.controllers;
 import com.example.estoque.config.Pageable.AllowedSort;
 import com.example.estoque.dtos.authDtos.*;
 import com.example.estoque.services.UserServices.AuthService;
-import com.example.estoque.services.UserServices.UserQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +21,6 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-
-    @Autowired
-    private UserQueryService userQueryService;
 
     // Login endpoint
     @PostMapping("/login")
