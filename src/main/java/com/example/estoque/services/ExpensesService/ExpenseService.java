@@ -1,5 +1,6 @@
 package com.example.estoque.services.ExpensesService;
 
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.expenseDtos.*;
 import com.example.estoque.entities.expenseEntities.Expense;
 import com.example.estoque.entities.expenseEntities.ExpenseSpecification;
@@ -11,6 +12,8 @@ import com.example.estoque.repositories.ExpenseRepositories.ExpenseRepository;
 import com.example.estoque.services.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,7 @@ public class ExpenseService {
 
 
     //GET expenses logic
-    public List<ExpenseResponseDto> getFilterExpenses(
+    public PageResponseDto<ExpenseResponseDto> getExpensesSlim(
             String type,
             Integer month,
             Integer year,
@@ -41,7 +44,8 @@ public class ExpenseService {
             LocalDate endDate,
             LocalDate startDatePay,
             LocalDate endDatePay,
-            String expSts
+            String expSts,
+            Pageable pageable
     ) {
 
         Specification<Expense> spec = Specification.where(ExpenseSpecification.isNotDeleted())
@@ -50,16 +54,23 @@ public class ExpenseService {
                 .and(ExpenseSpecification.isBetweenExpdatepay(startDatePay, endDatePay))
                 .and(ExpenseSpecification.hasExpSts(expSts));
 
-        List<Expense> expenses = expenseRepository.findAll(spec);
+        Page<Expense> page = expenseRepository.findAll(spec, pageable);
 
-        if (expenses.isEmpty()) {
+        List<ExpenseResponseDto> content = page.map(expenseMapper::toDto).getContent();
+
+        if (page.isEmpty()) {
             throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
         }
 
-        return expenseRepository.findAll(spec)
-                .stream()
-                .map(expenseMapper::toDto)
-                .toList();
+        return new PageResponseDto<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     //POST expense logic
