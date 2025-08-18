@@ -1,8 +1,12 @@
 package com.example.estoque.controllers.CustomerControllers;
 
+import com.example.estoque.config.Pageable.AllowedSort;
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
 import com.example.estoque.services.CustomerService.CustomerService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +25,19 @@ public class CustomerController {
 
     //GET customers
     @GetMapping("/see")
-    public ResponseEntity<List<CustomerResponseDto>> getCustomers(
+    public ResponseEntity<PageResponseDto<CustomerResponseDto>> getCustomers(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String address,
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String state,
             @RequestParam(required = false) String zipCode,
             @RequestParam(required = false) String phone,
-            @RequestParam(required = false) String email
+            @RequestParam(required = false) String email,
+            @AllowedSort(value = {"name", "address", "city", "state", "zipCode", "phone", "email", "createdAt", "updatedAt"},
+                    defaultProp = "createdAt", defaultDir = "DESC")
+            @PageableDefault(size = 20) Pageable pageable
     ) {
-        List<CustomerResponseDto> customers = customerService.getFilterCustomers(name, address, city, state, zipCode, phone, email);
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(customerService.getCustomersSlim(name, address, city, state, zipCode, phone, email, pageable));
     }
 
     //POST all customers
