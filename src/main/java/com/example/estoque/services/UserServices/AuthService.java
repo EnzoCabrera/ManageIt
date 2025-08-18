@@ -26,6 +26,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
@@ -91,7 +93,41 @@ public class AuthService implements UserDetailsService {
         return ResponseEntity.ok().build();
     }
 
+    //GET user logic
+    public PageResponseDto<UserResponseDto> getUsersSlim(String email, String role, Pageable pageable) {
+        UserRole roleEnum = null;
+        if (role != null && !role.isBlank()) {
+            try {
+                roleEnum = UserRole.valueOf(role.toUpperCase());
+            }   catch (IllegalArgumentException ex) {
+                throw new AppException("Invalid role", HttpStatus.BAD_REQUEST);
+            }
+        }
 
+        Specification<User> spec = Specification.where
+                        (UserSpecification.hasEmail(email))
+                .and(UserSpecification.hasRole(roleEnum))
+                .and(UserSpecification.isNotDeleted());
+
+
+        Page<User> page = userRepository.findAll(spec, pageable);
+
+        List<UserResponseDto> content = page.map(userMapper::toDto).getContent();
+
+        if (page.isEmpty()) {
+            throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
+        }
+
+        return new PageResponseDto<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
+    }
 
     //PUT user logic
     public UserResponseDto updateUser(Long id, UserRequestDto dto){

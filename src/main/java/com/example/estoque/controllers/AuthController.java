@@ -1,5 +1,6 @@
 package com.example.estoque.controllers;
 
+import com.example.estoque.config.Pageable.AllowedSort;
 import com.example.estoque.dtos.authDtos.*;
 import com.example.estoque.services.UserServices.AuthService;
 import com.example.estoque.services.UserServices.UserQueryService;
@@ -42,10 +43,12 @@ public class AuthController {
     public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String role,
+            @AllowedSort(value = {"email", "role", "createdAt", "updatedAt"},
+                         defaultProp = "createdAt", defaultDir = "DESC")
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable
     ) {
-        return ResponseEntity.ok(userQueryService.getUsersSlim(email, role, pageable));
+        return ResponseEntity.ok(authService.getUsersSlim(email, role, pageable));
     }
 
     // Put user endpoint
