@@ -33,10 +33,4 @@ public class StockResponseDto {
 
     @NotNull
     private Integer minimumQtd;
-
-    @NotNull
-    private String updatedBy;
-
-    @NotNull
-    private String updatedAt;
 }
