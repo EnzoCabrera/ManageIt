@@ -24,8 +24,6 @@ public class CustomerMapper {
         dto.setCuszip(customer.getCuszip());
         dto.setCusphone(customer.getCusphone());
         dto.setCusemail(customer.getCusemail());
-        dto.setUpdatedBy(customer.getUpdatedBy());
-        dto.setUpdatedAt(customer.getUpdatedAt().toString());
         return dto;
     }
 }
