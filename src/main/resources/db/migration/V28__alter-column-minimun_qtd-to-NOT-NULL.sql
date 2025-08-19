@@ -1,0 +1,1 @@
+alter table tgvsto alter column mininum_qtd SET NOT NULL;
