@@ -36,10 +36,4 @@ public class ExpenseResponseDto {
 
     @NotNull
     private ExpenseStatus expsts;
-
-    @NotNull
-    private String updatedBy;
-
-    @NotNull
-    private String updatedAt;
 }
