@@ -101,6 +101,9 @@ public class StockService {
         String oldProductName = stock.getProductName();
         Integer oldQuantity = stock.getQuantity();
         Integer oldUnpricInCents = stock.getUnpricInCents();
+        Integer oldMinimumQtd = stock.getMinimumQtd();
+        String oldUntype = stock.getUntype().toString();
+        Integer oldUnqtt = stock.getUnqtt();
 
 
         stock.setProductName(stockRequestDto.getProductName());
@@ -132,6 +135,24 @@ public class StockService {
         if (!oldUnpricInCents.equals(updatedStock.getUnpricInCents())) {
             auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
                     "unpricInCents", oldUnpricInCents.toString(), updatedStock.getUnpricInCents().toString(), actor);
+        }
+
+        //Minimum Quantity
+        if (!oldMinimumQtd.equals(updatedStock.getMinimumQtd())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "minimumQtd", oldMinimumQtd.toString(), updatedStock.getMinimumQtd().toString(), actor);
+        }
+
+        //Unit Type
+        if (!oldUntype.equals(updatedStock.getUntype().toString())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "untype", oldUntype, updatedStock.getUntype().toString(), actor);
+        }
+
+        //Unit Quantity
+        if (!oldUnqtt.equals(updatedStock.getUnqtt())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "unqtt", oldUnqtt.toString(), updatedStock.getUnqtt().toString(), actor);
         }
 
         return stockMapper.toDto(updatedStock);
