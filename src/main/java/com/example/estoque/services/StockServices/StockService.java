@@ -102,10 +102,13 @@ public class StockService {
         Integer oldQuantity = stock.getQuantity();
         Integer oldUnpricInCents = stock.getUnpricInCents();
 
+
         stock.setProductName(stockRequestDto.getProductName());
         stock.setQuantity(stockRequestDto.getQuantity());
         stock.setUnpricInCents(stockRequestDto.getUnpricInCents());
         stock.setMinimumQtd(stockRequestDto.getMinimumQtd());
+        stock.setUntype(stockRequestDto.getUntype());
+        stock.setUnqtt(stockRequestDto.getUnqtt());
 
         Stock updatedStock = stockRepository.save(stock);
 
