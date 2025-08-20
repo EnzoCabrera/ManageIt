@@ -22,12 +22,12 @@ collection:
           sortKey: -1751128599133
           description: ""
         children:
-          - url: http://localhost:8080/api/stock/product/see?codprod=19
+          - url: http://localhost:8080/api/stock/product/see?codprod=1
             name: GetProductByCodprod
             meta:
               id: req_fac062ce018b42548d2c246351311068
               created: 1750715953873
-              modified: 1755032806944
+              modified: 1755601584993
               isPrivate: false
               description: ""
               sortKey: -1751128638455
@@ -38,7 +38,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MDc3MDYyfQ.CMQvdURwQM21y7X5W1nnNBmdaquxSIDl7V4qQRWPGOE
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -53,7 +53,7 @@ collection:
             meta:
               id: req_5d66d8ffea8f4258a6426d91e02fe5e0
               created: 1750719467628
-              modified: 1755032034519
+              modified: 1755601603590
               isPrivate: false
               description: ""
               sortKey: -1751128638505
@@ -62,7 +62,7 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                	"productName": "violão",
+                	"productName": "Pulseira",
                 	"quantity": 50,
                 	"unpricInCents":2000,
                 	"untype": "UNIT",
@@ -76,7 +76,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -86,12 +86,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/stock/product/update/19
+          - url: http://localhost:8080/api/stock/product/update/13
             name: PutProduct
             meta:
               id: req_0a74cba8c90f4ae1a39e0fa069a0bab9
               created: 1750755750395
-              modified: 1755032180679
+              modified: 1755626852290
               isPrivate: false
               description: ""
               sortKey: -1751128638417.5
@@ -102,7 +102,10 @@ collection:
                 {
                 	"productName": "violão",
                 	"quantity": 30,
-                	"unpricInCents":3000
+                	"unpricInCents":3000,
+                	"minimumQtd":1,
+                	"untype": "UNIT",
+                	"unqtt": 1
                 }
             headers:
               - name: Content-Type
@@ -111,7 +114,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -151,12 +154,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/stock/product/see
+          - url: http://localhost:8080/api/stock/product/see?size=10&page=1
             name: GetAllProducts
             meta:
               id: req_159af3a71c984a81a290a77a9cdae394
               created: 1751055786930
-              modified: 1755032085043
+              modified: 1755601573994
               isPrivate: false
               description: ""
               sortKey: -1751128638430
@@ -167,7 +170,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -182,7 +185,7 @@ collection:
             meta:
               id: req_3ea526079cb34b769dc55e9320a3b11b
               created: 1751407289589
-              modified: 1755032070486
+              modified: 1755260049243
               isPrivate: false
               description: ""
               sortKey: -1751128638442.5
@@ -193,7 +196,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MDc3MDYyfQ.CMQvdURwQM21y7X5W1nnNBmdaquxSIDl7V4qQRWPGOE
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MzQ1NjY3fQ.rn4Zk97EJNyKBtz0CdQA83rGRaBGSLjfCMZYdYNlMO4
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -319,12 +322,12 @@ collection:
                     send: true
                     store: true
                   rebuildPath: true
-          - url: http://localhost:8080/api/customer/see
+          - url: http://localhost:8080/api/customer/see?
             name: GetAllCustomers
             meta:
               id: req_10aae6a3a8634c1288cc861860206c35
               created: 1751124776990
-              modified: 1755031498293
+              modified: 1755601449001
               isPrivate: false
               description: ""
               sortKey: -1751128695024
@@ -335,7 +338,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -350,7 +353,7 @@ collection:
             meta:
               id: req_0730102c1ee54a36bf816983ccc439b4
               created: 1751125398738
-              modified: 1755031326949
+              modified: 1755511282272
               isPrivate: false
               description: ""
               sortKey: -1751128695174
@@ -374,7 +377,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1NTk1NzU2fQ.afaKb2QUUHZw1ZQj-skTg33vewNz7jxZQLzGoza7UNg
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -453,12 +456,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/customer/see?name=
+          - url: http://localhost:8080/api/customer/see?name=WM PRAIA
             name: GetCustomerByName
             meta:
               id: req_8bea3e0ccd074b27a4a8c354448c6020
               created: 1751129641868
-              modified: 1755031351750
+              modified: 1755601477585
               isPrivate: false
               description: ""
               sortKey: -1751128695074
@@ -469,7 +472,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MDc3MDYyfQ.CMQvdURwQM21y7X5W1nnNBmdaquxSIDl7V4qQRWPGOE
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -648,7 +651,7 @@ collection:
             meta:
               id: req_4187b109a02b41e3b1161853a591de88
               created: 1750873598417
-              modified: 1755031104491
+              modified: 1755167299220
               isPrivate: false
               description: ""
               sortKey: -1751128710898
@@ -657,7 +660,7 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                	"email": "zoencabrera@gmail.com",
+                	"email": "maciel@gmail.com",
                 	"password":"12345",
                 	"role": "ADMIN"
                 }
@@ -679,7 +682,7 @@ collection:
             meta:
               id: req_18e367da2f8147a686fcd2fb1cb96e93
               created: 1750875804239
-              modified: 1755031150200
+              modified: 1755038380681
               isPrivate: false
               description: ""
               sortKey: -1751128710998
@@ -688,7 +691,7 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                	"email": "zoencabrera@gmail.com",
+                	"email": "enzo2005cabrera@gmail.com",
                 	"password":"12345"
                 }
             headers:
@@ -709,12 +712,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/auth/see?email=zoencabrera@gmail.com
+          - url: http://localhost:8080/api/auth/see?email=enzo2005cabrera@gmail.com
             name: GetUserByEmail
             meta:
               id: req_2690ccda552c4f62a751d9b1046008ef
               created: 1754690951961
-              modified: 1755031176385
+              modified: 1755163719362
               isPrivate: false
               description: ""
               sortKey: -1751128711098
@@ -725,7 +728,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MjUwMTAwfQ.wSnY3UpEoAgTayPdnIgXBhAsFmFAB-2s2C-nSEgnNC8
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -735,12 +738,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/auth/see?role=ADMIN
+          - url: http://localhost:8080/api/auth/see?role=ADMIN&sort=id,desc
             name: GetUserByRole
             meta:
               id: req_4c077a9c546b4014af6ac1d4cc7f3d3e
               created: 1754691580321
-              modified: 1755031191829
+              modified: 1755167242947
               isPrivate: false
               description: ""
               sortKey: -1751128711048
@@ -751,7 +754,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MDMzMjI1fQ.BjYmhRCGoPUgMsT8Vk_h6E6qTthQXTG8u_slpDBjAQA
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MjUwMTAwfQ.wSnY3UpEoAgTayPdnIgXBhAsFmFAB-2s2C-nSEgnNC8
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -817,6 +820,32 @@ collection:
             authentication:
               type: bearer
               token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/api/auth/see?page=0&size=10
+            name: GetUser
+            meta:
+              id: req_ab8212223d4041e6bc61961843b8b01a
+              created: 1755163929255
+              modified: 1755515542058
+              isPrivate: false
+              description: ""
+              sortKey: -1751128711073
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_6d0eb13df75449459516f75936af636f
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1NTk1NzU2fQ.afaKb2QUUHZw1ZQj-skTg33vewNz7jxZQLzGoza7UNg
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -977,7 +1006,7 @@ collection:
             meta:
               id: req_d827c6530710467d9c3b200d1f726608
               created: 1751191408235
-              modified: 1755032252819
+              modified: 1755512977981
               isPrivate: false
               description: ""
               sortKey: -1751191413267
@@ -1000,7 +1029,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1NTk1NzU2fQ.afaKb2QUUHZw1ZQj-skTg33vewNz7jxZQLzGoza7UNg
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -1036,12 +1065,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/expense/see
+          - url: http://localhost:8080/api/expense/see?size=5&page=1
             name: GetAllExpenses
             meta:
               id: req_c7dde95e5ca54f3abde06c015b7c1281
               created: 1751191430967
-              modified: 1755032585460
+              modified: 1755602132083
               isPrivate: false
               description: ""
               sortKey: -1751191413071.6875
@@ -1052,7 +1081,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1Njg3ODM2fQ.ewtuH7WVRiMHsW3XQuhDJWWW_VZr0dTlQM99vpyU9gs
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -1062,12 +1091,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/expense/update/29
+          - url: http://localhost:8080/api/expense/update/11
             name: PutExpense
             meta:
               id: req_371004e720b8474797327249faf89f46
               created: 1751191458222
-              modified: 1755032494481
+              modified: 1755719268826
               isPrivate: false
               description: ""
               sortKey: -1751191413067
@@ -1090,7 +1119,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1ODA1NjM0fQ._z2_O9fHmTFAXQPofkihpeYnKlchnDhNoVMY55JKtd0
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -1333,7 +1362,7 @@ collection:
             meta:
               id: req_ab6a400a045642229ce71bfabbd1ff92
               created: 1751909303857
-              modified: 1755033289033
+              modified: 1755511295213
               isPrivate: false
               description: ""
               sortKey: -1751909306736
@@ -1342,14 +1371,14 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                  "codcus": 4,
+                  "codcus": 1,
                   "ordsts": "PENDING",
                   "ordpaytype": "PIX",
                   "ordpaydue": "2025-08-20",
                   "ordnote": "",
                   "items": [
                     {
-                      "codprod": 20,
+                      "codprod": 10,
                       "quantity": 4,
                       "discountPercent": 0.0
                     }
@@ -1362,7 +1391,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJ6b2VuY2FicmVyYUBnbWFpbC5jb20iLCJleHAiOjE3NTUxMTc1NTJ9.VVf8ghJ95I1PoQotimf9Qcc9zJ6VHLPmjqb0v3p_fCU
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1NTk1NzU2fQ.afaKb2QUUHZw1ZQj-skTg33vewNz7jxZQLzGoza7UNg
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -1372,12 +1401,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: http://localhost:8080/api/order/see
+          - url: http://localhost:8080/api/order/see?size=10&page=1
             name: GetAllOrders
             meta:
               id: req_c2b0efdd1ed044c7b376e0fdb941d37a
               created: 1751909328536
-              modified: 1751909375276
+              modified: 1755511365282
               isPrivate: false
               description: ""
               sortKey: -1751909306636
@@ -1388,7 +1417,7 @@ collection:
                 id: pair_6d0eb13df75449459516f75936af636f
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzUxOTg1OTc3fQ.tZ78VRfSDxSAnAHEwCXclDKjy8BQwSGATNhuwlHOoqw
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1NTk1NzU2fQ.afaKb2QUUHZw1ZQj-skTg33vewNz7jxZQLzGoza7UNg
               prefix: Bearer
             settings:
               renderRequestBody: true
@@ -1611,7 +1640,7 @@ collection:
             meta:
               id: req_b4c9c6c130864a5cb87ee6a872e79277
               created: 1752011326073
-              modified: 1755033422859
+              modified: 1755509440876
               isPrivate: false
               description: ""
               sortKey: -1752011326073
@@ -1621,7 +1650,7 @@ collection:
                 value: insomnia/11.2.0
             authentication:
               type: bearer
-              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1MDc3MDYyfQ.CMQvdURwQM21y7X5W1nnNBmdaquxSIDl7V4qQRWPGOE
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdG9jay1hcGkiLCJzdWIiOiJlbnpvMjAwNWNhYnJlcmFAZ21haWwuY29tIiwiZXhwIjoxNzU1NTk1NzU2fQ.afaKb2QUUHZw1ZQj-skTg33vewNz7jxZQLzGoza7UNg
               prefix: Bearer
             settings:
               renderRequestBody: true
