@@ -1,4 +1,4 @@
-package com.example.estoque.services;
+package com.example.estoque.services.UserServices;
 
 import com.example.estoque.dtos.authDtos.*;
 import com.example.estoque.entities.userEntities.User;
@@ -8,8 +8,12 @@ import com.example.estoque.exceptions.AppException;
 import com.example.estoque.infra.security.TokenService;
 import com.example.estoque.mapper.UserMapper;
 import com.example.estoque.repositories.UserRepository;
+import com.example.estoque.services.AuditLogService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,33 +94,39 @@ public class AuthService implements UserDetailsService {
     }
 
     //GET user logic
-    public List<UserResponseDto> getFilterUsers(String email, String role) {
+    public PageResponseDto<UserResponseDto> getUsersSlim(String email, String role, Pageable pageable) {
         UserRole roleEnum = null;
         if (role != null && !role.isBlank()) {
             try {
                 roleEnum = UserRole.valueOf(role.toUpperCase());
             }   catch (IllegalArgumentException ex) {
-                return List.of();
+                throw new AppException("Invalid role", HttpStatus.BAD_REQUEST);
             }
         }
 
         Specification<User> spec = Specification.where
-                    (UserSpecification.hasEmail(email))
+                        (UserSpecification.hasEmail(email))
                 .and(UserSpecification.hasRole(roleEnum))
                 .and(UserSpecification.isNotDeleted());
 
 
+        Page<User> page = userRepository.findAll(spec, pageable);
 
+        List<UserResponseDto> content = page.map(userMapper::toDto).getContent();
 
-        List<User> users = userRepository.findAll(spec);
-
-        if (users.isEmpty()) {
+        if (page.isEmpty()) {
             throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
         }
 
-        return users.stream()
-                    .map(userMapper::toDto)
-                    .toList();
+        return new PageResponseDto<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     //PUT user logic

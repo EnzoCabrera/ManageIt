@@ -36,10 +36,4 @@ public class CustomerResponseDto {
 
     @NotNull
     private String cusemail;
-
-    @NotNull
-    private String updatedBy;
-
-    @NotNull
-    private String updatedAt;
 }

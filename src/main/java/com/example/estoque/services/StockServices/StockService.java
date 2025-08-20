@@ -1,5 +1,6 @@
 package com.example.estoque.services.StockServices;
 
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
 import com.example.estoque.entities.stockEntities.Stock;
@@ -11,6 +12,8 @@ import com.example.estoque.services.AuditLogService;
 import com.example.estoque.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,24 +36,32 @@ public class StockService {
     private EmailService emailService;
 
     //GET products logic
-    public List<StockResponseDto> getFilterStock(
+    public PageResponseDto<StockResponseDto> getStockSlim(
             String productName,
-            Long codprod
-        ) {
+            Long codprod,
+            Pageable pageable
+    ) {
         Specification<Stock> spec = Specification.where(StockSpecification.isNotDeleted())
                 .and(StockSpecification.hasName(productName))
                 .and(StockSpecification.hasCodprod(codprod));
 
-        List<Stock> stock = stockRepository.findAll(spec);
+        Page<Stock> page = stockRepository.findAll(spec, pageable);
 
-        if (stock.isEmpty()) {
+        List<StockResponseDto> content = page.map(stockMapper::toDto).getContent();
+
+        if (page.isEmpty()) {
             throw new AppException("No users found matching the given filters.", HttpStatus.NOT_FOUND);
         }
 
-        return stockRepository.findAll(spec)
-                .stream()
-                .map(stockMapper::toDto)
-                .toList();
+        return new PageResponseDto<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     //POST product logic
@@ -90,11 +101,17 @@ public class StockService {
         String oldProductName = stock.getProductName();
         Integer oldQuantity = stock.getQuantity();
         Integer oldUnpricInCents = stock.getUnpricInCents();
+        Integer oldMinimumQtd = stock.getMinimumQtd();
+        String oldUntype = stock.getUntype().toString();
+        Integer oldUnqtt = stock.getUnqtt();
+
 
         stock.setProductName(stockRequestDto.getProductName());
         stock.setQuantity(stockRequestDto.getQuantity());
         stock.setUnpricInCents(stockRequestDto.getUnpricInCents());
         stock.setMinimumQtd(stockRequestDto.getMinimumQtd());
+        stock.setUntype(stockRequestDto.getUntype());
+        stock.setUnqtt(stockRequestDto.getUnqtt());
 
         Stock updatedStock = stockRepository.save(stock);
 
@@ -118,6 +135,24 @@ public class StockService {
         if (!oldUnpricInCents.equals(updatedStock.getUnpricInCents())) {
             auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
                     "unpricInCents", oldUnpricInCents.toString(), updatedStock.getUnpricInCents().toString(), actor);
+        }
+
+        //Minimum Quantity
+        if (!oldMinimumQtd.equals(updatedStock.getMinimumQtd())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "minimumQtd", oldMinimumQtd.toString(), updatedStock.getMinimumQtd().toString(), actor);
+        }
+
+        //Unit Type
+        if (!oldUntype.equals(updatedStock.getUntype().toString())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "untype", oldUntype, updatedStock.getUntype().toString(), actor);
+        }
+
+        //Unit Quantity
+        if (!oldUnqtt.equals(updatedStock.getUnqtt())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "unqtt", oldUnqtt.toString(), updatedStock.getUnqtt().toString(), actor);
         }
 
         return stockMapper.toDto(updatedStock);

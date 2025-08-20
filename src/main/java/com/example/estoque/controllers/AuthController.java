@@ -1,13 +1,16 @@
 package com.example.estoque.controllers;
 
+import com.example.estoque.config.Pageable.AllowedSort;
 import com.example.estoque.dtos.authDtos.*;
-import com.example.estoque.services.AuthService;
+import com.example.estoque.services.UserServices.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -33,12 +36,15 @@ public class AuthController {
 
     // GET users endpoint
     @GetMapping("/see")
-    public ResponseEntity<List<UserResponseDto>> getUsers(
+    public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(
             @RequestParam(required = false) String email,
-            @RequestParam(required = false) String role
+            @RequestParam(required = false) String role,
+            @AllowedSort(value = {"email", "role", "createdAt", "updatedAt"},
+                         defaultProp = "createdAt", defaultDir = "DESC")
+            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC)
+            Pageable pageable
     ) {
-        List<UserResponseDto> users = authService.getFilterUsers(email, role);
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(authService.getUsersSlim(email, role, pageable));
     }
 
     // Put user endpoint

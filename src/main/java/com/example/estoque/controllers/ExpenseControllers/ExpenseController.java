@@ -1,9 +1,13 @@
 package com.example.estoque.controllers.ExpenseControllers;
 
+import com.example.estoque.config.Pageable.AllowedSort;
+import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.expenseDtos.*;
 import com.example.estoque.dtos.expenseDtos.DashboardDtos.*;
 import com.example.estoque.services.ExpensesService.ExpenseDashboardService;
 import com.example.estoque.services.ExpensesService.ExpenseService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +28,7 @@ public class ExpenseController {
 
     //GET expenses
     @GetMapping("/see")
-    public ResponseEntity<List<ExpenseResponseDto>> getExpenses(
+    public ResponseEntity<PageResponseDto<ExpenseResponseDto>> getExpenses(
         @RequestParam(required = false) String type,
         @RequestParam(required = false) Integer month,
         @RequestParam(required = false) Integer year,
@@ -33,11 +37,15 @@ public class ExpenseController {
         @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
         @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDatePay,
         @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDatePay,
-        @RequestParam(required = false) String expSts
+        @RequestParam(required = false) String expSts,
+        @AllowedSort(value = {"codexp", "expdesc", "expCostInCents", "expdate", "expdatepay", "createdAt", "updatedAt"},
+                     defaultProp = "createdAt", defaultDir = "DESC")
+        @PageableDefault(size = 20) Pageable pageable
 
     ) {
-        List<ExpenseResponseDto> expenses = expenseService.getFilterExpenses(type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay, expSts);
-        return ResponseEntity.ok(expenses);
+        return ResponseEntity.ok(expenseService.getExpensesSlim(
+            type, month, year, payMonth, startDate, endDate, startDatePay, endDatePay, expSts, pageable
+        ));
     }
 
     //POST expense
