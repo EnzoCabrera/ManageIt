@@ -30,4 +30,7 @@ public class StockRequestDto {
 
     @NotNull
     private Integer minimumQtd;
+
+    @NotNull
+    private Boolean isDeleted;
 }
