@@ -110,7 +110,7 @@ public class CustomerService {
         String oldCuszip = customer.getCuszip();
         String oldCusphone = customer.getCusphone();
         String oldCusemail = customer.getCusemail();
-
+        Boolean oldIsDeleted = customer.getIsDeleted();
 
         customer.setCusname(dto.getCusname());
         customer.setCusaddr(dto.getCusaddr());
@@ -119,6 +119,7 @@ public class CustomerService {
         customer.setCuszip(dto.getCuszip());
         customer.setCusphone(dto.getCusphone());
         customer.setCusemail(dto.getCusemail());
+        customer.setIsDeleted(dto.getIsDeleted());
 
         Customer updatedCustomer = customerRepository.save(customer);
 
@@ -166,6 +167,12 @@ public class CustomerService {
         if (!oldCusemail.equals(updatedCustomer.getCusemail())) {
             auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
                     "cusemail", oldCusemail, updatedCustomer.getCusemail(), actor);
+        }
+
+        // Is Deleted
+        if (!oldIsDeleted.equals(updatedCustomer.getIsDeleted())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "isDeleted", oldIsDeleted.toString(), updatedCustomer.getIsDeleted().toString(), actor);
         }
 
         return customerMapper.toDto(updatedCustomer);
