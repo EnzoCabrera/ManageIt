@@ -33,4 +33,7 @@ public class ExpenseRequestDto {
 
     @NotNull
     private ExpenseStatus expsts;
+
+    @NotNull
+    private Boolean isDeleted;
 }
