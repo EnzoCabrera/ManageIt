@@ -23,6 +23,7 @@ public class ExpenseMapper {
         dto.setExpdatepay(expense.getExpdatepay());
         dto.setExptype(expense.getExptype());
         dto.setExpsts(expense.getExpsts());
+        dto.setIsDeleted(expense.getIsDeleted());
         return dto;
     }
 
