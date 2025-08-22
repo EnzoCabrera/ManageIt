@@ -22,6 +22,7 @@ public class OrderMapper {
         dto.setOrdpaytype(order.getOrdpaytype().name());
         dto.setOrdpaydue(order.getOrdpaydue());
         dto.setOrdnote(order.getOrdnote());
+        dto.setIsDeleted(order.getIsDeleted());
 
         dto.setItems(
                 order.getItems()

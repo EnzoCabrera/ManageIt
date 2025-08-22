@@ -37,6 +37,9 @@ public class OrderResponseDto {
 
     private String ordnote;
 
+    @NotNull
+    private Boolean isDeleted;
+
     private List<ItemResponseDto> items;
 
 

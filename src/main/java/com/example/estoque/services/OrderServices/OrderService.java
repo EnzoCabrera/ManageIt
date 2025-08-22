@@ -200,11 +200,13 @@ public class OrderService {
         LocalDate oldPayDue = order.getOrdpaydue();
         Integer oldTotalCost = order.getOrdcostInCents();
         Long oldCustomer = order.getCodcus().getCodcus();
+        Boolean oldIsDeleted = order.getIsDeleted();
 
         order.setOrdsts(dto.getOrdsts());
         order.setOrdpaytype(dto.getOrdpaytype());
         order.setOrdpaydue(dto.getOrdpaydue());
         order.setOrdnote(dto.getOrdnote());
+        order.setIsDeleted(dto.getIsDeleted());
 
         Customer customer = customerRepository.findBycodcusAndIsDeletedFalse(dto.getCodcus())
                 .orElseThrow(() -> new AppException("Customer not found or disabled", HttpStatus.BAD_REQUEST));
@@ -329,6 +331,15 @@ public class OrderService {
                     "codcus",
                     oldCustomer.toString(),
                     savedOrder.getCodcus().getCodcus().toString(),
+                    actor);
+        }
+
+        // Is deleted
+        if (!oldIsDeleted.equals(savedOrder.getIsDeleted())) {
+            auditLogService.log("Order", savedOrder.getCodord(), "UPDATE",
+                    "isDeleted",
+                    oldIsDeleted.toString(),
+                    savedOrder.getIsDeleted().toString(),
                     actor);
         }
 
