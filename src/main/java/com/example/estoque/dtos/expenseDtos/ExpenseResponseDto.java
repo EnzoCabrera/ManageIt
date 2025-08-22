@@ -36,4 +36,7 @@ public class ExpenseResponseDto {
 
     @NotNull
     private ExpenseStatus expsts;
+
+    @NotNull
+    private Boolean isDeleted;
 }
