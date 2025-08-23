@@ -138,10 +138,12 @@ public class AuthService implements UserDetailsService {
         String oldEmail = user.getEmail();
         UserRole oldRole = user.getRole();
         String oldHashPassword = user.getPassword();
+        Boolean oldIsDeleted = user.getIsDeleted();
 
         user.setEmail(dto.getEmail());
         user.setRole(dto.getRole());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setIsDeleted(dto.getIsDeleted());
 
         User updateUser = userRepository.save(user);
 
@@ -160,6 +162,11 @@ public class AuthService implements UserDetailsService {
         if (!oldHashPassword.equals(updateUser.getPassword())) {
             auditLogService.log("User", updateUser.getId(), "UPDATE",
                     "password", "********", "********", actor);
+        }
+
+        if (!oldIsDeleted.equals(updateUser.getIsDeleted())) {
+            auditLogService.log("User", updateUser.getId(), "UPDATE",
+                    "isDeleted", oldIsDeleted.toString(), updateUser.getIsDeleted().toString(), actor);
         }
 
         return userMapper.toDto(updateUser);
