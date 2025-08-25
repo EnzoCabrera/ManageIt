@@ -36,4 +36,7 @@ public class StockResponseDto {
 
     @NotNull
     private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }

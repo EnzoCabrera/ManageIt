@@ -23,6 +23,7 @@ public class StockMapper {
         dto.setUnqtt(stock.getUnqtt());
         dto.setMinimumQtd(stock.getMinimumQtd());
         dto.setIsDeleted(stock.getIsDeleted());
+        dto.setIsActive(stock.getIsActive());
         return dto;
     }
 }

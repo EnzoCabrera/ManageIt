@@ -1,0 +1,1 @@
+alter table TGVSTO add column is_active Boolean default true NOT NULL;
