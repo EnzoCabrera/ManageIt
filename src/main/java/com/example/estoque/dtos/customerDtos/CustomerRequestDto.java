@@ -38,5 +38,6 @@ public class CustomerRequestDto {
     @NotNull
     private Boolean isDeleted;
 
-
+    @NotNull
+    private Boolean isActive;
 }
