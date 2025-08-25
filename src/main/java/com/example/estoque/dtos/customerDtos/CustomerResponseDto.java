@@ -39,4 +39,7 @@ public class CustomerResponseDto {
 
     @NotNull
     private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }
