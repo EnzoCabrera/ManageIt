@@ -24,4 +24,7 @@ public class UserRequestDto {
 
     @NotNull
     private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }
