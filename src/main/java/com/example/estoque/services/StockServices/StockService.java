@@ -73,6 +73,7 @@ public class StockService {
         stock.setUntype(dto.getUntype());
         stock.setUnqtt(dto.getUnqtt());
         stock.setMinimumQtd(dto.getMinimumQtd());
+        stock.setIsActive(dto.getIsActive());
 
         Stock save = stockRepository.save(stock);
 
@@ -105,6 +106,7 @@ public class StockService {
         String oldUntype = stock.getUntype().toString();
         Integer oldUnqtt = stock.getUnqtt();
         Boolean oldIsDeleted = stock.getIsDeleted();
+        Boolean oldIsActive = stock.getIsActive();
 
 
         stock.setProductName(stockRequestDto.getProductName());
@@ -114,6 +116,8 @@ public class StockService {
         stock.setUntype(stockRequestDto.getUntype());
         stock.setUnqtt(stockRequestDto.getUnqtt());
         stock.setIsDeleted(stockRequestDto.getIsDeleted());
+        stock.setIsActive(stockRequestDto.getIsActive());
+
 
         Stock updatedStock = stockRepository.save(stock);
 
@@ -161,6 +165,12 @@ public class StockService {
         if (!oldIsDeleted.equals(updatedStock.getIsDeleted())) {
             auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
                     "isDeleted", oldIsDeleted.toString(), updatedStock.getIsDeleted().toString(), actor);
+        }
+
+        //Is Active
+        if (!oldIsActive.equals(updatedStock.getIsActive())) {
+            auditLogService.log("Stock", updatedStock.getCodProd(), "UPDATE",
+                    "isActive", oldIsActive.toString(), updatedStock.getIsActive().toString(), actor);
         }
 
         return stockMapper.toDto(updatedStock);
