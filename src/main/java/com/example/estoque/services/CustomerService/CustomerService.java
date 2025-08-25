@@ -80,6 +80,7 @@ public class CustomerService {
         customer.setCuszip(dto.getCuszip());
         customer.setCusphone(dto.getCusphone());
         customer.setCusemail(dto.getCusemail());
+        customer.setIsActive(dto.getIsActive());
 
         Customer savedCustomer = customerRepository.save(customer);
 
@@ -111,6 +112,7 @@ public class CustomerService {
         String oldCusphone = customer.getCusphone();
         String oldCusemail = customer.getCusemail();
         Boolean oldIsDeleted = customer.getIsDeleted();
+        Boolean oldIsActive = customer.getIsActive();
 
         customer.setCusname(dto.getCusname());
         customer.setCusaddr(dto.getCusaddr());
@@ -120,6 +122,7 @@ public class CustomerService {
         customer.setCusphone(dto.getCusphone());
         customer.setCusemail(dto.getCusemail());
         customer.setIsDeleted(dto.getIsDeleted());
+        customer.setIsActive(dto.getIsActive());
 
         Customer updatedCustomer = customerRepository.save(customer);
 
@@ -173,6 +176,12 @@ public class CustomerService {
         if (!oldIsDeleted.equals(updatedCustomer.getIsDeleted())) {
             auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
                     "isDeleted", oldIsDeleted.toString(), updatedCustomer.getIsDeleted().toString(), actor);
+        }
+
+        // Is Active
+        if (!oldIsActive.equals(updatedCustomer.getIsActive())) {
+            auditLogService.log("Customer", updatedCustomer.getCodcus(), "UPDATE",
+                    "isActive", oldIsActive.toString(), updatedCustomer.getIsActive().toString(), actor);
         }
 
         return customerMapper.toDto(updatedCustomer);

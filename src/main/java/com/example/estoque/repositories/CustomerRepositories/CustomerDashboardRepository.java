@@ -12,7 +12,8 @@ public interface CustomerDashboardRepository extends JpaRepository<Customer, Int
     //Custom query to get active customers
     @Query(value = """
     SELECT COUNT(*) FROM TGVCUS 
-    WHERE is_deleted  = false;
+    WHERE is_deleted = false
+    AND is_active = true;
 """, nativeQuery = true)
      Integer findAllActiveCus();
 
@@ -92,7 +93,7 @@ public interface CustomerDashboardRepository extends JpaRepository<Customer, Int
     FROM 
         TGVCUS c LEFT JOIN TGVORD o ON c.codcus = o.codcus AND o.is_deleted = false
     WHERE 
-        c.is_deleted = false
+        c.is_deleted = false AND c.is_active = true
     GROUP BY 
         c.codcus, c.cusname, c.cusemail
     HAVING 

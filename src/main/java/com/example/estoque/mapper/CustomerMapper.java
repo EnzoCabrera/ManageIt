@@ -25,6 +25,7 @@ public class CustomerMapper {
         dto.setCusphone(customer.getCusphone());
         dto.setCusemail(customer.getCusemail());
         dto.setIsDeleted(customer.getIsDeleted());
+        dto.setIsActive(customer.getIsActive());
         return dto;
     }
 }
