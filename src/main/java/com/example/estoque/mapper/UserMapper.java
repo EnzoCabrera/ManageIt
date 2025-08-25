@@ -18,6 +18,7 @@ public class UserMapper {
         dto.setEmail(user.getEmail());
         dto.setRole(user.getRole().toString());
         dto.setIsDeleted(user.getIsDeleted());
+        dto.setIsActive(user.getIsActive());
         return dto;
     }
 }
