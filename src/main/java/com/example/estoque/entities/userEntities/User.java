@@ -58,6 +58,9 @@ public class User implements UserDetails{
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
 
     public User(String email, String password, UserRole role) {
         this.email = email;

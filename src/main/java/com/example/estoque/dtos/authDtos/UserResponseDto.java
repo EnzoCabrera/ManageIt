@@ -23,4 +23,7 @@ public class UserResponseDto {
 
     @NotNull
     private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }
