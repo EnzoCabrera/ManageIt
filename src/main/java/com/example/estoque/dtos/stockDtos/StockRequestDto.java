@@ -33,4 +33,7 @@ public class StockRequestDto {
 
     @NotNull
     private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }
