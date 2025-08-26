@@ -61,6 +61,9 @@ public class SecurityConfigurations {
 
                         .requestMatchers(HttpMethod.GET, "/api/auth/**").hasAnyRole("ADMIN", "MANAGER")
 
+                        .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/actuator/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
