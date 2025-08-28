@@ -37,6 +37,39 @@ services:
     networks:
       - manageit-network
 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prom_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=2d'
+    ports:
+      - "9090:9090"
+    depends_on:
+      - app
+    networks:
+        - manageit-network
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - manageit-network
+
+volumes:
+    prom_data:
+    grafana_data:
+
 networks:
   manageit-network:
     driver: bridge
