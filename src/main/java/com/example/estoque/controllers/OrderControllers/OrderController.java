@@ -5,6 +5,8 @@ import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;
 import com.example.estoque.services.OrderServices.OrderService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +19,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/order")
+@Tag(name = "Order")
+@SecurityRequirement(name = "BearerAuth")
 public class OrderController {
 
     private final OrderService orderService;

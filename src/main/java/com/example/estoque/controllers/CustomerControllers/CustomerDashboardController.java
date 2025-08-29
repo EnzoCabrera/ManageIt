@@ -5,6 +5,8 @@ import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.NewCusPerMon
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusHighestAmountSpent;
 import com.example.estoque.dtos.customerDtos.customerDashboardsDtos.Top5CusMoreOrdDto;
 import com.example.estoque.services.CustomerService.CustomerDashboardService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 @RequiredArgsConstructor
+@Tag(name = "Customer Dashboard")
+@SecurityRequirement(name = "BearerAuth")
 public class CustomerDashboardController {
 
     private final CustomerDashboardService customerDashboardService;

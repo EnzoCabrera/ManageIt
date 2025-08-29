@@ -6,6 +6,8 @@ import com.example.estoque.dtos.expenseDtos.*;
 import com.example.estoque.dtos.expenseDtos.DashboardDtos.*;
 import com.example.estoque.services.ExpensesService.ExpenseDashboardService;
 import com.example.estoque.services.ExpensesService.ExpenseService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/expense")
+@Tag(name = "Expense")
+@SecurityRequirement(name = "BearerAuth")
 public class ExpenseController {
 
     private final ExpenseService expenseService;

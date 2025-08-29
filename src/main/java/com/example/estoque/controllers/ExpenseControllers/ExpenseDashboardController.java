@@ -2,6 +2,8 @@ package com.example.estoque.controllers.ExpenseControllers;
 
 import com.example.estoque.dtos.expenseDtos.DashboardDtos.*;
 import com.example.estoque.services.ExpensesService.ExpenseDashboardService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/expense")
+@Tag(name = "Expense Dashboard")
+@SecurityRequirement(name = "BearerAuth")
 public class ExpenseDashboardController {
 
     private final ExpenseDashboardService expenseDashboardService;
