@@ -6,6 +6,8 @@ import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrderSummaryDto;
 import com.example.estoque.dtos.orderDtos.DashboardDtos.DailyOrdersDto;
 import com.example.estoque.repositories.OrderRepositories.OrderDashboardRepository;
 import com.example.estoque.services.OrderServices.OrderDashboardService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
+@Tag(name = "Order Dashboard")
+@SecurityRequirement(name = "BearerAuth")
 public class OrderDashboardController {
 
     private final OrderDashboardService orderDashboardService;

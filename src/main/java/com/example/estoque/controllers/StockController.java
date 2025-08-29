@@ -5,6 +5,8 @@ import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.stockDtos.StockRequestDto;
 import com.example.estoque.dtos.stockDtos.StockResponseDto;
 import com.example.estoque.services.StockServices.StockService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/stock/product")
+@Tag(name = "Stock")
+@SecurityRequirement(name = "BearerAuth")
 public class StockController {
 
     private final StockService stockService;
