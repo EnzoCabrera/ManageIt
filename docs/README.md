@@ -40,19 +40,21 @@ The system is designed to be modular, scalable, and easily integrated into dashb
 - **Security:** Spring Security + JWT
 - **Database:** PostgreSQL (Docker)
 - **ORM:** Spring Data JPA / Hibernate
+- **Documentation:** Springdoc OpenAPI (Swagger)
+- **Observability:** Prometheus + Grafana
 - **Others:** Lombok, Jakarta Validation, Email Service
 
 ---
 
 ## 🔒 Role-Based Access Control
 
-| Role       | Main Permissions |
-|------------|------------------|
-| **ADMIN**  | Full access to all endpoints |
-| **MANAGER**| Manage users, inventory, and orders |
+| Role         | Main Permissions                       |
+|--------------|----------------------------------------|
+| **ADMIN**    | Full access to all endpoints           |
+| **MANAGER**  | Manage users, inventory, and orders    |
 | **OPERATOR** | Create and manage orders and inventory |
-| **AUDITOR** | View logs and audit data |
-| **VIEWER**  | Read-only access to data and reports |
+| **AUDITOR**  | View logs and audit data               |
+| **VIEWER**   | Read-only access to data and reports   |
 
 ---
 
@@ -68,6 +70,25 @@ The system is designed to be modular, scalable, and easily integrated into dashb
 ## 📧 Automatic Notifications
 
 - Sends email alerts to responsible users when a product is below its defined minimum quantity.
+
+---
+
+## 📈 Observability with Prometheus & Grafana
+
+**ManageIt** integrates Prometheus and Grafana for system monitoring and visualization of application metrics.  
+These metrics are automatically exposed by Spring Boot Actuator and collected every 5 seconds by Prometheus.
+
+### ✅ Key Features:
+- Real-time application metrics (memory, threads, HTTP requests, DB connections, etc.)
+- Custom dashboards in Grafana
+- Automatic scraping from `/actuator/prometheus`
+
+### 📍 Default Endpoints:
+- Prometheus UI: `http://localhost:9090`
+- Grafana UI: `http://localhost:3000`  
+  (Login: **admin** / **admin**)
+
+You can import a dashboard in Grafana and configure Prometheus as a data source using: `http://prometheus:9090`
 
 ---
 
@@ -106,5 +127,7 @@ The system is designed to be modular, scalable, and easily integrated into dashb
    ```bash
    docker compose up
 
-6. Download the Insomnia API Requests Collection
-   [Click here to download](docs/Insomnia-requests.yaml)
+6. Open your browser and navigate to:
+   - Swagger: ```http://localhost:8080/swagger-ui/index.html```
+   - Prometheus: ```http://localhost:9090```
+   - Grafana: ```http://localhost:3000```
