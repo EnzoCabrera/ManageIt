@@ -16,7 +16,7 @@ public interface StockRepository extends JpaRepository<Stock, Long>, JpaSpecific
 
     // Custom query to find all stocks below the minimum quantity
     @Query("""
-    SELECT s FROM Stock s WHERE s.quantity < s.minimumQtd AND s.isDeleted = false
+    SELECT s FROM Stock s WHERE s.quantity < s.minimumQtd AND s.isDeleted = false AND s.isActive = true
 """)
     List<Stock> findAllBelowMinimum();
 

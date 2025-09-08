@@ -3,6 +3,8 @@ package com.example.estoque.controllers;
 import com.example.estoque.config.Pageable.AllowedSort;
 import com.example.estoque.dtos.authDtos.*;
 import com.example.estoque.services.UserServices.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Auth")
+@SecurityRequirement(name = "BearerAuth")
 public class AuthController {
 
     @Autowired

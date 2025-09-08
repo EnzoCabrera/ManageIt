@@ -58,6 +58,9 @@ public class User implements UserDetails{
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
 
     public User(String email, String password, UserRole role) {
         this.email = email;
@@ -78,21 +81,21 @@ public class User implements UserDetails{
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

@@ -6,6 +6,8 @@ import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.entities.LogEntities.AuditLog;
 import com.example.estoque.repositories.AuditLogRepository;
 import com.example.estoque.services.AuditLogService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/log")
 @RequiredArgsConstructor
+@Tag(name = "Log")
+@SecurityRequirement(name = "BearerAuth")
 public class LogController {
 
     private final AuditLogService auditLogService;

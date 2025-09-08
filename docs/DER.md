@@ -29,6 +29,7 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | ROLE       | VARCHAR   | User role                        | 0 = USER, 1 = ADMIN  | Uses backend enum(src/main/java/com/example/estoque/entities/userEntities/UserRole.java) |
 | CREATED_AT | TIMESTAMP | When user was created            | auto                 |                                                                                          |
 | IS_DELETED | BOOLEAN   | Soft delete flag                 | true / false         | Default: false                                                                           |
+| IS_ACTIVE  | BOOLEAN   | Active flag                      | true / false         | Default: true                                                                            |
 | CREATED_BY | VARCHAR   | User who created the record      | (TGVUSE.EMAIL)       |                                                                                          |
 | UPDATED_BY | VARCHAR   | Last user who updated the record | (TGVUSE.EMAIL)       |                                                                                          |
 | UPDATED_AT | TIMESTAMP | When user was created            | auto                 |                                                                                          |
@@ -51,26 +52,28 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 | CREATED_BY      | VARCHAR   | User who created the record                           | (TGVUSE.EMAIL)  |                |
 | UPDATED_BY      | VARCHAR   | Last user who updated the record                      | (TGVUSE.EMAIL)  |                |
 | IS_DELETED      | BOOLEAN   | Soft delete flag                                      | true / false    | Default: false |
+| IS_ACTIVE       | BOOLEAN   | Active flag                                           | true / false    | Default: true  |
 
 ---
 
 ## 📑 TGVCUS (Customers)
 
-| Column     | Type      | Description                        | Possible Values  | Notes                                                                                            |
-|------------|-----------|------------------------------------|------------------|--------------------------------------------------------------------------------------------------|
-| CODCUS     | BIGINT    | Unique customer ID                 | Auto-increment   | Primary Key                                                                                      |
-| CUSNAME    | VARCHAR   | Customer name                      | —                | Not null                                                                                         |
-| CUSADDR    | VARCHAR   | Customer address                   | —                |                                                                                                  |
-| CUSCITY    | VARCHAR   | Customer city                      | —                |                                                                                                  |
-| CUSTATE    | VARCHAR   | Customer state (UF)                | e.g., MG, SP, RJ | Enum in backend(src/main/java/com/example/estoque/entities/customerEntities/BrazilianState.java) |
-| CUSZIP     | VARCHAR   | Postal code                        | —                |                                                                                                  |
-| CUSPHONE   | VARCHAR   | Customer phone number              | —                |                                                                                                  |
-| CUSEMAIL   | VARCHAR   | Customer email                     | —                |                                                                                                  |
-| CREATED_AT | TIMESTAMP | When customer was added            | auto             |                                                                                                  |
-| UPDATED_AT | TIMESTAMP | Last update timestamp              | auto             |                                                                                                  |
-| CREATED_BY | VARCHAR   | User who created the record        | (TGVUSE.EMAIL)   |                                                                                                  |
-| UPDATED_BY | VARCHAR   | Last user who updated the record   | (TGVUSE.EMAIL)   |                                                                                                  |
-| IS_DELETED | BOOLEAN   | Soft delete flag                   | true / false     | Default: false                                                                                   |
+| Column     | Type      | Description                      | Possible Values  | Notes                                                                                            |
+|------------|-----------|----------------------------------|------------------|--------------------------------------------------------------------------------------------------|
+| CODCUS     | BIGINT    | Unique customer ID               | Auto-increment   | Primary Key                                                                                      |
+| CUSNAME    | VARCHAR   | Customer name                    | —                | Not null                                                                                         |
+| CUSADDR    | VARCHAR   | Customer address                 | —                |                                                                                                  |
+| CUSCITY    | VARCHAR   | Customer city                    | —                |                                                                                                  |
+| CUSTATE    | VARCHAR   | Customer state (UF)              | e.g., MG, SP, RJ | Enum in backend(src/main/java/com/example/estoque/entities/customerEntities/BrazilianState.java) |
+| CUSZIP     | VARCHAR   | Postal code                      | —                |                                                                                                  |
+| CUSPHONE   | VARCHAR   | Customer phone number            | —                |                                                                                                  |
+| CUSEMAIL   | VARCHAR   | Customer email                   | —                |                                                                                                  |
+| CREATED_AT | TIMESTAMP | When customer was added          | auto             |                                                                                                  |
+| UPDATED_AT | TIMESTAMP | Last update timestamp            | auto             |                                                                                                  |
+| CREATED_BY | VARCHAR   | User who created the record      | (TGVUSE.EMAIL)   |                                                                                                  |
+| UPDATED_BY | VARCHAR   | Last user who updated the record | (TGVUSE.EMAIL)   |                                                                                                  |
+| IS_DELETED | BOOLEAN   | Soft delete flag                 | true / false     | Default: false                                                                                   |
+| IS_ACTIVE  | BOOLEAN   | Active flag                      | true / false     | Default: true                                                                                    |                              
 
 ---
 
@@ -157,10 +160,13 @@ This document describes the database schema for **ManageIt**, your all-in-one ma
 ## Appendix: Enum Classes
 
 ### UserRole Enum
-| Value | Meaning          |
-|-------|------------------|
-| 0     | USER             |
-| 1     | ADMIN            |
+| Value    | Meaning  |
+|----------|----------|
+| ADMIN    | Admin    |
+| MANAGER  | Manager  |
+| OPERATOR | Operator |
+| AUDITOR  | Auditor  |
+| Viewer   | Viewer   |
 
 - Source: src/main/java/com/example/estoque/entities/userEntities/UserRole.java
 

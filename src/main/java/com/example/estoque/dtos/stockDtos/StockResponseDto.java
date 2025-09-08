@@ -33,4 +33,10 @@ public class StockResponseDto {
 
     @NotNull
     private Integer minimumQtd;
+
+    @NotNull
+    private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }

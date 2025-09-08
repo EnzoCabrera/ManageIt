@@ -1,0 +1,1 @@
+alter table tgvuse add column is_active Boolean default true NOT NULL;

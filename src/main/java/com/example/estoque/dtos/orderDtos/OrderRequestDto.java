@@ -32,5 +32,8 @@ public class OrderRequestDto {
 
     private String ordnote;
 
+    @NotNull
+    private Boolean isDeleted;
+
     private List<ItemRequestDto> items;
 }

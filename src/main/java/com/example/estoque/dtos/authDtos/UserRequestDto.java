@@ -21,4 +21,10 @@ public class UserRequestDto {
 
     @NotNull
     private String password;
+
+    @NotNull
+    private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }

@@ -35,5 +35,9 @@ public class CustomerRequestDto {
     @NotNull
     private String cusemail;
 
+    @NotNull
+    private Boolean isDeleted;
 
+    @NotNull
+    private Boolean isActive;
 }

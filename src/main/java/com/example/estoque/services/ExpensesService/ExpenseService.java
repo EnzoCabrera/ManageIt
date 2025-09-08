@@ -129,6 +129,7 @@ public class ExpenseService {
         LocalDate oldExpdatepay = expense.getExpdatepay();
         ExpenseStatus oldExpsts = expense.getExpsts();
         ExpenseType oldExptype = expense.getExptype();
+        Boolean oldIsDeleted = expense.getIsDeleted();
 
 
         expense.setExpdesc(dto.getExpdesc());
@@ -137,6 +138,7 @@ public class ExpenseService {
         expense.setExpdatepay(dto.getExpdatepay());
         expense.setExptype(dto.getExptype());
         expense.setExpsts(dto.getExpsts());
+        expense.setIsDeleted(dto.getIsDeleted());
 
         Expense updatedExpense = expenseRepository.save(expense);
 
@@ -178,6 +180,12 @@ public class ExpenseService {
         if (!oldExpsts.equals(updatedExpense.getExpsts())) {
             auditLogService.log("Expense", updatedExpense.getCodexp(), "UPDATE",
                     "expsts", oldExpsts.toString(), updatedExpense.getExpsts().toString(), actor);
+        }
+
+        // Is Deleted
+        if (!oldIsDeleted.equals(updatedExpense.getIsDeleted())) {
+            auditLogService.log("Expense", updatedExpense.getCodexp(), "UPDATE",
+                    "isDeleted", oldIsDeleted.toString(), updatedExpense.getIsDeleted().toString(), actor);
         }
 
 

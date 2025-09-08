@@ -5,6 +5,8 @@ import com.example.estoque.dtos.authDtos.PageResponseDto;
 import com.example.estoque.dtos.customerDtos.CustomerRequestDto;
 import com.example.estoque.dtos.customerDtos.CustomerResponseDto;
 import com.example.estoque.services.CustomerService.CustomerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer")
+@Tag(name = "Customer")
+@SecurityRequirement(name = "BearerAuth")
 public class CustomerController {
 
     private final CustomerService customerService;

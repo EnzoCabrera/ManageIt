@@ -20,4 +20,10 @@ public class UserResponseDto {
 
     @NotNull
     private String role;
+
+    @NotNull
+    private Boolean isDeleted;
+
+    @NotNull
+    private Boolean isActive;
 }
