@@ -1,14 +1,17 @@
-# Use a imagem oficial do Java como base
-FROM eclipse-temurin:21-jdk-alpine
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 
-# Diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copie o arquivo JAR gerado pelo Maven para dentro do contêiner
-COPY target/estoque-0.0.1-SNAPSHOT.jar app.jar
+COPY . .
 
-# Exponha a porta que seu Spring Boot usa (geralmente 8080)
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/target/estoque-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
 
-# Comando para rodar a aplicação
 ENTRYPOINT ["java","-jar","app.jar"]
