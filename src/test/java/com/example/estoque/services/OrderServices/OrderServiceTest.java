@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,5 +124,38 @@ public class OrderServiceTest {
 
         AppException ex = assertThrows(AppException.class, () -> orderService.registerOrder(dto));
         assertEquals("Product should have a unit price", ex.getMessage());
+    }
+
+    //Invalid order payment date test
+    @Test
+    void ShouldThrowExceptionWhenOrderPaymentDateIsInvalid() {
+        Long customerId = 1L;
+        Long productId = 10L;
+
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+
+        Stock stock = new Stock();
+        stock.setCodProd(productId);
+        stock.setUnpricInCents(1000); // R$10.00
+        stock.setQuantity(10);
+        stock.setMinimumQtd(2);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setUnqtt(1);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdsts(OrderStatus.PENDING);
+        dto.setOrdpaydue(LocalDate.now().minusDays(1));
+        dto.setItems(List.of(new ItemRequestDto(productId, 1, null)));
+
+        when (customerRepository.findBycodcusAndIsDeletedFalse(customerId))
+                .thenReturn(Optional.of(cus));
+
+        when(stockRepository.findById(productId))
+                .thenReturn(Optional.of(stock));
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.registerOrder(dto));
+        assertEquals("Cannot create a pending order with a payment due date in the past. Use OVERDUE, PAID or CANCELLED instead.", ex.getMessage());
     }
 }
