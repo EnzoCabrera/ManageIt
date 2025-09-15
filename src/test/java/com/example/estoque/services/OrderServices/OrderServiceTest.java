@@ -59,4 +59,33 @@ public class OrderServiceTest {
         assertEquals("Customer not found or disabled", ex.getMessage());
     }
 
+    // Product not found test
+    @Test
+    void shouldThrowExceptionWhenProductNotFound() {
+
+        Long customerId = 1L;
+        Long invalidProductId = 99L;
+
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now());
+        dto.setItems(List.of(new ItemRequestDto(invalidProductId, 1, null)));
+
+        when(customerRepository.findBycodcusAndIsDeletedFalse(customerId))
+                .thenReturn(Optional.of(cus));
+
+        when(stockRepository.findById(invalidProductId))
+                .thenReturn(Optional.empty());
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.registerOrder(dto));
+        assertEquals("Product not found", ex.getMessage());
+    }
+
+
+
 }
