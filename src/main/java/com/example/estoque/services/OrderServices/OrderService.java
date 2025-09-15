@@ -37,23 +37,13 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    @Autowired
-    private OrderMapper orderMapper;
-    @Autowired
-    private StockRepository stockRepository;
-    @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private OrderRepository OrderRespository;
-
-    @Autowired
-    private AuditLogService auditLogService;
-
-    @Autowired
-    private OrderNotificationService orderNotificationService;
+    private final OrderMapper orderMapper;
+    private final StockRepository stockRepository;
+    private final ItemRepository itemRepository;
+    private final CustomerRepository customerRepository;
+    private final OrderRepository OrderRespository;
+    private final AuditLogService auditLogService;
+    private final OrderNotificationService orderNotificationService;
 
     //GET orders logic
     public PageResponseDto<OrderResponseDto> getOrderSlim(
