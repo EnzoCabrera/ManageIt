@@ -137,7 +137,7 @@ public class OrderServiceTest {
 
         Stock stock = new Stock();
         stock.setCodProd(productId);
-        stock.setUnpricInCents(1000); // R$10.00
+        stock.setUnpricInCents(1000);
         stock.setQuantity(10);
         stock.setMinimumQtd(2);
         stock.setUntype(StockUnitType.UNIT);
@@ -157,5 +157,47 @@ public class OrderServiceTest {
 
         AppException ex = assertThrows(AppException.class, () -> orderService.registerOrder(dto));
         assertEquals("Cannot create a pending order with a payment due date in the past. Use OVERDUE, PAID or CANCELLED instead.", ex.getMessage());
+    }
+
+    //Insufficient stock test
+    @Test
+    void ShouldThrowExceptionWhenInsufficientStock() {
+        Long customerId = 1L;
+        Long productId = 10L;
+
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+
+        Stock stock = new Stock();
+        stock.setCodProd(productId);
+        stock.setUnpricInCents(1000);
+        stock.setQuantity(0);
+        stock.setMinimumQtd(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setUnqtt(1);
+
+        ItemRequestDto itemDto = new ItemRequestDto();
+        itemDto.setCodprod(productId);
+        itemDto.setQuantity(5);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdsts(OrderStatus.PENDING);
+        dto.setOrdpaydue(LocalDate.now());
+        dto.setItems(List.of(itemDto));
+
+        when (customerRepository.findBycodcusAndIsDeletedFalse(customerId))
+                .thenReturn(Optional.of(cus));
+
+        when(stockRepository.findById(productId))
+                .thenReturn(Optional.of(stock));
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.registerOrder(dto));
+        String expectedMessage = String.format(
+                "Insufficient stock for product ID: %d. Available: %d, Requested: %d",
+                stock.getCodProd(), stock.getQuantity(), itemDto.getQuantity()
+        );
+        assertEquals(expectedMessage, ex.getMessage());
+
     }
 }
