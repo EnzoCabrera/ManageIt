@@ -27,11 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.example.estoque.entities.OrderEntities.OrderPaymentType.CREDIT;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
@@ -234,5 +233,95 @@ public class OrderServiceTest {
         orderService.registerOrder(dto);
 
         verify(orderNotificationService).notifyLowStock(stock);
+    }
+
+    // Order with multiple items succeed test
+    @Test
+    void ShouldThrowExceptionWhenOrderWithMultipleItemsSucceed() {
+        Long customerId = 1L;
+
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+
+        //Item 1
+        Stock stock = new Stock();
+        stock.setCodProd(1L);
+        stock.setUnpricInCents(10000);
+        stock.setUnqtt(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setQuantity(50);
+        stock.setMinimumQtd(1);
+
+        //Item 2
+        Stock stock2 = new Stock();
+        stock2.setCodProd(2L);
+        stock2.setUnpricInCents(10000);
+        stock2.setUnqtt(1);
+        stock2.setUntype(StockUnitType.UNIT);
+        stock2.setQuantity(50);
+        stock2.setMinimumQtd(1);
+
+        //Item 3
+        Stock stock3 = new Stock();
+        stock3.setCodProd(3L);
+        stock3.setUnpricInCents(10000);
+        stock3.setUnqtt(1);
+        stock3.setUntype(StockUnitType.UNIT);
+        stock3.setQuantity(50);
+        stock3.setMinimumQtd(1);
+
+        when (customerRepository.findBycodcusAndIsDeletedFalse(customerId))
+                .thenReturn(Optional.of(cus));
+
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+        when(stockRepository.findById(2L)).thenReturn(Optional.of(stock2));
+        when(stockRepository.findById(3L)).thenReturn(Optional.of(stock3));
+
+        when(stockRepository.save(any(Stock.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(itemRepository.save(any(Item.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> {
+            Order o = invocation.getArgument(0);
+            o.setCodord(999L);
+            return o;
+        });
+
+        ItemRequestDto item1 = new ItemRequestDto();
+        item1.setCodprod(1L);
+        item1.setQuantity(10);
+        item1.setDiscountPercent(0.0F);
+
+        ItemRequestDto item2 = new ItemRequestDto();
+        item2.setCodprod(2L);
+        item2.setQuantity(10);
+        item2.setDiscountPercent(0.0F);
+
+        ItemRequestDto item3 = new ItemRequestDto();
+        item3.setCodprod(3L);
+        item3.setQuantity(10);
+        item3.setDiscountPercent(10.0F);
+
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdpaytype(CREDIT);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now().plusDays(2));
+        dto.setOrdnote("Pedido teste");
+        dto.setOrdpaydue(LocalDate.now());
+        dto.setItems(List.of(item1, item2, item3));
+
+
+        OrderResponseDto responseDto = new OrderResponseDto();
+        responseDto.setCodord(999L);
+        when(orderMapper.toDto(any(Order.class))).thenReturn(responseDto);
+
+        OrderResponseDto result = orderService.registerOrder(dto);
+
+        assertNotNull(result);
+        assertEquals(999L, result.getCodord());
+
+        verify(orderRepository).save(any(Order.class));
+        verify(itemRepository, times(3)).save(any(Item.class));
+        verify(orderMapper).toDto(any(Order.class));
     }
 }
