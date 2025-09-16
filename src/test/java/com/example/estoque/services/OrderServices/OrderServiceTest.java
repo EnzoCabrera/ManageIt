@@ -2,6 +2,9 @@ package com.example.estoque.services.OrderServices;
 
 import com.example.estoque.dtos.itemDtos.ItemRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
+import com.example.estoque.dtos.orderDtos.OrderResponseDto;
+import com.example.estoque.entities.ItemEntities.Item;
+import com.example.estoque.entities.OrderEntities.Order;
 import com.example.estoque.entities.OrderEntities.OrderStatus;
 import com.example.estoque.entities.customerEntities.Customer;
 import com.example.estoque.entities.stockEntities.Stock;
@@ -21,19 +24,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
-
-
-
     @Mock private CustomerRepository customerRepository;
     @Mock private StockRepository stockRepository;
     @Mock private OrderRepository orderRepository;
@@ -199,5 +200,39 @@ public class OrderServiceTest {
         );
         assertEquals(expectedMessage, ex.getMessage());
 
+    }
+
+    //Notify when stock falls below minimum test
+    @Test
+    void ShouldThrowExceptionWhenStockFallsBelowMinimum() {
+        Stock stock = new Stock();
+        stock.setCodProd(1L);
+        stock.setUnpricInCents(100);
+        stock.setUnqtt(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setQuantity(6);
+        stock.setMinimumQtd(5);
+
+        ItemRequestDto itemDto = new ItemRequestDto();
+        itemDto.setCodprod(1L);
+        itemDto.setQuantity(2);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(1L);
+        dto.setItems(List.of(itemDto));
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now());
+
+        Customer customer = new Customer();
+        when(customerRepository.findBycodcusAndIsDeletedFalse(1L)).thenReturn(Optional.of(customer));
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+        when(stockRepository.save(any(Stock.class))).thenReturn(stock);
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(itemRepository.save(any(Item.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(orderMapper.toDto(any(Order.class))).thenReturn(new OrderResponseDto());
+
+        orderService.registerOrder(dto);
+
+        verify(orderNotificationService).notifyLowStock(stock);
     }
 }
