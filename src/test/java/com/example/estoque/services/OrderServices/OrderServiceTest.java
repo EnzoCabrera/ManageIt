@@ -18,8 +18,10 @@ import com.example.estoque.repositories.StockRepository;
 import com.example.estoque.services.AuditLogService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -323,5 +325,57 @@ public class OrderServiceTest {
         verify(orderRepository).save(any(Order.class));
         verify(itemRepository, times(3)).save(any(Item.class));
         verify(orderMapper).toDto(any(Order.class));
+    }
+
+    // Order with discount test
+    @Test
+    void ShouldThrowExceptionWhenOrderHasDiscount() {
+        Long customerId = 1L;
+        int unitPrice = 1000;
+        int quantity = 2;
+        float discountPercent = 10.0F;
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now().plusDays(1));
+
+        ItemRequestDto item = new ItemRequestDto();
+        item.setCodprod(10L);
+        item.setQuantity(quantity);
+        item.setDiscountPercent(discountPercent);
+        dto.setItems(List.of(item));
+
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+        when (customerRepository.findBycodcusAndIsDeletedFalse(customerId))
+                .thenReturn(Optional.of(cus));
+
+        Stock stock = new Stock();
+        stock.setCodProd(10L);
+        stock.setUnpricInCents(unitPrice);
+        stock.setUnqtt(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setQuantity(10);
+        stock.setMinimumQtd(1);
+        when(stockRepository.findById(10L)).thenReturn(Optional.of(stock));
+
+        when(orderRepository.save(Mockito.any())).thenAnswer(invocation -> {
+            Order saved = invocation.getArgument(0);
+            saved.setCodord(999L);
+            return saved;
+        });
+
+        when(itemRepository.save(Mockito.any(Item.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(orderMapper.toDto(Mockito.any())).thenReturn(new OrderResponseDto());
+
+        OrderResponseDto response = orderService.registerOrder(dto);
+
+        ArgumentCaptor<Item> itemCaptor = ArgumentCaptor.forClass(Item.class);
+        verify(itemRepository).save(itemCaptor.capture());
+
+        Item savedItem = itemCaptor.getValue();
+        int expectedCost = (int) Math.round(unitPrice * quantity * (1 - discountPercent / 100.0));
+        assertEquals(expectedCost, savedItem.getTotalInCents());
     }
 }
