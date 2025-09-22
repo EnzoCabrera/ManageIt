@@ -222,4 +222,52 @@ public class OrderUpdateServiceTest {
         AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId ,dto));
         assertEquals("Cannot create a pending order with a payment due date in the past. Use OVERDUE, PAID or CANCELLED instead.", ex.getMessage());
     }
+
+    //Insufficient stock test
+    @Test
+    void shouldThrowExceptionWhenInsufficientStockOnUpdate() {
+        Long orderId = 999L;
+        Order existingOrder = new Order();
+        existingOrder.setCodord(orderId);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(existingOrder));
+
+        Long customerId = 1L;
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+        existingOrder.setCodcus(cus);
+
+        when(customerRepository.findBycodcusAndIsDeletedFalse(1L))
+                .thenReturn(Optional.of(cus));
+
+        Long  productId = 99L;
+
+        Stock stock = new Stock();
+        stock.setCodProd(productId);
+        stock.setUnpricInCents(1000);
+        stock.setQuantity(5);
+        stock.setMinimumQtd(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setUnqtt(1);
+
+        ItemRequestDto itemDto = new ItemRequestDto();
+        itemDto.setCodprod(productId);
+        itemDto.setQuantity(10);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdsts(OrderStatus.PENDING);
+        dto.setOrdpaydue(LocalDate.now());
+        dto.setItems(List.of(itemDto));
+
+        when(stockRepository.findById(productId))
+                .thenReturn(Optional.of(stock));
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId ,dto));
+        String expectedMessage = String.format(
+                "Insufficient stock for product ID: %d. Available: %d, Requested: %d",
+                stock.getCodProd(), stock.getQuantity(), itemDto.getQuantity()
+        );
+        assertEquals(expectedMessage, ex.getMessage());
+    }
 }
