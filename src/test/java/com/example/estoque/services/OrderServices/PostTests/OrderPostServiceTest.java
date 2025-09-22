@@ -1,4 +1,4 @@
-package com.example.estoque.services.OrderServices;
+package com.example.estoque.services.OrderServices.PostTests;
 
 import com.example.estoque.dtos.itemDtos.ItemRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
@@ -16,6 +16,8 @@ import com.example.estoque.repositories.ItemRepository;
 import com.example.estoque.repositories.OrderRepositories.OrderRepository;
 import com.example.estoque.repositories.StockRepository;
 import com.example.estoque.services.AuditLogService;
+import com.example.estoque.services.OrderServices.OrderNotificationService;
+import com.example.estoque.services.OrderServices.OrderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -35,7 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTest {
+public class OrderPostServiceTest {
     @Mock private CustomerRepository customerRepository;
     @Mock private StockRepository stockRepository;
     @Mock private OrderRepository orderRepository;
