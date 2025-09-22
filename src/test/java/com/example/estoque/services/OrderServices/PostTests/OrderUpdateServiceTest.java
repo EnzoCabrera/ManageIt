@@ -5,6 +5,7 @@ import com.example.estoque.dtos.orderDtos.OrderRequestDto;
 import com.example.estoque.dtos.orderDtos.OrderResponseDto;
 import com.example.estoque.entities.ItemEntities.Item;
 import com.example.estoque.entities.OrderEntities.Order;
+import com.example.estoque.entities.OrderEntities.OrderPaymentType;
 import com.example.estoque.entities.OrderEntities.OrderStatus;
 import com.example.estoque.entities.customerEntities.Customer;
 import com.example.estoque.entities.stockEntities.Stock;
@@ -33,6 +34,7 @@ import static com.example.estoque.entities.OrderEntities.OrderPaymentType.CREDIT
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -269,5 +271,61 @@ public class OrderUpdateServiceTest {
                 stock.getCodProd(), stock.getQuantity(), itemDto.getQuantity()
         );
         assertEquals(expectedMessage, ex.getMessage());
+    }
+
+    //Notify when stock falls below minimum test
+    @Test
+    void shouldThrowExceptionWhenStockFallsBelowMinimumOnUpdate() {
+        Long orderId = 999L;
+        Long customerId = 1L;
+        Order existingOrder = new Order();
+        existingOrder.setCodord(orderId);
+        existingOrder.setOrdsts(OrderStatus.PAID);
+        existingOrder.setOrdpaytype(OrderPaymentType.CREDIT);
+        existingOrder.setOrdpaydue(LocalDate.now());
+        existingOrder.setItems(new ArrayList<>());
+        existingOrder.setOrdcostInCents(1000);
+        existingOrder.setIsDeleted(false);
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+        existingOrder.setCodcus(cus);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(existingOrder));
+
+        when(customerRepository.findBycodcusAndIsDeletedFalse(1L))
+                .thenReturn(Optional.of(cus));
+
+        Long productId = 99L;
+
+        Stock stock = new Stock();
+        stock.setCodProd(productId);
+        stock.setUnpricInCents(100);
+        stock.setUnqtt(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setQuantity(6);
+        stock.setMinimumQtd(5);
+
+        when(stockRepository.findById(productId))
+                .thenReturn(Optional.of(stock));
+
+        ItemRequestDto itemDto = new ItemRequestDto();
+        itemDto.setCodprod(productId);
+        itemDto.setQuantity(2);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setItems(List.of(itemDto));
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now());
+        dto.setOrdpaytype(OrderPaymentType.CREDIT);
+        dto.setIsDeleted(false);
+
+        when(stockRepository.save(any(Stock.class))).thenReturn(stock);
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(orderMapper.toDto(any(Order.class))).thenReturn(new OrderResponseDto());
+
+        orderService.updateOrder(orderId, dto);
+
+        verify(orderNotificationService).notifyLowStock(stock);
     }
 }
