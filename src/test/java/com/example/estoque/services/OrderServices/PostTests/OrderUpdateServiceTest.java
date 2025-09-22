@@ -55,6 +55,7 @@ public class OrderUpdateServiceTest {
     @InjectMocks
     private OrderService orderService;
 
+    //Customer not found test
     @Test
     void shouldThrowExceptionWhenCustomerNotFoundOnUpdate() {
         Long orderId = 999L;
@@ -80,5 +81,26 @@ public class OrderUpdateServiceTest {
 
         AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId, dto));
         assertEquals("Customer not found or disabled", ex.getMessage());
+    }
+
+    //Order not found test
+    @Test
+    void shouldThrowExceptionWhenOrderNotFoundOnUpdate() {
+        Long orderId = 999L;
+
+        Order existingOrder = new Order();
+        existingOrder.setCodord(1L);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(1L);
+        dto.setOrdpaytype(CREDIT);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now().plusDays(2));
+        dto.setItems((new ArrayList<>()));
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId, dto));
+        assertEquals("Order not found or deleted.",  ex.getMessage());
     }
 }
