@@ -137,4 +137,49 @@ public class OrderUpdateServiceTest {
         AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId, dto));
         assertEquals("Product not found", ex.getMessage());
     }
+
+    //Product unit price not found test
+    @Test
+    void shouldThrowExceptionWhenProductUnitPriceNotFoundOnUpdate() {
+        Long orderId = 999L;
+        Order existingOrder = new Order();
+        existingOrder.setCodord(orderId);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(existingOrder));
+
+        Long customerId = 1L;
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+        existingOrder.setCodcus(cus);
+
+        when(customerRepository.findBycodcusAndIsDeletedFalse(1L))
+                .thenReturn(Optional.of(cus));
+
+        Long productId = 99L;
+
+        Stock stock = new Stock();
+        stock.setCodProd(productId);
+        stock.setUnpricInCents(0);
+        stock.setQuantity(10);
+        stock.setMinimumQtd(2);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setUnqtt(1);
+
+        when(stockRepository.findById(productId))
+                .thenReturn(Optional.of(stock));
+
+        ItemRequestDto itemDto = new ItemRequestDto();
+        itemDto.setCodprod(productId);
+        itemDto.setQuantity(1);
+        itemDto.setDiscountPercent(null);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now());
+        dto.setItems(List.of((itemDto)));
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId ,dto));
+        assertEquals("Product should have a unit price", ex.getMessage());
+    }
 }
