@@ -103,4 +103,38 @@ public class OrderUpdateServiceTest {
         AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId, dto));
         assertEquals("Order not found or deleted.",  ex.getMessage());
     }
+
+    //Product not found test
+    @Test
+    void shouldThrowExceptionWhenProductNotFoundOnUpdate() {
+        Long orderId = 999L;
+        Long ProductId = 99L;
+
+        Order existingOrder = new Order();
+        existingOrder.setCodord(orderId);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(existingOrder));
+
+        Customer cus = new Customer();
+        cus.setCodcus(1L);
+        existingOrder.setCodcus(cus);
+
+        when(customerRepository.findBycodcusAndIsDeletedFalse(1L))
+                .thenReturn(Optional.of(cus));
+
+        Stock stock = new Stock();
+        stock.setCodProd(ProductId);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(1L);
+        dto.setOrdpaytype(CREDIT);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now().plusDays(2));
+        dto.setItems(List.of(new ItemRequestDto(12L, 1, null)));
+
+        when(stockRepository.findById(12L)).thenReturn(Optional.empty());
+
+        AppException ex = assertThrows(AppException.class, () -> orderService.updateOrder(orderId, dto));
+        assertEquals("Product not found", ex.getMessage());
+    }
 }
