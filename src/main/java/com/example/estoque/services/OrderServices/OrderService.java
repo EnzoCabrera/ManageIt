@@ -212,8 +212,7 @@ public class OrderService {
         }
 
         order.getItems().clear();
-
-        List<Item> updatedItems = new ArrayList<>();
+        
         int totalCost = 0;
 
         for (ItemRequestDto itemDto : dto.getItems()) {
@@ -272,6 +271,8 @@ public class OrderService {
 
             order.getItems().add(item);
             totalCost += itemCost;
+
+            itemRepository.save(item);
         }
 
         order.setOrdcostInCents(totalCost);
@@ -331,10 +332,6 @@ public class OrderService {
                     oldIsDeleted.toString(),
                     savedOrder.getIsDeleted().toString(),
                     actor);
-        }
-
-        for (Item item : updatedItems) {
-            itemRepository.save(item);
         }
 
         return orderMapper.toDto(savedOrder);
