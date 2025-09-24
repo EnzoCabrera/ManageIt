@@ -1,9 +1,12 @@
 package com.example.estoque.services.OrderServices.DeleteTests;
 
 import com.example.estoque.dtos.orderDtos.OrderRequestDto;
+import com.example.estoque.dtos.orderDtos.OrderResponseDto;
+import com.example.estoque.entities.ItemEntities.Item;
 import com.example.estoque.entities.OrderEntities.Order;
 import com.example.estoque.entities.OrderEntities.OrderStatus;
 import com.example.estoque.entities.customerEntities.Customer;
+import com.example.estoque.entities.stockEntities.Stock;
 import com.example.estoque.exceptions.AppException;
 import com.example.estoque.mapper.OrderMapper;
 import com.example.estoque.repositories.CustomerRepositories.CustomerRepository;
@@ -21,11 +24,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.estoque.entities.OrderEntities.OrderPaymentType.CREDIT;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -70,5 +75,52 @@ public class OrderDeleteServiceTest {
 
         AppException ex = assertThrows(AppException.class, () -> orderService.deleteOrder(orderId));
         assertEquals("Order not found or deleted.",  ex.getMessage());
+    }
+
+    //Delete order and items successfully test
+    @Test
+    void shouldDeleteOrderAndItemsSuccessfully() {
+        Long orderId = 999L;
+
+        Stock stock = new Stock();
+        stock.setCodProd(1L);
+
+        Item item1 = new Item();
+        item1.setIsDeleted(false);
+        item1.setCodprod(stock);
+
+        Item item2 = new Item();
+        item2.setIsDeleted(false);
+        item2.setCodprod(stock);
+
+        Order order = new Order();
+        order.setCodord(orderId);
+        order.setIsDeleted(false);
+        order.setItems(List.of(item1, item2));
+        order.setUpdatedBy("test_user");
+
+        when(orderRepository.findBycodordAndIsDeletedFalse(orderId)).thenReturn(Optional.of(order));
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        OrderResponseDto dto = new OrderResponseDto();
+        dto.setCodord(orderId);
+        when(orderMapper.toDto(any(Order.class))).thenReturn(dto);
+
+        OrderResponseDto result = orderService.deleteOrder(orderId);
+
+        assertTrue(order.getIsDeleted());
+        assertTrue(order.getItems().stream().allMatch(Item::getIsDeleted));
+        assertEquals(orderId, result.getCodord());
+
+        verify(orderRepository).save(order);
+        verify(orderMapper).toDto(order);
+        verify(auditLogService).log(
+                eq("Order"),
+                eq(orderId),
+                eq("DELETE"),
+                isNull(),
+                isNull(),
+                isNull(),
+                eq("test_user"));
     }
 }
