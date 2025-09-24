@@ -21,6 +21,7 @@ import com.example.estoque.services.OrderServices.OrderNotificationService;
 import com.example.estoque.services.OrderServices.OrderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -441,4 +442,77 @@ public class OrderUpdateServiceTest {
         verify(orderMapper).toDto(any(Order.class));
         verify(orderNotificationService, never()).notifyLowStock(any());
     }
+
+    //Order with discount test
+    @Test
+    void shouldApplyDiscountCorrectlyWhenUpdatingOrder() {
+        Long orderId = 999L;
+        Long customerId = 1L;
+
+        //Item 1
+        Stock stock = new Stock();
+        stock.setCodProd(1L);
+        stock.setUnpricInCents(10000);
+        stock.setUnqtt(1);
+        stock.setUntype(StockUnitType.UNIT);
+        stock.setQuantity(50);
+        stock.setMinimumQtd(1);
+
+        Item existingItem1 = new Item();
+        existingItem1.setCodprod(stock);
+        existingItem1.setQuantity(10);
+        existingItem1.setDiscountPercent(0.0F);
+
+        //Existing order
+        Order existingOrder = new Order();
+        existingOrder.setCodord(orderId);
+        existingOrder.setOrdsts(OrderStatus.PAID);
+        existingOrder.setOrdpaytype(OrderPaymentType.CREDIT);
+        existingOrder.setOrdpaydue(LocalDate.now());
+        existingOrder.setItems(new ArrayList<>(List.of(existingItem1)));
+        existingOrder.setOrdcostInCents(10000);
+        existingOrder.setIsDeleted(false);
+        Customer cus = new Customer();
+        cus.setCodcus(customerId);
+        existingOrder.setCodcus(cus);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(existingOrder));
+
+        when(customerRepository.findBycodcusAndIsDeletedFalse(1L))
+                .thenReturn(Optional.of(cus));
+
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+
+        when(stockRepository.save(any(Stock.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(itemRepository.save(any(Item.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ItemRequestDto item1 = new ItemRequestDto();
+        item1.setCodprod(1L);
+        item1.setQuantity(10);
+        item1.setDiscountPercent(10.0F);
+
+        OrderRequestDto dto = new OrderRequestDto();
+        dto.setCodcus(customerId);
+        dto.setOrdpaytype(CREDIT);
+        dto.setOrdsts(OrderStatus.PAID);
+        dto.setOrdpaydue(LocalDate.now().plusDays(2));
+        dto.setOrdnote("Pedido teste");
+        dto.setItems(List.of(item1));
+        dto.setIsDeleted(false);
+
+        OrderResponseDto responseDto = new OrderResponseDto();
+        responseDto.setCodord(orderId);
+        when(orderMapper.toDto(any(Order.class))).thenReturn(responseDto);
+
+        OrderResponseDto result = orderService.updateOrder(orderId ,dto);
+
+        ArgumentCaptor<Item> itemCaptor = ArgumentCaptor.forClass(Item.class);
+        verify(itemRepository).save(itemCaptor.capture());
+
+        Item savedItem = itemCaptor.getValue();
+        int expectedCost = (int) Math.round(stock.getUnpricInCents() * item1.getQuantity() * (1 - item1.getDiscountPercent() / 100.0));
+        assertEquals(expectedCost, savedItem.getTotalInCents());
+    }
+
 }
