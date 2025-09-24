@@ -123,4 +123,40 @@ public class OrderDeleteServiceTest {
                 isNull(),
                 eq("test_user"));
     }
+
+    //Delete order successfully when there are no items test
+    @Test
+    void shouldDeleteOrderSuccessfullyWhenThereAreNoItems() {
+        Long orderId = 999L;
+
+        Order order = new Order();
+        order.setCodord(orderId);
+        order.setIsDeleted(false);
+        order.setItems(null);
+        order.setUpdatedBy("test_user");
+
+        when(orderRepository.findBycodordAndIsDeletedFalse(orderId)).thenReturn(Optional.of(order));
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        OrderResponseDto dto = new OrderResponseDto();
+        dto.setCodord(orderId);
+        when(orderMapper.toDto(any(Order.class))).thenReturn(dto);
+
+        OrderResponseDto result = orderService.deleteOrder(orderId);
+
+        assertTrue(order.getIsDeleted());
+        assertTrue(order.getItems() == null || order.getItems().isEmpty());
+        assertEquals(orderId, result.getCodord());
+
+        verify(orderRepository).save(order);
+        verify(orderMapper).toDto(order);
+        verify(auditLogService).log(
+                eq("Order"),
+                eq(orderId),
+                eq("DELETE"),
+                isNull(),
+                isNull(),
+                isNull(),
+                eq("test_user"));
+    }
 }
